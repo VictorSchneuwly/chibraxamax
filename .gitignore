@@ -1,0 +1,28 @@
+# git rm -r --cached .
+# git add .
+# git commit -m "Init"
+# git commit -m "Untracked files issue resolved to fix .gitignore"
+
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+/app/src/main/res/drawable/
+/app/src/main/res/drawable-v24/
+/app/src/main/res/mipmap-anydpi-v26/
+/app/src/main/res/mipmap-hdpi/
+/app/src/main/res/mipmap-mdpi/
+/app/src/main/res/mipmap-xxhdpi/
+/app/src/main/res/mipmap-xxxhdpi/
+/app/src/main/res/mipmap-xhdpi/
+/.idea/
