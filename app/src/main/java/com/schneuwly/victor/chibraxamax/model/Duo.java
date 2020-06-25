@@ -9,11 +9,10 @@ import java.util.*;
  * @author Victor Schneuwly
  */
 public class Duo {
-    private final Player[] players;
+    private final Player[] players = new Player[2];;
     private int totalPoints;
 
-    public Duo(final Player player1, Player player2) {
-        players = new Player[2];
+    public Duo(Player player1, Player player2) {
         players[0] = player1;
         players[1] = player2;
         Arrays.sort(players, Comparator.comparing(Player::getUserName));
@@ -26,6 +25,14 @@ public class Duo {
 
     public int getTotalPoints() {
         return totalPoints;
+    }
+
+    public boolean contains(Player player){
+        return player.equals(players[0]) || player.equals(players[1]);
+    }
+
+    public void reinitialisePoints(){
+        totalPoints = 0;
     }
 
     void addPoints(int points) {
@@ -50,10 +57,6 @@ public class Duo {
         for (Player player : players) {
             player.addLosses();
         }
-    }
-
-    public boolean contains(Player player){
-        return player.equals(players[0]) || player.equals(players[1]);
     }
 
     @Override
