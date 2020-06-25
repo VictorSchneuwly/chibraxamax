@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A duo of two users
+ * A duo of two players
  *
  * @author Victor Schneuwly
  */

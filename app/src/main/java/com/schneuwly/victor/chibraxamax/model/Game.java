@@ -1,7 +1,7 @@
 package com.schneuwly.victor.chibraxamax.model;
 
 /**
- * <class description>
+ * A game of Chibre
  *
  * @author Victor Schneuwly
  */
