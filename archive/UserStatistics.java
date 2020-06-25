@@ -1,4 +1,3 @@
-package com.schneuwly.victor.chibraxamax.model;
 
 import java.util.Objects;
 

@@ -5,13 +5,12 @@ package com.schneuwly.victor.chibraxamax.model;
  *
  * @author Victor Schneuwly
  */
-public class Player{
+public class Player extends Statistics.Holder {
     private final String userName;
-    private final UserStatistics stat;
 
-    public Player(String userName, UserStatistics stat) {
+    public Player(String userName, Statistics statistics) {
+        super(statistics);
         this.userName = userName;
-        this.stat = stat;
 
     }
 
@@ -19,10 +18,5 @@ public class Player{
         return userName;
     }
 
-    private class PlayerStatistics extends Statistics{
 
-        public PlayerStatistics(int wins, int losses) {
-            super(wins, losses);
-        }
-    }
 }
