@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @author Victor Schneuwly
  */
-public class Player {
+public class Player{
     private final String userName;
     private int wins, losses, totalAnnounce;
 

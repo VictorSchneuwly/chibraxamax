@@ -1,9 +1,7 @@
 package com.schneuwly.victor.chibraxamax.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * A duo of two players
@@ -14,11 +12,16 @@ public class Duo {
     private final Player[] players;
     private int totalPoints;
 
-    public Duo(Player player1, Player player2) {
+    public Duo(final Player player1, Player player2) {
         players = new Player[2];
         players[0] = player1;
         players[1] = player2;
+        Arrays.sort(players, Comparator.comparing(Player::getUserName));
         totalPoints = 0;
+    }
+    
+    public String getDuoName(){
+        return players[0].getUserName() + " - " + players[1].getUserName();
     }
 
     public int getTotalPoints() {
