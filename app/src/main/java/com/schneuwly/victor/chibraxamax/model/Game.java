@@ -51,6 +51,18 @@ public class Game {
 
     }
 
+    public void winner(Duo winner){
+        if (winner.equals(duos[0])) {
+            duos[0].win();
+            duos[1].lose();
+        } else if (winner.equals(duos[1])) {
+            duos[1].win();
+            duos[0].lose();
+        } else {
+            throw new IllegalArgumentException("Duo not in the game.");
+        }
+    }
+
     private Duo duoOfPlayer(Player player) throws IllegalArgumentException{
         for (Duo duo : duos) {
             if (duo.contains(player)) {
