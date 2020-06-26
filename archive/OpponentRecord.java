@@ -1,4 +1,4 @@
-import com.schneuwly.victor.chibraxamax.model.entitiy.PlayingEntity;
+import com.schneuwly.victor.chibraxamax.model.abstractEntitiy.PlayingEntity;
 
 /**
  * A record against a specific playingEntity

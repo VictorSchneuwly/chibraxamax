@@ -1,6 +1,6 @@
 package com.schneuwly.victor.chibraxamax.model;
 
-import com.schneuwly.victor.chibraxamax.model.entitiy.PlayingEntity;
+import com.schneuwly.victor.chibraxamax.model.abstractEntitiy.PlayingEntity;
 
 import java.util.Arrays;
 import java.util.Comparator;

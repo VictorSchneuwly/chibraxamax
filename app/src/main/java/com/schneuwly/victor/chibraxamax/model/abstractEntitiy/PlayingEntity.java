@@ -1,4 +1,4 @@
-package com.schneuwly.victor.chibraxamax.model.entitiy;
+package com.schneuwly.victor.chibraxamax.model.abstractEntitiy;
 
 import com.schneuwly.victor.chibraxamax.model.Record;
 
