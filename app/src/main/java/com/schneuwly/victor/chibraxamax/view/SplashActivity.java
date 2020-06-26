@@ -1,14 +1,14 @@
-package com.schneuwly.victor.chibraxamax.controller;
+package com.schneuwly.victor.chibraxamax.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.schneuwly.victor.chibraxamax.R;
 
-public class MainActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_splash);
     }
 }
