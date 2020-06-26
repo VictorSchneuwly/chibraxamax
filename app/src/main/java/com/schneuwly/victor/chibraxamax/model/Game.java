@@ -35,7 +35,7 @@ public class Game {
         return false;
     }
 
-    public void addPoints(Duo duo, int points) throws IllegalArgumentException {
+    public void addPointsForBothDuo(Duo duo, int points) throws IllegalArgumentException {
         if (!(contains(duo))) {
             throw new IllegalArgumentException("Duo not in the game.");
         } else if (duo.equals(duos[0])) {
@@ -49,14 +49,27 @@ public class Game {
         checkForWinner();
     }
 
-    public void addAnnounce(Duo duo, int announce) throws IllegalArgumentException {
+    public void addPoints(Duo duo, int points) throws IllegalArgumentException {
         if (!(contains(duo))) {
             throw new IllegalArgumentException("Duo not in the game.");
         } else {
-            duo.addPoints(announce);
+            duo.addPoints(points);
             checkWinner(duo);
         }
     }
+
+    public void add20Points(Duo duo, int points) throws IllegalArgumentException {
+        addPoints(duo, 20);
+    }
+
+    public void add50Points(Duo duo, int points) throws IllegalArgumentException {
+        addPoints(duo, 50);
+    }
+
+    public void add100Points(Duo duo, int points) throws IllegalArgumentException {
+        addPoints(duo, 100);
+    }
+
 
     public boolean isOver() {
         return over;

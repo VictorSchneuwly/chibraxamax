@@ -1,14 +1,14 @@
 package com.schneuwly.victor.chibraxamax.model;
 
 /**
- * Statistics
+ * Record
  *
  * @author Victor Schneuwly
  */
-public class Statistics {
+public class Record {
     private int wins, losses;
 
-    public Statistics(int wins, int losses) {
+    public Record(int wins, int losses) {
         this.wins = wins;
         this.losses = losses;
     }
@@ -38,22 +38,22 @@ public class Statistics {
     }
 
     public abstract static class Holder{
-        private final Statistics statistics;
+        private final Record record;
 
-        public Holder(Statistics statistics) {
-            this.statistics = statistics;
+        public Holder(Record record) {
+            this.record = record;
         }
 
-        public final Statistics getStatistics() {
-            return statistics;
+        public final Record getRecord() {
+            return record;
         }
 
         public void addWin(){
-            statistics.addWin();
+            record.addWin();
         }
 
         public void addLoss(){
-            statistics.addLoss();
+            record.addLoss();
         }
 
     }
