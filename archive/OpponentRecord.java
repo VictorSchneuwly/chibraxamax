@@ -1,5 +1,3 @@
-package com.schneuwly.victor.chibraxamax.model;
-
 import com.schneuwly.victor.chibraxamax.model.entitiy.PlayingEntity;
 
 /**
