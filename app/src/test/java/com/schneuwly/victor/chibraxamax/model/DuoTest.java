@@ -69,7 +69,7 @@ public class DuoTest {
 
         assertEquals(martin, players[0]);
         assertEquals(guillaume, players[1]);
-        Arrays.sort(players, Comparator.comparing(Player::getUserName));
+        Arrays.sort(players, Comparator.comparing(Player::getName));
         assertEquals(guillaume, players[0]);
         assertEquals(martin, players[1]);
 
@@ -81,7 +81,7 @@ public class DuoTest {
 
         assertEquals(luc, players[0]);
         assertEquals(luan, players[1]);
-        Arrays.sort(players, Comparator.comparing(Player::getUserName));
+        Arrays.sort(players, Comparator.comparing(Player::getName));
         assertEquals(luan, players[0]);
         assertEquals(luc, players[1]);
     }
