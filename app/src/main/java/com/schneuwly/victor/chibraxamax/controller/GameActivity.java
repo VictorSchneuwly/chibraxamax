@@ -14,6 +14,11 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         tallyBarsView[0] = findViewById(R.id.team1_20);
+        //tallyBarsView[1] = findViewById(R.id.team1_50);
+        //tallyBarsView[2] = findViewById(R.id.team1_100);
+        //tallyBarsView[3] = findViewById(R.id.team2_20);
+        //tallyBarsView[4] = findViewById(R.id.team2_50);
+        //tallyBarsView[5] = findViewById(R.id.team2_100);
     }
 
     /**
