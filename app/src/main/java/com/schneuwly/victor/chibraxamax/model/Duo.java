@@ -68,6 +68,7 @@ public class Duo extends PlayingEntity {
 
     public class PointsDisplay {
         //TODO: Problème de suppression de l'historique.
+
         private int nb20, nb50, nb100, restToDisplay;
 
         private PointsDisplay() {
