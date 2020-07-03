@@ -1,5 +1,11 @@
 package com.schneuwly.victor.chibraxamax.model;
 
+import android.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * A game of Chibre
  *
@@ -10,6 +16,7 @@ public class Game {
 
     private final Duo[] duos;
     private final int endScore;
+    private final List<Pair<Integer,Integer>> historic;
 
     private Duo winner;
     private boolean over, draw;
@@ -21,6 +28,7 @@ public class Game {
         duos[1] = duo2;
         over = false;
         draw = false;
+        historic = new ArrayList<>();
     }
 
     public boolean contains(Duo duo) {
@@ -41,9 +49,14 @@ public class Game {
         } else if (duo.equals(duos[0])) {
             duos[0].addPoints(points);
             duos[1].addPoints(MAX_POINTS - points);
+
+            historic.add(new Pair<>(points, MAX_POINTS - points));
+
         } else if (duo.equals(duos[1])) {
             duos[1].addPoints(points);
             duos[0].addPoints(MAX_POINTS - points);
+
+            historic.add(new Pair<>(MAX_POINTS - points, points));
         }
 
         checkForWinner();
@@ -52,9 +65,17 @@ public class Game {
     public void addPoints(Duo duo, int points) throws IllegalArgumentException {
         if (!(contains(duo))) {
             throw new IllegalArgumentException("Duo not in the game.");
-        } else {
-            duo.addPoints(points);
-            checkWinner(duo);
+        } else if (duo.equals(duos[0])) {
+            duos[0].addPoints(points);
+            historic.add(new Pair<>(points, 0));
+
+            checkWinner(duos[0]);
+
+        } else if (duo.equals(duos[1])) {
+            duos[1].addPoints(points);
+            historic.add(new Pair<>(0, points));
+
+            checkWinner(duos[1]);
         }
     }
 
@@ -69,7 +90,6 @@ public class Game {
     public void add100Points(Duo duo, int points) throws IllegalArgumentException {
         addPoints(duo, 100);
     }
-
 
     public boolean isOver() {
         return over;
@@ -86,6 +106,19 @@ public class Game {
         }
     }
 
+    public List<Pair<Integer, Integer>> getHistoric() {
+        return Collections.unmodifiableList(historic);
+    }
+
+    public void undoLastMove(){
+        Pair<Integer,Integer> lastPair = historic.get(historic.size() - 1);
+
+        addPoints(duos[0], -lastPair.first);
+        addPoints(duos[1], -lastPair.second);
+
+        historic.remove(historic.size() - 1);
+    }
+
     private void checkWinner(Duo duo) {
         if (duo.getTotalPoints() >= endScore) {
             over = true;
@@ -96,6 +129,8 @@ public class Game {
 
     private void checkForWinner() {
         if (duos[0].getTotalPoints() >= endScore && duos[1].getTotalPoints() >= endScore) {
+
+            //TODO: revoir ça
 
             if (duos[0].getTotalPoints() == duos[1].getTotalPoints()) {
                 draw = true;
