@@ -99,32 +99,51 @@ public class Duo extends PlayingEntity {
         }
 
         private void calculatePointsToDisplay(int totalPoints) {
-            int pointsToCompute = totalPoints;
+            int pointsToCompute = Math.abs(totalPoints);
+            int sign = (totalPoints < 0) ? -1 : 1;
+            System.out.println(sign);
             while (pointsToCompute >= 100) {
                 pointsToCompute -= 100;
-                ++nb100;
+                nb100 += sign;
             }
 
             while (pointsToCompute >= 50) {
                 pointsToCompute -= 50;
-                ++nb50;
+                nb50 += sign;
             }
 
             while (pointsToCompute >= 20) {
                 pointsToCompute -= 20;
-                ++nb20;
+                nb20 += sign;
             }
 
-            computeRest(pointsToCompute);
+            computeRest(pointsToCompute, sign);
 
         }
 
-        private void computeRest(int pointsToCompute) {
-            if (restToDisplay + pointsToCompute >= 20) {
-                restToDisplay += pointsToCompute - 20;
-                ++nb20;
-            } else {
-                restToDisplay += pointsToCompute;
+        private void computeRest(int pointsToCompute, int sign) {
+            if (sign == 1) {
+
+                if (restToDisplay + pointsToCompute >= 20) {
+                    restToDisplay += pointsToCompute - 20;
+                    ++nb20;
+                } else {
+                    restToDisplay += pointsToCompute;
+                }
+
+            } else if (sign == -1) {
+                //TODO : à revoir
+                /*
+                if (restToDisplay - pointsToCompute < 0) {
+                    restToDisplay += pointsToCompute - 20;
+                    --nb20;
+                } else {
+                    restToDisplay -= pointsToCompute;
+                }
+                 */
+
+                restToDisplay -= pointsToCompute;
+
             }
         }
 

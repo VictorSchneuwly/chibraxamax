@@ -123,6 +123,11 @@ public class DuoTest {
 
         assertDisplay(mg.getPointsDisplay(), 4,4,4,0);
 
+        //TODO: Check ça
+        mg.addPoints(-115);
+
+        assertDisplay(mg.getPointsDisplay(), 3,4,3,5);
+
     }
 
     private void assertDisplay(Duo.PointsDisplay pointsDisplay, int nb20, int nb50, int nb100, int rest){
