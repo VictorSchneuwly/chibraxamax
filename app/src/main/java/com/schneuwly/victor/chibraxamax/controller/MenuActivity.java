@@ -5,7 +5,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.schneuwly.victor.chibraxamax.R;
-import com.schneuwly.victor.chibraxamax.view.SplashActivity;
 
 public class MenuActivity extends AppCompatActivity {
     private Button playButt, tournamentButt, paramButt;

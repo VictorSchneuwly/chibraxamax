@@ -15,20 +15,23 @@ public class Duo extends PlayingEntity {
     private final PointsDisplay pointsDisplay;
     private int totalPoints;
 
-    public Duo(Player player1, Player player2, Record record) {
-        super("", record);
+    public Duo(Player player1, Player player2, Record record, String teamName) {
+        super(teamName, record);
         players[0] = player1;
         players[1] = player2;
         Arrays.sort(players, Comparator.comparing(Player::getName));
-
-        setName(players[0].getName() + " - " + players[1].getName());
 
         pointsDisplay = new PointsDisplay();
         totalPoints = 0;
     }
 
-    public Duo(Player player1, Player player2) {
-        this(player1, player2, new Record(0,0));
+    public Duo(Player player1, Player player2, Record record) {
+        this(player1, player2, record, "");
+        setName(players[0].getName() + " - " + players[1].getName());
+    }
+
+    public Duo(Player player1, Player player2, String teamName) {
+        this(player1, player2, new Record(0, 0), teamName);
     }
 
     public PointsDisplay getPointsDisplay() {
@@ -109,7 +112,7 @@ public class Duo extends PlayingEntity {
                 pointsToCompute -= 100;
                 nb100 += sign;
 
-                if (nb100 < 18){
+                if (nb100 < 18) {
                     nb100 = 20;
                     nbV += 1;
                 }
@@ -119,7 +122,7 @@ public class Duo extends PlayingEntity {
                 pointsToCompute -= 50;
                 nb50 += sign;
 
-                if (nb50 < 18){
+                if (nb50 < 18) {
                     nb50 = 15;
                     nb100 += 2;
                 }
@@ -129,7 +132,7 @@ public class Duo extends PlayingEntity {
                 pointsToCompute -= 20;
                 nb20 += sign;
 
-                if (nb20 < 35){
+                if (nb20 < 35) {
                     nb20 = 26;
                     nb100 += 2;
                 }

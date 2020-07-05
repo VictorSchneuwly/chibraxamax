@@ -1,24 +1,65 @@
 package com.schneuwly.victor.chibraxamax.controller;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import com.schneuwly.victor.chibraxamax.R;
+import com.schneuwly.victor.chibraxamax.model.Duo;
+import com.schneuwly.victor.chibraxamax.model.Game;
+import com.schneuwly.victor.chibraxamax.model.Player;
 
 public class GameActivity extends AppCompatActivity {
-    private TextView[] tallyBarsView = new TextView[6];
+    //private TextView team1_20, team1_50, team1_100, team2_20, team2_50, team2_100;
+    private EditText scoreView, team1_name, team2_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        //tallyBarsView[0] = findViewById(R.id.team1_20);
-        //tallyBarsView[1] = findViewById(R.id.team1_50);
-        //tallyBarsView[2] = findViewById(R.id.team1_100);
-        //tallyBarsView[3] = findViewById(R.id.team2_20);
-        //tallyBarsView[4] = findViewById(R.id.team2_50);
-        //tallyBarsView[5] = findViewById(R.id.team2_100);
+        Player[] players = {
+                new Player("Player 1"),
+                new Player("Player 2"),
+                new Player("Player 3"),
+                new Player("Player 4")
+        };
+
+        Duo[] duos = {
+                new Duo(players[0], players[1], getResources().getString(R.string.default_name_team1)),
+                new Duo(players[2], players[3], getResources().getString(R.string.default_name_team2))
+        };
+
+        Game game = new Game(duos[0], duos[1], Integer.parseInt(getResources().getString(R.string.default_score)));
+
+        scoreView = findViewById(R.id.score);
+        scoreView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        team1_name = findViewById(R.id.team1_name);
+        team2_name = findViewById(R.id.team2_name);
+
+        //team1_20 = findViewById(R.id.team1_20);
+        //team1_50 = findViewById(R.id.team1_50);
+        //team1_100 = findViewById(R.id.team1_100);
+        //team2_20 = findViewById(R.id.team2_20);
+        //team2_50 = findViewById(R.id.team2_50);
+        //team2_100 = findViewById(R.id.team2_100);
     }
 
     /**
@@ -80,7 +121,7 @@ public class GameActivity extends AppCompatActivity {
             sb.append("X");
         }
 
-        if (toCompute == 1){
+        if (toCompute == 1) {
             sb.append("\\");
         }
 

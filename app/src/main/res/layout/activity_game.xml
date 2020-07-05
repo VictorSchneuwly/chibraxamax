@@ -7,4 +7,118 @@
     android:background="@color/primaryDark"
     tools:context=".controller.GameActivity">
 
+    <EditText
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="@string/default_score"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:fontFamily="@font/adam_bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/primary"
+        app:layout_constraintBottom_toBottomOf="@+id/score"
+        app:layout_constraintEnd_toStartOf="@+id/score"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/score" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/primary"
+        app:layout_constraintBottom_toBottomOf="@+id/score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/score"
+        app:layout_constraintTop_toTopOf="@+id/score" />
+
+    <EditText
+        android:id="@+id/team1_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/adam_bold"
+        android:inputType="text"
+        android:text="@string/default_name_team1"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/line1"
+        app:layout_constraintStart_toStartOf="@+id/line1"
+        app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+    <TextView
+        android:id="@+id/team1_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/adam_bold"
+        android:text="@string/default_team_score"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="@+id/team1_name"
+        app:layout_constraintBottom_toBottomOf="@+id/team1_name"
+        app:layout_constraintEnd_toEndOf="@+id/line2"
+        app:layout_constraintStart_toStartOf="@+id/line2" />
+
+    <EditText
+        android:id="@+id/team2_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/adam_bold"
+        android:inputType="text"
+        android:rotation="180"
+        android:text="@string/default_name_team2"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/line2"
+        app:layout_constraintEnd_toEndOf="@+id/line2"
+        app:layout_constraintStart_toStartOf="@+id/line2" />
+
+    <TextView
+        android:id="@+id/team2_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/adam_bold"
+        android:text="@string/default_team_score"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:rotation="180"
+        app:layout_constraintTop_toTopOf="@+id/team2_name"
+        app:layout_constraintBottom_toBottomOf="@+id/team2_name"
+        app:layout_constraintEnd_toEndOf="@+id/line1"
+        app:layout_constraintStart_toStartOf="@+id/line1" />
+
+    <ImageView
+        android:id="@+id/z1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/z_guide" />
+
+    <ImageView
+        android:id="@+id/z2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score"
+        app:srcCompat="@drawable/z_guide" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
