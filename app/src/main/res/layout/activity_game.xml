@@ -11,10 +11,10 @@
         android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/adam_bold"
         android:text="@string/default_score"
         android:textColor="@android:color/white"
         android:textSize="40sp"
-        android:fontFamily="@font/adam_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +44,7 @@
         app:layout_constraintStart_toEndOf="@+id/score"
         app:layout_constraintTop_toTopOf="@+id/score" />
 
+    <!-- Bottom -->
     <TextView
         android:id="@+id/team1_name"
         android:layout_width="wrap_content"
@@ -65,11 +66,108 @@
         android:text="@string/default_team_score"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="@+id/team1_name"
         app:layout_constraintBottom_toBottomOf="@+id/team1_name"
         app:layout_constraintEnd_toEndOf="@+id/line2"
-        app:layout_constraintStart_toStartOf="@+id/line2" />
+        app:layout_constraintStart_toStartOf="@+id/line2"
+        app:layout_constraintTop_toTopOf="@+id/team1_name" />
 
+    <ImageView
+        android:id="@+id/z1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/score"
+        app:srcCompat="@drawable/z_guide"
+        android:contentDescription="@string/guide_description" />
+
+    <Button
+        android:id="@+id/add_button_1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/add_button"
+        app:layout_constraintBottom_toBottomOf="@+id/z1"
+        app:layout_constraintEnd_toEndOf="@+id/z1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/z1"
+        app:layout_constraintTop_toTopOf="@+id/z1"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/team1_V"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="210dp"
+        android:fontFamily="@font/cherry"
+        android:text="VVV"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/team1_100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/team1_100" />
+
+    <TextView
+        android:id="@+id/team1_100"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/tally_mark"
+        android:text="ee"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/team1_50"
+        app:layout_constraintEnd_toStartOf="@+id/team1_V"
+        app:layout_constraintStart_toStartOf="@+id/z1"
+        app:layout_constraintTop_toTopOf="@+id/z1"
+        app:layout_constraintVertical_bias="0.00999999" />
+
+    <TextView
+        android:id="@+id/team1_50"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cherry"
+        android:text="XX\"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/z1"
+        app:layout_constraintEnd_toStartOf="@+id/team1_V"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/z1"
+        app:layout_constraintTop_toTopOf="@+id/z1" />
+
+    <TextView
+        android:id="@+id/team1_20"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/tally_mark"
+        android:text="eeeee"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/z1"
+        app:layout_constraintEnd_toStartOf="@+id/add_button_1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/z1"
+        app:layout_constraintTop_toBottomOf="@+id/team1_50"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/team1_rest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/adam_bold"
+        android:text="5"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/z1"
+        app:layout_constraintEnd_toEndOf="@+id/z1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/z1"
+        app:layout_constraintTop_toTopOf="@+id/z1" />
+
+    <!-- Top -->
     <TextView
         android:id="@+id/team2_name"
         android:layout_width="wrap_content"
@@ -99,23 +197,29 @@
         app:layout_constraintStart_toStartOf="@+id/line1" />
 
     <ImageView
-        android:id="@+id/z1"
+        android:id="@+id/z2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/score"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/z_guide" />
+        app:srcCompat="@drawable/z_guide"
+        android:contentDescription="@string/guide_description" />
 
-    <ImageView
-        android:id="@+id/z2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score"
-        app:srcCompat="@drawable/z_guide" />
+
+    <Button
+        android:id="@+id/add_button_2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/add_button"
+        app:layout_constraintBottom_toBottomOf="@+id/z2"
+        app:layout_constraintEnd_toEndOf="@+id/z2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/z2"
+        app:layout_constraintTop_toTopOf="@+id/z2"
+        app:layout_constraintVertical_bias="0.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
