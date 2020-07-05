@@ -12,14 +12,14 @@ import java.util.List;
  * @author Victor Schneuwly
  */
 public class Game {
-    public static int MAX_POINTS = 157;
+    public final static int MAX_POINTS = 157;
 
     private final Duo[] duos;
-    private final int endScore;
     private final List<Pair<Integer,Integer>> historic;
 
     private Duo winner;
-    private boolean over, draw;
+    private boolean over, bothOver;
+    private int endScore;
 
     public Game(Duo duo1, Duo duo2, int endScore) {
         this.endScore = endScore;
@@ -27,7 +27,7 @@ public class Game {
         duos[0] = duo1;
         duos[1] = duo2;
         over = false;
-        draw = false;
+        bothOver = false;
         historic = new ArrayList<>();
     }
 
@@ -91,12 +91,16 @@ public class Game {
         addPoints(duo, 100);
     }
 
+    public void setEndScore(int endScore) {
+        this.endScore = endScore;
+    }
+
     public boolean isOver() {
         return over;
     }
 
-    public boolean isDrawn() {
-        return draw;
+    public boolean areBothOver() {
+        return bothOver;
     }
 
     public void restart() {
@@ -104,6 +108,12 @@ public class Game {
         for (Duo duo : duos) {
             duo.reinitialisePoints();
         }
+    }
+
+    public void setWinner(Duo winner) {
+        this.winner = winner;
+        over = true;
+        addWin();
     }
 
     public List<Pair<Integer, Integer>> getHistoric() {
@@ -130,15 +140,7 @@ public class Game {
     private void checkForWinner() {
         if (duos[0].getTotalPoints() >= endScore && duos[1].getTotalPoints() >= endScore) {
 
-            //TODO: revoir ça
-
-            if (duos[0].getTotalPoints() == duos[1].getTotalPoints()) {
-                draw = true;
-            } else {
-                winner = (duos[0].getTotalPoints() < duos[1].getTotalPoints()) ? duos[1] : duos[0];
-                addWin();
-                over = true;
-            }
+            bothOver = true;
 
         } else {
 

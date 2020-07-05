@@ -27,6 +27,10 @@ public class Duo extends PlayingEntity {
         totalPoints = 0;
     }
 
+    public Duo(Player player1, Player player2) {
+        this(player1, player2, new Record(0,0));
+    }
+
     public PointsDisplay getPointsDisplay() {
         return pointsDisplay;
     }
@@ -67,15 +71,15 @@ public class Duo extends PlayingEntity {
     }
 
     public class PointsDisplay {
-        //TODO: Problème de suppression de l'historique.
 
-        private int nb20, nb50, nb100, restToDisplay;
+        private int nbV, nb20, nb50, nb100, restToDisplay;
 
         private PointsDisplay() {
             reinitialise();
         }
 
         public void reinitialise() {
+            nbV = 0;
             nb20 = 0;
             nb50 = 0;
             nb100 = 0;
@@ -101,20 +105,34 @@ public class Duo extends PlayingEntity {
         private void calculatePointsToDisplay(int totalPoints) {
             int pointsToCompute = Math.abs(totalPoints);
             int sign = (totalPoints < 0) ? -1 : 1;
-            System.out.println(sign);
             while (pointsToCompute >= 100) {
                 pointsToCompute -= 100;
                 nb100 += sign;
+
+                if (nb100 < 18){
+                    nb100 = 20;
+                    nbV += 1;
+                }
             }
 
             while (pointsToCompute >= 50) {
                 pointsToCompute -= 50;
                 nb50 += sign;
+
+                if (nb50 < 18){
+                    nb50 = 15;
+                    nb100 += 2;
+                }
             }
 
             while (pointsToCompute >= 20) {
                 pointsToCompute -= 20;
                 nb20 += sign;
+
+                if (nb20 < 35){
+                    nb20 = 26;
+                    nb100 += 2;
+                }
             }
 
             computeRest(pointsToCompute, sign);
@@ -132,7 +150,6 @@ public class Duo extends PlayingEntity {
                 }
 
             } else if (sign == -1) {
-                //TODO : à revoir
                 /*
                 if (restToDisplay - pointsToCompute < 0) {
                     restToDisplay += pointsToCompute - 20;

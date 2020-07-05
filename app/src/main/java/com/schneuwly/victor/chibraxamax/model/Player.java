@@ -12,4 +12,8 @@ public class Player extends PlayingEntity {
     public Player(String userName, Record record) {
         super(userName, record);
     }
+
+    public Player(String userName) {
+        this(userName, new Record(0,0));
+    }
 }

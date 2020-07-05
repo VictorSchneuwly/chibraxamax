@@ -1,9 +1,5 @@
 package com.schneuwly.victor.chibraxamax.model;
 
-//import org.junit.jupiter.api.Test;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -123,11 +119,41 @@ public class DuoTest {
 
         assertDisplay(mg.getPointsDisplay(), 4,4,4,0);
 
-        //TODO: Check ça
+    }
+
+    @Test
+    public void deleteTest() {
+        Player martin = new Player("Martin", new Record(0, 0));
+        Player guillaume = new Player("Guillaume", new Record(0, 0));
+        Duo mg = new Duo(martin, guillaume, new Record(0, 0));
+
+        mg.addPoints(174);
+        mg.addPoints(20);
+        mg.addPoints(50);
+        mg.addPoints(100);
+        mg.addPoints(115);
+
+        assertEquals(459, mg.getTotalPoints());
+        assertDisplay(mg.getPointsDisplay(), 2,2,3,19);
+
         mg.addPoints(-115);
 
-        assertDisplay(mg.getPointsDisplay(), 3,4,3,5);
+        assertEquals(344, mg.getTotalPoints());
+        assertDisplay(mg.getPointsDisplay(), 2,2,2,4);
+    }
 
+    @Test
+    public void deleteNullTest() {
+        Player martin = new Player("Martin", new Record(0, 0));
+        Player guillaume = new Player("Guillaume", new Record(0, 0));
+        Duo mg = new Duo(martin, guillaume, new Record(0, 0));
+
+        mg.addPoints(174);
+
+        mg.addPoints(-174);
+
+        assertEquals(0, mg.getTotalPoints());
+        assertDisplay(mg.getPointsDisplay(), 0,0,0,0);
     }
 
     private void assertDisplay(Duo.PointsDisplay pointsDisplay, int nb20, int nb50, int nb100, int rest){
