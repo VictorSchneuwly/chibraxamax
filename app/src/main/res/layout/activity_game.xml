@@ -46,12 +46,12 @@
 
     <!-- Bottom -->
     <TextView
-        android:id="@+id/team1_name"
+        android:id="@+id/team0_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/adam_bold"
-        android:text="@string/default_name_team1"
+        android:text="@string/default_name_team0"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/line1"
@@ -59,24 +59,24 @@
         app:layout_constraintTop_toBottomOf="@+id/line1" />
 
     <TextView
-        android:id="@+id/team1_score"
+        android:id="@+id/team0_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/adam_bold"
         android:text="@string/default_team_score"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/team1_name"
+        app:layout_constraintBottom_toBottomOf="@+id/team0_name"
         app:layout_constraintEnd_toEndOf="@+id/line2"
         app:layout_constraintStart_toStartOf="@+id/line2"
-        app:layout_constraintTop_toTopOf="@+id/team1_name" />
+        app:layout_constraintTop_toTopOf="@+id/team0_name" />
 
     <ImageView
         android:id="@+id/z1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,67 +98,64 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/team1_V"
+        android:id="@+id/team0_V"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="210dp"
+        android:text=""
         android:fontFamily="@font/cherry"
-        android:text="VVV"
         android:textColor="@android:color/white"
         android:textSize="50sp"
-        app:layout_constraintBottom_toBottomOf="@+id/team1_100"
+        app:layout_constraintBottom_toBottomOf="@+id/team0_100"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/team1_100" />
+        app:layout_constraintTop_toTopOf="@+id/team0_100" />
 
     <TextView
-        android:id="@+id/team1_100"
+        android:id="@+id/team0_100"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/tally_mark"
-        android:text="ee"
         android:textColor="@android:color/white"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/team1_50"
-        app:layout_constraintEnd_toStartOf="@+id/team1_V"
+        app:layout_constraintBottom_toTopOf="@+id/team0_50"
+        app:layout_constraintEnd_toStartOf="@+id/team0_V"
         app:layout_constraintStart_toStartOf="@+id/z1"
         app:layout_constraintTop_toTopOf="@+id/z1"
-        app:layout_constraintVertical_bias="0.00999999" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/team1_50"
+        android:id="@+id/team0_50"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/cherry"
-        android:text="XX\"
         android:textColor="@android:color/white"
         android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="@+id/z1"
-        app:layout_constraintEnd_toStartOf="@+id/team1_V"
+        app:layout_constraintEnd_toStartOf="@+id/team0_rest"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/z1"
         app:layout_constraintTop_toTopOf="@+id/z1" />
 
     <TextView
-        android:id="@+id/team1_20"
+        android:id="@+id/team0_20"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/tally_mark"
-        android:text="eeeee"
         android:textColor="@android:color/white"
         android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="@+id/z1"
         app:layout_constraintEnd_toStartOf="@+id/add_button_1"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/z1"
-        app:layout_constraintTop_toBottomOf="@+id/team1_50"
+        app:layout_constraintTop_toBottomOf="@+id/team0_50"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/team1_rest"
+        android:id="@+id/team0_rest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/adam_bold"
-        android:text="5"
+        android:text="@string/default_rest"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/z1"
@@ -169,13 +166,13 @@
 
     <!-- Top -->
     <TextView
-        android:id="@+id/team2_name"
+        android:id="@+id/team1_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/adam_bold"
         android:rotation="180"
-        android:text="@string/default_name_team2"
+        android:text="@string/default_name_team1"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/line2"
@@ -183,36 +180,38 @@
         app:layout_constraintStart_toStartOf="@+id/line2" />
 
     <TextView
-        android:id="@+id/team2_score"
+        android:id="@+id/team1_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/adam_bold"
+        android:rotation="180"
         android:text="@string/default_team_score"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        android:rotation="180"
-        app:layout_constraintTop_toTopOf="@+id/team2_name"
-        app:layout_constraintBottom_toBottomOf="@+id/team2_name"
+        app:layout_constraintBottom_toBottomOf="@+id/team1_name"
         app:layout_constraintEnd_toEndOf="@+id/line1"
-        app:layout_constraintStart_toStartOf="@+id/line1" />
+        app:layout_constraintStart_toStartOf="@+id/line1"
+        app:layout_constraintTop_toTopOf="@+id/team1_name" />
 
     <ImageView
         android:id="@+id/z2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/guide_description"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
         app:layout_constraintBottom_toTopOf="@+id/score"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/z_guide"
-        android:contentDescription="@string/guide_description" />
+        app:srcCompat="@drawable/z_guide" />
 
 
     <Button
         android:id="@+id/add_button_2"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/add_button"
         app:layout_constraintBottom_toBottomOf="@+id/z2"
         app:layout_constraintEnd_toEndOf="@+id/z2"
@@ -220,6 +219,78 @@
         app:layout_constraintStart_toStartOf="@+id/z2"
         app:layout_constraintTop_toTopOf="@+id/z2"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/team1_V"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="210dp"
+        android:text=""
+        android:fontFamily="@font/cherry"
+        android:rotation="180"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/team1_100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/team1_100" />
+
+    <TextView
+        android:id="@+id/team1_100"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/tally_mark"
+        android:rotation="180"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/z2"
+        app:layout_constraintEnd_toEndOf="@+id/z2"
+        app:layout_constraintStart_toEndOf="@+id/team1_V"
+        app:layout_constraintTop_toBottomOf="@+id/team1_50"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/team1_50"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cherry"
+        android:rotation="180"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="@+id/z2"
+        app:layout_constraintEnd_toEndOf="@+id/z2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/team1_rest"
+        app:layout_constraintTop_toTopOf="@+id/z2" />
+
+    <TextView
+        android:id="@+id/team1_20"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/tally_mark"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        android:rotation="180"
+        app:layout_constraintBottom_toTopOf="@+id/team1_50"
+        app:layout_constraintEnd_toEndOf="@+id/z2"
+        app:layout_constraintStart_toEndOf="@+id/add_button_2"
+        app:layout_constraintTop_toTopOf="@+id/z2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/team1_rest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/adam_bold"
+        android:text="@string/default_rest"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/z2"
+        app:layout_constraintEnd_toEndOf="@+id/z2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/z2"
+        app:layout_constraintTop_toTopOf="@+id/z2" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -105,6 +105,10 @@ public class Duo extends PlayingEntity {
             return restToDisplay;
         }
 
+        public int getNbV() {
+            return nbV;
+        }
+
         private void calculatePointsToDisplay(int totalPoints) {
             int pointsToCompute = Math.abs(totalPoints);
             int sign = (totalPoints < 0) ? -1 : 1;
@@ -112,9 +116,9 @@ public class Duo extends PlayingEntity {
                 pointsToCompute -= 100;
                 nb100 += sign;
 
-                if (nb100 < 18) {
-                    nb100 = 20;
-                    nbV += 1;
+                if (nb100 > 20) {
+                    nb100 = 16;
+                    ++nbV;
                 }
             }
 
@@ -122,9 +126,20 @@ public class Duo extends PlayingEntity {
                 pointsToCompute -= 50;
                 nb50 += sign;
 
-                if (nb50 < 18) {
+                if (nb50 > 18) {
                     nb50 = 15;
-                    nb100 += 2;
+
+                    ++nb100;
+                    if (nb100 > 20) {
+                        nb100 = 16;
+                        ++nbV;
+                    }
+
+                    ++nb100;
+                    if (nb100 > 20) {
+                        nb100 = 16;
+                        ++nbV;
+                    }
                 }
             }
 
@@ -132,13 +147,26 @@ public class Duo extends PlayingEntity {
                 pointsToCompute -= 20;
                 nb20 += sign;
 
-                if (nb20 < 35) {
+                if (nb20 > 35) {
                     nb20 = 26;
-                    nb100 += 2;
+
+                    ++nb100;
+                    if (nb100 > 20) {
+                        nb100 = 16;
+                        ++nbV;
+                    }
+
+                    ++nb100;
+                    if (nb100 > 20) {
+                        nb100 = 16;
+                        ++nbV;
+                    }
                 }
             }
 
             computeRest(pointsToCompute, sign);
+
+            System.out.printf("V:%s 100:%s 50:%s 20:%s Rest:%s%n", nbV, nb100, nb50, nb20, restToDisplay);
 
         }
 

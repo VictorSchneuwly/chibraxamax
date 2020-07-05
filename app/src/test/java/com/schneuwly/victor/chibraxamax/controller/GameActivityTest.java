@@ -2,7 +2,7 @@ package com.schneuwly.victor.chibraxamax.controller;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * GameActivityTest

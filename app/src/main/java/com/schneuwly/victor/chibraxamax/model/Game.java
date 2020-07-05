@@ -79,15 +79,19 @@ public class Game {
         }
     }
 
-    public void add20Points(Duo duo, int points) throws IllegalArgumentException {
+    public void add1Point(Duo duo) throws IllegalArgumentException {
+        addPoints(duo, 1);
+    }
+
+    public void add20Points(Duo duo) throws IllegalArgumentException {
         addPoints(duo, 20);
     }
 
-    public void add50Points(Duo duo, int points) throws IllegalArgumentException {
+    public void add50Points(Duo duo) throws IllegalArgumentException {
         addPoints(duo, 50);
     }
 
-    public void add100Points(Duo duo, int points) throws IllegalArgumentException {
+    public void add100Points(Duo duo) throws IllegalArgumentException {
         addPoints(duo, 100);
     }
 

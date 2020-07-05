@@ -4,9 +4,10 @@
     <string name="tournament">Tournoi</string>
     <string name="param">Paramètre</string>
     <string name="default_score">2500</string>
-    <string name="default_name_team1">Équipe 1</string>
-    <string name="default_name_team2">Équipe 2</string>
-    <string name="default_team_score">157</string>
+    <string name="default_name_team0">Équipe 1</string>
+    <string name="default_name_team1">Équipe 2</string>
+    <string name="default_team_score">0</string>
     <string name="add_button">+</string>
     <string name="guide_description">Guide</string>
+    <string name="default_rest">0</string>
 </resources>
