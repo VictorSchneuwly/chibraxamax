@@ -4,19 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryDark"
     tools:context=".controller.GameActivity">
 
-    <TextView
-        android:id="@+id/team1_20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="206dp"
-        android:layout_marginEnd="168dp"
-        android:layout_marginBottom="506dp"
-        android:fontFamily="@font/tally_mark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

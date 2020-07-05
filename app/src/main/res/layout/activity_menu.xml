@@ -6,4 +6,67 @@
     android:layout_height="match_parent"
     tools:context=".controller.MenuActivity">
 
+    <ImageView
+        android:id="@+id/chibraxamax_logo"
+        android:layout_width="match_parent"
+        android:layout_height="257dp"
+        android:background="@color/primaryDark"
+        android:src="@drawable/logo"
+        android:padding="35dp"
+        android:transitionName="blezir_transition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/app_name" />
+
+    <Button
+        android:id="@+id/play_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/button_color_accent"
+        android:fontFamily="@font/adam_bold"
+        android:padding="15dp"
+        android:text="@string/play"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chibraxamax_logo" />
+
+    <Button
+        android:id="@+id/tournament_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_color_accent"
+        android:fontFamily="@font/adam_bold"
+        android:padding="15dp"
+        android:text="@string/tournament"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/play_button"
+        app:layout_constraintStart_toStartOf="@+id/play_button"
+        app:layout_constraintTop_toBottomOf="@+id/play_button" />
+
+    <Button
+        android:id="@+id/param_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_color_accent"
+        android:fontFamily="@font/adam_bold"
+        android:padding="15dp"
+        android:text="@string/param"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/tournament_button"
+        app:layout_constraintStart_toStartOf="@+id/tournament_button"
+        app:layout_constraintTop_toBottomOf="@+id/tournament_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
