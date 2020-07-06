@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@drawable/popup_primary_top"
-        android:text="@string/add_title_without_name"
+        android:text="@string/end_score_popup_score"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="17sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -26,82 +26,70 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/popup_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginStart="5dp"
+        android:gravity="start"
+        android:text="@string/end_score_popup_message"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+    <TextView
         android:id="@+id/popup_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="15dp"
         android:layout_marginStart="5dp"
         android:text="@string/default_rest"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="30sp" />
 
-    <TextView
-        android:id="@+id/popup_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_marginStart="10dp"
-        android:text="Total:"
-        android:alpha="0.3"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="15sp" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radioButton_1x"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="x1"
-            android:checked="true"/>
-
-        <RadioButton
-            android:id="@+id/radioButton_2x"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textColor="@android:color/white"
-            android:text="x2" />
-
-        <RadioButton
-            android:id="@+id/radioButton_3x"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="x3" />
-
-        <RadioButton
-            android:id="@+id/radioButton_4x"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="x4" />
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/popup_match"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="7dp"
-        android:gravity="center"
-        android:text="Match"
-        android:textAllCaps="false"
-        android:layout_marginStart="5dp"
-        android:textColor="@android:color/white"
-        android:background="@drawable/button_primary" />
 
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/popup_1000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="1000"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button_primary" />
+
+            <Button
+                android:id="@+id/popup_1500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="1500"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button_primary" />
+
+            <Button
+                android:id="@+id/popup_2500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="2500"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button_primary" />
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
@@ -254,21 +242,6 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="5dp">
-
-        <TextView
-            android:id="@+id/popup_annonce"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Annonce"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/popup_ok"
-            app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/popup_ok"

@@ -13,9 +13,10 @@ import java.util.List;
  */
 public class Game {
     public final static int MAX_POINTS = 157;
+    public final static int MATCH_POINTS = 257;
 
     private final Duo[] duos;
-    private final List<Pair<Integer,Integer>> historic;
+    private final List<Pair<Integer, Integer>> historic;
 
     private Duo winner;
     private boolean over, bothOver;
@@ -48,15 +49,19 @@ public class Game {
             throw new IllegalArgumentException("Duo not in the game.");
         } else if (duo.equals(duos[0])) {
             duos[0].addPoints(points);
-            duos[1].addPoints(MAX_POINTS - points);
 
-            historic.add(new Pair<>(points, MAX_POINTS - points));
+            int otherPoints = (points >= MAX_POINTS) ? 0 : MAX_POINTS - points;
+            duos[1].addPoints(otherPoints);
+
+            historic.add(new Pair<>(points, otherPoints));
 
         } else if (duo.equals(duos[1])) {
             duos[1].addPoints(points);
-            duos[0].addPoints(MAX_POINTS - points);
 
-            historic.add(new Pair<>(MAX_POINTS - points, points));
+            int otherPoints = (points >= MAX_POINTS) ? 0 : MAX_POINTS - points;
+            duos[0].addPoints(otherPoints);
+
+            historic.add(new Pair<>(otherPoints, points));
         }
 
         checkForWinner();
@@ -124,8 +129,8 @@ public class Game {
         return Collections.unmodifiableList(historic);
     }
 
-    public void undoLastMove(){
-        Pair<Integer,Integer> lastPair = historic.get(historic.size() - 1);
+    public void undoLastMove() {
+        Pair<Integer, Integer> lastPair = historic.get(historic.size() - 1);
 
         addPoints(duos[0], -lastPair.first);
         addPoints(duos[1], -lastPair.second);
