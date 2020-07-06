@@ -104,6 +104,10 @@ public class Game {
         this.endScore = endScore;
     }
 
+    public int getEndScore() {
+        return endScore;
+    }
+
     public boolean isOver() {
         return over;
     }

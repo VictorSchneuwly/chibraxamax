@@ -222,6 +222,8 @@
                 android:textColor="@android:color/white"
                 android:background="@drawable/button_primary" />
 
+            <!-- TODO: Design du bouton -->
+
             <Button
                 android:id="@+id/popup_erase"
                 android:layout_width="wrap_content"

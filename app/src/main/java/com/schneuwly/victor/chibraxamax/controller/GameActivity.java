@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,10 +21,10 @@ public class GameActivity extends AppCompatActivity {
             team1_name, team1_score, team1_20, team1_50, team1_100, team1_rest, team1_V;
     private Button[] addButtons = new Button[2];
 
-    private Dialog value_popup, add_popup;
-    private EditText popup_input;
+    private Dialog valuePopup, addPopup, endScorePopup;
+    private EditText popupInput;
 
-    //TODO: Create dialogue add points and historic (Recycle View)
+    //TODO: Create dialogue parameters and historic (Recycle View)
 
     //Model
     private Player[] players;
@@ -62,58 +61,49 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void gameInfos() {
-        value_popup = new Dialog(this);
-        value_popup.setContentView(R.layout.value_modifier_popup);
+        valuePopup = new Dialog(this);
+        valuePopup.setContentView(R.layout.value_modifier_popup);
 
-        popup_input = value_popup.findViewById(R.id.popup_edit);
+        endScorePopup = new Dialog(this);
+        endScorePopup.setContentView(R.layout.end_score_popup);
 
         endScoreView = findViewById(R.id.score);
-        endScoreView.setOnClickListener(l -> {
+        endScoreView.setOnClickListener(l -> showEndScorePopUp());
 
-            popup_input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-            showValuePopUp("Score", "Changer le score final:", popup_input,
-                    e -> {
-                        int newScore = Integer.parseInt(popup_input.getText().toString());
-                        game.setEndScore(newScore);
-                        endScoreView.setText(popup_input.getText().toString());
-                        value_popup.dismiss();
-                    }
-            );
-        });
-
+        popupInput = valuePopup.findViewById(R.id.popup_edit);
 
         team0_name = findViewById(R.id.team0_name);
         team0_name.setOnClickListener(l -> {
 
-            popup_input.setInputType(InputType.TYPE_CLASS_TEXT);
+            popupInput.setInputType(InputType.TYPE_CLASS_TEXT);
 
-            showValuePopUp(duos[0].getName(), "Changer le nom de " + duos[0].getName() + ":", popup_input,
+            showValuePopUp(duos[0].getName(), "Changer le nom de " + duos[0].getName() + ":", popupInput,
                     e -> {
-                        duos[0].setName(popup_input.getText().toString());
-                        team0_name.setText(popup_input.getText().toString());
-                        value_popup.dismiss();
+                        duos[0].setName(popupInput.getText().toString());
+                        team0_name.setText(popupInput.getText().toString());
+                        valuePopup.dismiss();
                     }
             );
         });
 
         team1_name = findViewById(R.id.team1_name);
         team1_name.setOnClickListener(l -> {
-            popup_input.setInputType(InputType.TYPE_CLASS_TEXT);
+            popupInput.setInputType(InputType.TYPE_CLASS_TEXT);
 
-            showValuePopUp(duos[1].getName(), "Changer le nom de " + duos[1].getName() + ":", popup_input,
+            showValuePopUp(duos[1].getName(), "Changer le nom de " + duos[1].getName() + ":", popupInput,
                     e -> {
-                        duos[1].setName(popup_input.getText().toString());
-                        team1_name.setText(popup_input.getText().toString());
-                        value_popup.dismiss();
+                        duos[1].setName(popupInput.getText().toString());
+                        team1_name.setText(popupInput.getText().toString());
+                        valuePopup.dismiss();
                     }
             );
         });
     }
 
     private void gameScores() {
-        add_popup = new Dialog(this);
-        add_popup.setContentView(R.layout.add_popup);
+        addPopup = new Dialog(this);
+        addPopup.setContentView(R.layout.add_popup);
 
         addButtons[0] = findViewById(R.id.add_button_1);
         addButtons[0].setOnClickListener(l -> {
@@ -188,25 +178,100 @@ public class GameActivity extends AppCompatActivity {
         input.setText(null);
         input.setHint(title);
         input.setHintTextColor(R.color.primaryDark);
-        input.setImeActionLabel("Ok", KeyEvent.KEYCODE_ENTER);
-        //input.setOnEditorActionListener();
 
-        title_view = value_popup.findViewById(R.id.popup_title);
-        message_view = value_popup.findViewById(R.id.popup_message);
-        ok = value_popup.findViewById(R.id.popup_ok);
-        cancel = value_popup.findViewById(R.id.popup_cancel);
+        title_view = valuePopup.findViewById(R.id.popup_title);
+        message_view = valuePopup.findViewById(R.id.popup_message);
+        ok = valuePopup.findViewById(R.id.popup_ok);
+        cancel = valuePopup.findViewById(R.id.popup_cancel);
 
         title_view.setText(title);
         message_view.setText(message);
 
-
         ok.setOnClickListener(listener);
-        cancel.setOnClickListener(l -> value_popup.dismiss());
+        cancel.setOnClickListener(l -> valuePopup.dismiss());
 
-        Objects.requireNonNull(value_popup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        value_popup.show();
+        Objects.requireNonNull(valuePopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        valuePopup.show();
     }
 
+    private void showEndScorePopUp(){
+        TextView score, ok, cancel;
+        Button clear_button, erase_button, button_1000, button_1500, button_2500;
+        Button[] digits = new Button[10];
+
+        score = endScorePopup.findViewById(R.id.popup_score);
+        score.setText(endScoreView.getText().toString());
+        ok = endScorePopup.findViewById(R.id.popup_ok);
+        cancel = endScorePopup.findViewById(R.id.popup_cancel);
+
+        clear_button = endScorePopup.findViewById(R.id.popup_clear);
+        erase_button = endScorePopup.findViewById(R.id.popup_erase);
+
+        button_1000 = endScorePopup.findViewById(R.id.popup_1000);
+        button_1500 = endScorePopup.findViewById(R.id.popup_1500);
+        button_2500 = endScorePopup.findViewById(R.id.popup_2500);
+
+        digits[0] = endScorePopup.findViewById(R.id.popup_0);
+        digits[1] = endScorePopup.findViewById(R.id.popup_1);
+        digits[2] = endScorePopup.findViewById(R.id.popup_2);
+        digits[3] = endScorePopup.findViewById(R.id.popup_3);
+        digits[4] = endScorePopup.findViewById(R.id.popup_4);
+        digits[5] = endScorePopup.findViewById(R.id.popup_5);
+        digits[6] = endScorePopup.findViewById(R.id.popup_6);
+        digits[7] = endScorePopup.findViewById(R.id.popup_7);
+        digits[8] = endScorePopup.findViewById(R.id.popup_8);
+        digits[9] = endScorePopup.findViewById(R.id.popup_9);
+
+        for (Button digit : digits) {
+            digit.setOnClickListener(l -> {
+                String currentInput = score.getText().toString();
+                String newInput;
+
+                if (currentInput.length() < 3) {
+                    newInput = currentInput + digit.getText().toString();
+                    newInput = (newInput.startsWith("0")) ? newInput.substring(1) : newInput;
+
+                    score.setText(newInput);
+                }
+
+            });
+        }
+
+        button_1000.setOnClickListener(l -> {
+            score.setText("1000");
+        });
+
+        button_1500.setOnClickListener(l -> {
+            score.setText("1500");
+        });
+
+        button_2500.setOnClickListener(l -> {
+            score.setText("2500");
+        });
+
+        erase_button.setOnClickListener(l -> {
+            String currentInput = score.getText().toString();
+            String newInput = currentInput.substring(0, currentInput.length() - 1);
+
+            score.setText(newInput);
+
+        });
+
+        clear_button.setOnClickListener(l -> {
+            score.setText("0");
+        });
+
+        ok.setOnClickListener(l -> {
+            game.setEndScore(Integer.parseInt(score.getText().toString()));
+            updateGame();
+            endScorePopup.dismiss();
+        });
+
+        cancel.setOnClickListener(l -> endScorePopup.dismiss());
+
+        Objects.requireNonNull(endScorePopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        endScorePopup.show();
+    }
 
     private void showAddPopUp(Duo duo) {
 
@@ -216,32 +281,32 @@ public class GameActivity extends AppCompatActivity {
         Button match_button, clear_button, erase_button;
         Button[] digits = new Button[10];
 
-        title = add_popup.findViewById(R.id.popup_title);
+        title = addPopup.findViewById(R.id.popup_title);
         title.setText(getResources().getString(R.string.add_title_without_name) + duo.getName());
-        score = add_popup.findViewById(R.id.popup_score);
+        score = addPopup.findViewById(R.id.popup_score);
         score.setText("0");
-        total = add_popup.findViewById(R.id.popup_total);
+        total = addPopup.findViewById(R.id.popup_total);
         total.setText("");
-        ok = add_popup.findViewById(R.id.popup_ok);
-        cancel = add_popup.findViewById(R.id.popup_cancel);
-        announce = add_popup.findViewById(R.id.popup_annonce);
+        ok = addPopup.findViewById(R.id.popup_ok);
+        cancel = addPopup.findViewById(R.id.popup_cancel);
+        announce = addPopup.findViewById(R.id.popup_annonce);
 
-        radioGroup = add_popup.findViewById(R.id.radioGroup);
+        radioGroup = addPopup.findViewById(R.id.radioGroup);
 
-        match_button = add_popup.findViewById(R.id.popup_match);
-        clear_button = add_popup.findViewById(R.id.popup_clear);
-        erase_button = add_popup.findViewById(R.id.popup_erase);
+        match_button = addPopup.findViewById(R.id.popup_match);
+        clear_button = addPopup.findViewById(R.id.popup_clear);
+        erase_button = addPopup.findViewById(R.id.popup_erase);
 
-        digits[0] = add_popup.findViewById(R.id.popup_0);
-        digits[1] = add_popup.findViewById(R.id.popup_1);
-        digits[2] = add_popup.findViewById(R.id.popup_2);
-        digits[3] = add_popup.findViewById(R.id.popup_3);
-        digits[4] = add_popup.findViewById(R.id.popup_4);
-        digits[5] = add_popup.findViewById(R.id.popup_5);
-        digits[6] = add_popup.findViewById(R.id.popup_6);
-        digits[7] = add_popup.findViewById(R.id.popup_7);
-        digits[8] = add_popup.findViewById(R.id.popup_8);
-        digits[9] = add_popup.findViewById(R.id.popup_9);
+        digits[0] = addPopup.findViewById(R.id.popup_0);
+        digits[1] = addPopup.findViewById(R.id.popup_1);
+        digits[2] = addPopup.findViewById(R.id.popup_2);
+        digits[3] = addPopup.findViewById(R.id.popup_3);
+        digits[4] = addPopup.findViewById(R.id.popup_4);
+        digits[5] = addPopup.findViewById(R.id.popup_5);
+        digits[6] = addPopup.findViewById(R.id.popup_6);
+        digits[7] = addPopup.findViewById(R.id.popup_7);
+        digits[8] = addPopup.findViewById(R.id.popup_8);
+        digits[9] = addPopup.findViewById(R.id.popup_9);
 
         for (Button digit : digits) {
             digit.setOnClickListener(l -> {
@@ -271,7 +336,7 @@ public class GameActivity extends AppCompatActivity {
             );
         });
 
-        clear_button.setOnClickListener(l -> {
+        erase_button.setOnClickListener(l -> {
             String currentInput = score.getText().toString();
             String newInput = currentInput.substring(0, currentInput.length() - 1);
 
@@ -283,7 +348,7 @@ public class GameActivity extends AppCompatActivity {
 
         });
 
-        erase_button.setOnClickListener(l -> {
+        clear_button.setOnClickListener(l -> {
             score.setText("0");
             total.setText(
                     String.format("Total: %s (Adversaire: %s)", "0", "157")
@@ -294,20 +359,20 @@ public class GameActivity extends AppCompatActivity {
             int inputScore = Integer.parseInt(score.getText().toString());
             game.addPointsForBothDuo(duo, inputScore);
             updateGame();
-            add_popup.dismiss();
+            addPopup.dismiss();
         });
 
         announce.setOnClickListener(l -> {
             int inputScore = Integer.parseInt(score.getText().toString());
             game.addPoints(duo, inputScore);
             updateGame();
-            add_popup.dismiss();
+            addPopup.dismiss();
         });
 
-        cancel.setOnClickListener(l -> add_popup.dismiss());
+        cancel.setOnClickListener(l -> addPopup.dismiss());
 
-        Objects.requireNonNull(add_popup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        add_popup.show();
+        Objects.requireNonNull(addPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        addPopup.show();
     }
 
     private void updateGame() {
@@ -317,6 +382,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateDisplay() {
+        endScoreView.setText(String.valueOf(game.getEndScore()));
+
         team0_score.setText(String.valueOf(duos[0].getTotalPoints()));
         team0_20.setText(tallyMarks(duos[0].getPointsDisplay().getNb20()));
         team0_50.setText(xMarks(duos[0].getPointsDisplay().getNb50()));
