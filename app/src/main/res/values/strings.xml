@@ -11,4 +11,5 @@
     <string name="guide_description">Guide</string>
     <string name="default_rest">0</string>
     <string name="empty"></string>
+    <string name="add_title_without_name">Ajout de points à</string>
 </resources>

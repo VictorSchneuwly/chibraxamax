@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -205,6 +206,8 @@ public class GameActivity extends AppCompatActivity {
         input.setText(null);
         input.setHint(title);
         input.setHintTextColor(R.color.primaryDark);
+        input.setImeActionLabel("Ok", KeyEvent.KEYCODE_ENTER);
+        //input.setOnEditorActionListener();
 
         title_view = value_popup.findViewById(R.id.popup_title);
         message_view = value_popup.findViewById(R.id.popup_message);
