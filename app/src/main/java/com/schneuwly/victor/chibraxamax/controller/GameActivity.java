@@ -1,23 +1,30 @@
 package com.schneuwly.victor.chibraxamax.controller;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.model.Duo;
 import com.schneuwly.victor.chibraxamax.model.Game;
 import com.schneuwly.victor.chibraxamax.model.Player;
 
+import java.util.Objects;
+
 public class GameActivity extends AppCompatActivity {
     private TextView scoreView,
             team0_name, team0_score, team0_20, team0_50, team0_100, team0_rest, team0_V,
             team1_name, team1_score, team1_20, team1_50, team1_100, team1_rest, team1_V;
     private Button[] addButtons = new Button[2];
+
+    private Dialog value_popup, add_popup;
+    private EditText popup_input, add_input;
 
     //TODO: Create dialogue add points and historic (Recycle View)
 
@@ -31,6 +38,15 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        gameInit();
+
+        gameInfos();
+
+        gameScores();
+
+    }
+
+    private void gameInit(){
         players = new Player[]{
                 new Player("Player 1"),
                 new Player("Player 2"),
@@ -44,44 +60,66 @@ public class GameActivity extends AppCompatActivity {
         };
 
         game = new Game(duos[0], duos[1], Integer.parseInt(getResources().getString(R.string.default_score)));
+    }
+
+    private void gameInfos(){
+        value_popup = new Dialog(this);
+        value_popup.setContentView(R.layout.value_modifier_popup);
+
+        popup_input = value_popup.findViewById(R.id.popup_edit);
 
         scoreView = findViewById(R.id.score);
         scoreView.setOnClickListener(l -> {
-            EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-            showPopUp("Score", "Changer le score final:", input,
-                    (d, w) -> {
-                        int newScore = Integer.parseInt(input.getText().toString());
+            popup_input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+            showValuePopUp("Score", "Changer le score final:", popup_input,
+                    e -> {
+                        int newScore = Integer.parseInt(popup_input.getText().toString());
                         game.setEndScore(newScore);
-                        scoreView.setText(input.getText().toString());
+                        scoreView.setText(popup_input.getText().toString());
+                        value_popup.dismiss();
                     }
             );
         });
 
+
+
         team0_name = findViewById(R.id.team0_name);
         team0_name.setOnClickListener(l -> {
-            EditText input = new EditText(this);
 
-            showPopUp(duos[0].getName(), "Changer le nom de " + duos[0].getName() + ":", input,
-                    (d, w) -> {
-                        duos[0].setName(input.getText().toString());
-                        team0_name.setText(input.getText().toString());
+            popup_input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+            showValuePopUp(duos[0].getName(), "Changer le nom de " + duos[0].getName() + ":", popup_input,
+                    e -> {
+                        duos[0].setName(popup_input.getText().toString());
+                        team0_name.setText(popup_input.getText().toString());
+                        value_popup.dismiss();
                     }
             );
         });
 
         team1_name = findViewById(R.id.team1_name);
         team1_name.setOnClickListener(l -> {
-            EditText input = new EditText(this);
+            popup_input.setInputType(InputType.TYPE_CLASS_TEXT);
 
-            showPopUp(duos[1].getName(), "Changer le nom de " + duos[1].getName() + ":", input,
-                    (d, w) -> {
-                        duos[1].setName(input.getText().toString());
-                        team1_name.setText(input.getText().toString());
+            showValuePopUp(duos[1].getName(), "Changer le nom de " + duos[1].getName() + ":", popup_input,
+                    e -> {
+                        duos[1].setName(popup_input.getText().toString());
+                        team1_name.setText(popup_input.getText().toString());
+                        value_popup.dismiss();
                     }
             );
         });
+    }
+
+    private void gameScores(){
+        add_popup = new Dialog(this);
+        add_popup.setContentView(R.layout.value_modifier_popup);
+
+        add_input = add_popup.findViewById(R.id.popup_edit);
+
+        //TODO: Implementer add button
 
         addButtons[0] = findViewById(R.id.add_button_1);
         /*
@@ -159,22 +197,55 @@ public class GameActivity extends AppCompatActivity {
         });
 
         team1_V = findViewById(R.id.team1_V);
-
     }
 
-    private void showPopUp(String title, String message, EditText input, DialogInterface.OnClickListener listener) {
-        //TODO: Remplacer par propre Dialog
+    private void showValuePopUp(String title, String message, EditText input, View.OnClickListener listener) {
+        TextView title_view, message_view, ok, cancel;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        input.setText(null);
+        input.setHint(title);
+        input.setHintTextColor(R.color.primaryDark);
 
-        builder.setTitle(title)
-                .setMessage(message)
-                .setView(input)
-                .setPositiveButton("Ok", listener)
-                .setNegativeButton("Annulé", (d, w) -> {
-                })
-                .create()
-                .show();
+        title_view = value_popup.findViewById(R.id.popup_title);
+        message_view = value_popup.findViewById(R.id.popup_message);
+        ok = value_popup.findViewById(R.id.popup_ok);
+        cancel = value_popup.findViewById(R.id.popup_cancel);
+
+        title_view.setText(title);
+        message_view.setText(message);
+
+
+        ok.setOnClickListener(listener);
+        cancel.setOnClickListener(l -> value_popup.dismiss());
+
+        Objects.requireNonNull(value_popup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        value_popup.show();
+    }
+
+
+    private void showAddPopUp(String title, String message, EditText input, View.OnClickListener listener) {
+        TextView title_view, message_view, ok, cancel;
+
+        //TODO: Finir cette implémentation
+
+        input.setText(null);
+        input.setHint(title);
+        input.setHintTextColor(R.color.primaryDark);
+
+        title_view = add_popup.findViewById(R.id.popup_title);
+        message_view = add_popup.findViewById(R.id.popup_message);
+        ok = add_popup.findViewById(R.id.popup_ok);
+        cancel = add_popup.findViewById(R.id.popup_cancel);
+
+        title_view.setText(title);
+        message_view.setText(message);
+
+
+        ok.setOnClickListener(listener);
+        cancel.setOnClickListener(l -> add_popup.dismiss());
+
+        Objects.requireNonNull(add_popup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        add_popup.show();
     }
 
     private void updateGame() {
