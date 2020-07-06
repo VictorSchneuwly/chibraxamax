@@ -6,7 +6,6 @@ import com.schneuwly.victor.chibraxamax.model.abstractEntitiy.PlayingEntity;
  * @author Victor Schneuwly
  */
 public class OpponentRecord extends Record{
-    //TODO: Later, PlayingEntity will have a list of OpponentRecord
 
     private final PlayingEntity playingEntity;
 

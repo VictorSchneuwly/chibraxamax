@@ -19,6 +19,8 @@ public class GameActivity extends AppCompatActivity {
             team1_name, team1_score, team1_20, team1_50, team1_100, team1_rest, team1_V;
     private Button[] addButtons = new Button[2];
 
+    //TODO: Create dialogue add points and historic (Recycle View)
+
     //Model
     private Player[] players;
     private Duo[] duos;
@@ -108,26 +110,26 @@ public class GameActivity extends AppCompatActivity {
         team0_20 = findViewById(R.id.team0_20);
         team0_20.setOnClickListener(l -> {
             game.add20Points(duos[0]);
-            updateDisplay();
+            updateGame();
         });
 
 
         team0_50 = findViewById(R.id.team0_50);
         team0_50.setOnClickListener(l -> {
             game.add50Points(duos[0]);
-            updateDisplay();
+            updateGame();
         });
 
         team0_100 = findViewById(R.id.team0_100);
         team0_100.setOnClickListener(l -> {
             game.add100Points(duos[0]);
-            updateDisplay();
+            updateGame();
         });
 
         team0_rest = findViewById(R.id.team0_rest);
         team0_rest.setOnClickListener(l -> {
             game.add1Point(duos[0]);
-            updateDisplay();
+            updateGame();
         });
 
         team0_V = findViewById(R.id.team0_V);
@@ -135,25 +137,25 @@ public class GameActivity extends AppCompatActivity {
         team1_20 = findViewById(R.id.team1_20);
         team1_20.setOnClickListener(l -> {
             game.add20Points(duos[1]);
-            updateDisplay();
+            updateGame();
         });
 
         team1_50 = findViewById(R.id.team1_50);
         team1_50.setOnClickListener(l -> {
             game.add50Points(duos[1]);
-            updateDisplay();
+            updateGame();
         });
 
         team1_100 = findViewById(R.id.team1_100);
         team1_100.setOnClickListener(l -> {
             game.add100Points(duos[1]);
-            updateDisplay();
+            updateGame();
         });
 
         team1_rest = findViewById(R.id.team1_rest);
         team1_rest.setOnClickListener(l -> {
             game.add1Point(duos[1]);
-            updateDisplay();
+            updateGame();
         });
 
         team1_V = findViewById(R.id.team1_V);
@@ -161,6 +163,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showPopUp(String title, String message, EditText input, DialogInterface.OnClickListener listener) {
+        //TODO: Remplacer par propre Dialog
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle(title)
@@ -171,6 +175,12 @@ public class GameActivity extends AppCompatActivity {
                 })
                 .create()
                 .show();
+    }
+
+    private void updateGame() {
+        updateDisplay();
+
+        //TODO: verifier état du jeu
     }
 
     private void updateDisplay() {
@@ -214,23 +224,25 @@ public class GameActivity extends AppCompatActivity {
         switch (toCompute) {
             case 1:
                 sb.append("a");
-                return sb.toString();
+                break;
 
             case 2:
                 sb.append("b");
-                return sb.toString();
+                break;
 
             case 3:
                 sb.append("c");
-                return sb.toString();
+                break;
 
             case 4:
                 sb.append("d");
-                return sb.toString();
+                break;
 
             default:
-                return sb.toString();
+                break;
         }
+
+        return sb.toString();
     }
 
     /**
