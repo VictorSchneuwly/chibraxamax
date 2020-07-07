@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/param_back"
+            android:id="@+id/param_return"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -187,22 +187,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <Button
-        android:id="@+id/historic_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="invisible"
-        android:enabled="false"
-        android:padding="15dp"
-        android:gravity="center"
-        android:text="@string/save"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:background="@drawable/button_primary" />
-
 
 </LinearLayout>

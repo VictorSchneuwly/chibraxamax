@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/param_back"
+            android:id="@+id/param_return"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

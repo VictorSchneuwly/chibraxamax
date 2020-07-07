@@ -1,31 +1,43 @@
 package com.schneuwly.victor.chibraxamax.controller;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.*;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.model.Duo;
 import com.schneuwly.victor.chibraxamax.model.Game;
-import com.schneuwly.victor.chibraxamax.model.GameDisplayParameters;
 import com.schneuwly.victor.chibraxamax.model.Player;
 
 import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
+    private final String firstTimeKey = "firstTime";
+    private final String touchPointsKey = "touchPoints";
+    private final String showMarksKey = "showMarks";
+    private final String showGuideKey = "showGuide";
+    private final String bigScoreKey = "bigScore";
+
     private TextView endScoreView,
             team0_name, team0_score, team0_big_score, team0_20, team0_50, team0_100, team0_rest, team0_V,
             team1_name, team1_score, team1_big_score, team1_20, team1_50, team1_100, team1_rest, team1_V;
+    private ImageView[] guides = new ImageView[2];
+
     private Button[] addButtons = new Button[2];
 
     private Button paramButton, historicButton;
 
-    private Dialog valuePopup, addPopup, endScorePopup;
+    private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, historicPopup;
     private EditText popupInput;
+
 
     //TODO: Create dialogue parameters and historic (Recycle View)
 
@@ -34,19 +46,20 @@ public class GameActivity extends AppCompatActivity {
     private Duo[] duos;
     private Game game;
 
-    //TODO: changer et faire de shared property
-    private GameDisplayParameters parameters;
+    private SharedPreferences preferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        preferences = getPreferences(MODE_PRIVATE);
 
         gameInit();
 
         gameInfos();
 
-        gameScores();
+        gameUI();
 
     }
 
@@ -65,14 +78,23 @@ public class GameActivity extends AppCompatActivity {
 
         game = new Game(duos[0], duos[1], Integer.parseInt(getResources().getString(R.string.default_score)));
 
-        parameters = new GameDisplayParameters(true, true, true, false);
+        if (getPreferences(MODE_PRIVATE).getBoolean(firstTimeKey, true)) {
+
+            preferences.edit()
+                    .putBoolean(firstTimeKey, false)
+                    .putBoolean(touchPointsKey, true)
+                    .putBoolean(bigScoreKey, false)
+                    .putBoolean(showGuideKey, true)
+                    .putBoolean(showMarksKey, true)
+                    .apply();
+        }
     }
 
     private void gameInfos() {
-        valuePopup = new Dialog(this);
+        valuePopup = new GamePopup(this);
         valuePopup.setContentView(R.layout.value_modifier_popup);
 
-        endScorePopup = new Dialog(this);
+        endScorePopup = new GamePopup(this);
         endScorePopup.setContentView(R.layout.end_score_popup);
 
         endScoreView = findViewById(R.id.score);
@@ -108,17 +130,24 @@ public class GameActivity extends AppCompatActivity {
             );
         });
 
-        paramButton = findViewById(R.id.param_button);
-        paramButton.setOnClickListener(l -> showParamPopup());
+    }
 
+    private void gameUI() {
+        parametersPopup = new GamePopup(this);
+        parametersPopup.setContentView(R.layout.parameter_popup);
+
+        paramButton = findViewById(R.id.parameter);
+        paramButton.setOnClickListener(l -> {
+            showParamPopup();
+        });
 
         historicButton = findViewById(R.id.historic);
         historicButton.setOnClickListener(l -> showHistoricPopup());
 
-    }
+        historicPopup = new GamePopup(this);
+        historicPopup.setContentView(R.layout.historic_popup);
 
-    private void gameScores() {
-        addPopup = new Dialog(this);
+        addPopup = new GamePopup(this);
         addPopup.setContentView(R.layout.add_popup);
 
         addButtons[0] = findViewById(R.id.add_button_1);
@@ -131,63 +160,70 @@ public class GameActivity extends AppCompatActivity {
             showAddPopUp(duos[1]);
         });
 
+        guides[0] = findViewById(R.id.z1);
+        guides[1] = findViewById(R.id.z2);
+
         team0_score = findViewById(R.id.team0_score);
         team1_score = findViewById(R.id.team1_score);
         team0_big_score = findViewById(R.id.team0_big_score);
         team1_big_score = findViewById(R.id.team1_big_score);
 
         team0_20 = findViewById(R.id.team0_20);
+        team0_50 = findViewById(R.id.team0_50);
+        team0_100 = findViewById(R.id.team0_100);
+        team0_rest = findViewById(R.id.team0_rest);
+        team0_V = findViewById(R.id.team0_V);
+
+        team1_20 = findViewById(R.id.team1_20);
+        team1_50 = findViewById(R.id.team1_50);
+        team1_100 = findViewById(R.id.team1_100);
+        team1_rest = findViewById(R.id.team1_rest);
+        team1_V = findViewById(R.id.team1_V);
+
         team0_20.setOnClickListener(l -> {
             game.add20Points(duos[0]);
             updateGame();
         });
 
-
-        team0_50 = findViewById(R.id.team0_50);
         team0_50.setOnClickListener(l -> {
             game.add50Points(duos[0]);
             updateGame();
         });
 
-        team0_100 = findViewById(R.id.team0_100);
+
         team0_100.setOnClickListener(l -> {
             game.add100Points(duos[0]);
             updateGame();
         });
 
-        team0_rest = findViewById(R.id.team0_rest);
         team0_rest.setOnClickListener(l -> {
             game.add1Point(duos[0]);
             updateGame();
         });
 
-        team0_V = findViewById(R.id.team0_V);
 
-        team1_20 = findViewById(R.id.team1_20);
         team1_20.setOnClickListener(l -> {
             game.add20Points(duos[1]);
             updateGame();
         });
 
-        team1_50 = findViewById(R.id.team1_50);
         team1_50.setOnClickListener(l -> {
             game.add50Points(duos[1]);
             updateGame();
         });
 
-        team1_100 = findViewById(R.id.team1_100);
         team1_100.setOnClickListener(l -> {
             game.add100Points(duos[1]);
             updateGame();
         });
 
-        team1_rest = findViewById(R.id.team1_rest);
         team1_rest.setOnClickListener(l -> {
             game.add1Point(duos[1]);
             updateGame();
         });
 
-        team1_V = findViewById(R.id.team1_V);
+        updateUI();
+
     }
 
     private void showValuePopUp(String title, String message, EditText input, View.OnClickListener listener) {
@@ -212,7 +248,7 @@ public class GameActivity extends AppCompatActivity {
         valuePopup.show();
     }
 
-    private void showEndScorePopUp(){
+    private void showEndScorePopUp() {
         TextView score, ok, cancel;
         Button clear_button, erase_button, button_1000, button_1500, button_2500;
         Button[] digits = new Button[10];
@@ -300,7 +336,7 @@ public class GameActivity extends AppCompatActivity {
         Button[] digits = new Button[10];
 
         title = addPopup.findViewById(R.id.popup_title);
-        title.setText(getResources().getString(R.string.add_title_without_name) + duo.getName());
+        title.setText(getResources().getString(R.string.add_title_without_name) + " " + duo.getName());
         score = addPopup.findViewById(R.id.popup_score);
         score.setText("0");
         total = addPopup.findViewById(R.id.popup_total);
@@ -393,11 +429,55 @@ public class GameActivity extends AppCompatActivity {
         addPopup.show();
     }
 
-    private void showParamPopup(){
+    private void showParamPopup() {
+
+        Button paramReturn = parametersPopup.findViewById(R.id.param_return);
+
+        paramReturn.setOnClickListener(l -> {
+            updateUI();
+            parametersPopup.dismiss();
+        });
+
+        CheckBox touchPointsCheckBox = parametersPopup.findViewById(R.id.param_touch_points_checkBox);
+        CheckBox showMarksCheckBox = parametersPopup.findViewById(R.id.param_marks_checkBox);
+        CheckBox showGuideCheckBox = parametersPopup.findViewById(R.id.param_guide_checkBox);
+        CheckBox bigScoreCheckBox = parametersPopup.findViewById(R.id.param_big_score_checkBox);
+
+        touchPointsCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchPointsKey, true));
+        showMarksCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(showMarksKey, true));
+        showGuideCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(showGuideKey, true));
+        bigScoreCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(bigScoreKey, false));
+
+        touchPointsCheckBox.setOnClickListener(l -> {
+            preferences.edit()
+                    .putBoolean(touchPointsKey, touchPointsCheckBox.isChecked())
+                    .apply();
+        });
+
+        showMarksCheckBox.setOnClickListener(l -> {
+            preferences.edit()
+                    .putBoolean(showMarksKey, showMarksCheckBox.isChecked())
+                    .apply();
+        });
+
+        showGuideCheckBox.setOnClickListener(l -> {
+            preferences.edit()
+                    .putBoolean(showGuideKey, showGuideCheckBox.isChecked())
+                    .apply();
+        });
+
+        bigScoreCheckBox.setOnClickListener(l -> {
+            preferences.edit()
+                    .putBoolean(bigScoreKey, bigScoreCheckBox.isChecked())
+                    .apply();
+        });
+
+        Objects.requireNonNull(parametersPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        parametersPopup.show();
 
     }
 
-    private void showHistoricPopup(){
+    private void showHistoricPopup() {
 
     }
 
@@ -411,6 +491,7 @@ public class GameActivity extends AppCompatActivity {
     private void updateInfosDisplay() {
         endScoreView.setText(String.valueOf(game.getEndScore()));
 
+        team0_name.setText(duos[0].getName());
         setTeam0Score(duos[0].getTotalPoints());
         team0_20.setText(tallyMarks(duos[0].getPointsDisplay().getNb20()));
         team0_50.setText(xMarks(duos[0].getPointsDisplay().getNb50()));
@@ -418,6 +499,7 @@ public class GameActivity extends AppCompatActivity {
         team0_rest.setText(String.valueOf(duos[0].getPointsDisplay().getRest()));
         team0_V.setText(vMarks(duos[0].getPointsDisplay().getNbV()));
 
+        team1_name.setText(duos[1].getName());
         setTeam1Score(duos[1].getTotalPoints());
         team1_20.setText(tallyMarks(duos[1].getPointsDisplay().getNb20()));
         team1_50.setText(xMarks(duos[1].getPointsDisplay().getNb50()));
@@ -427,43 +509,82 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        //TODO: hide stuff if needed
 
-        if (parameters.touchPointsEnabled()){
+        boolean touchPoints = getPreferences(MODE_PRIVATE).getBoolean(touchPointsKey, true);
+
+        team0_20.setEnabled(touchPoints);
+        team0_50.setEnabled(touchPoints);
+        team0_100.setEnabled(touchPoints);
+        team0_rest.setEnabled(touchPoints);
+
+        team1_20.setEnabled(touchPoints);
+        team1_50.setEnabled(touchPoints);
+        team1_100.setEnabled(touchPoints);
+        team1_rest.setEnabled(touchPoints);
+
+        if (getPreferences(MODE_PRIVATE).getBoolean(bigScoreKey, false)) {
+            team0_score.setVisibility(View.INVISIBLE);
+            team0_big_score.setVisibility(View.VISIBLE);
+
+            team1_score.setVisibility(View.INVISIBLE);
+            team1_big_score.setVisibility(View.VISIBLE);
+
+            setMarksColor(getResources().getColor(R.color.primary, getTheme()));
+
 
         } else {
+            team0_score.setVisibility(View.VISIBLE);
+            team0_big_score.setVisibility(View.INVISIBLE);
 
+            team1_score.setVisibility(View.VISIBLE);
+            team1_big_score.setVisibility(View.INVISIBLE);
+
+            setMarksColor(Color.WHITE);
         }
 
-        if (parameters.isScoreBig()){
+        int showGuideVisibility = (getPreferences(MODE_PRIVATE).getBoolean(showGuideKey, true)) ? View.VISIBLE : View.INVISIBLE;
 
-        } else {
+        guides[0].setVisibility(showGuideVisibility);
+        guides[1].setVisibility(showGuideVisibility);
 
-        }
+        int showMarksVisibility = (getPreferences(MODE_PRIVATE).getBoolean(showMarksKey, true)) ? View.VISIBLE : View.INVISIBLE;
 
-        if (parameters.isGuideShown()){
+        team0_20.setVisibility(showMarksVisibility);
+        team0_50.setVisibility(showMarksVisibility);
+        team0_100.setVisibility(showMarksVisibility);
+        team0_rest.setVisibility(showMarksVisibility);
+        team0_V.setVisibility(showMarksVisibility);
 
-        } else {
-
-        }
-
-        if (parameters.areMarksShown()){
-
-        } else {
-
-        }
+        team1_20.setVisibility(showMarksVisibility);
+        team1_50.setVisibility(showMarksVisibility);
+        team1_100.setVisibility(showMarksVisibility);
+        team1_rest.setVisibility(showMarksVisibility);
+        team1_V.setVisibility(showMarksVisibility);
     }
 
-        private void setTeam0Score(int score){
+    private void setTeam0Score(int score) {
         team0_score.setText(String.valueOf(score));
         team0_big_score.setText(String.valueOf(score));
     }
 
-    private void setTeam1Score(int score){
+    private void setTeam1Score(int score) {
         team1_score.setText(String.valueOf(score));
         team1_big_score.setText(String.valueOf(score));
     }
 
+    private void setMarksColor(int color){
+        team0_20.setTextColor(color);
+        team0_50.setTextColor(color);
+        team0_100.setTextColor(color);
+        team0_rest.setTextColor(color);
+        team0_V.setTextColor(color);
+
+        team1_20.setTextColor(color);
+        team1_50.setTextColor(color);
+        team1_100.setTextColor(color);
+        team1_rest.setTextColor(color);
+        team1_V.setTextColor(color);
+    }
 
     /**
      * Returns the tally marks representation of a given number (using the tally marks font).
@@ -549,5 +670,18 @@ public class GameActivity extends AppCompatActivity {
             sb.append("V");
         }
         return sb.toString();
+    }
+
+    private class GamePopup extends Dialog {
+
+        public GamePopup(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            updateGame();
+        }
     }
 }

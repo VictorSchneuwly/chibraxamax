@@ -11,7 +11,7 @@
     <string name="guide_description">Guide</string>
     <string name="default_rest">0</string>
     <string name="empty"></string>
-    <string name="add_title_without_name">Ajout de points à </string>
+    <string name="add_title_without_name">Ajout de points à</string>
     <string name="end_score_popup_score">Score</string>
     <string name="end_score_popup_message">Changer le score final:</string>
     <string name="param_title">Paramètre</string>
