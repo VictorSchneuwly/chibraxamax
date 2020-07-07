@@ -116,8 +116,14 @@ public class Game {
         return bothOver;
     }
 
+    public Duo getWinner() {
+        return winner;
+    }
+
     public void restart() {
         winner = null;
+        over = false;
+        bothOver = false;
         for (Duo duo : duos) {
             duo.reinitialisePoints();
         }
@@ -125,6 +131,7 @@ public class Game {
 
     public void setWinner(Duo winner) {
         this.winner = winner;
+        bothOver = false;
         over = true;
         addWin();
     }

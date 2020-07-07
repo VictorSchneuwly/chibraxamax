@@ -3,7 +3,6 @@ package com.schneuwly.victor.chibraxamax.controller;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.model.Duo;
 import com.schneuwly.victor.chibraxamax.model.Game;
 import com.schneuwly.victor.chibraxamax.model.Player;
+import com.schneuwly.victor.chibraxamax.model.abstractEntitiy.PlayingEntity;
 
 import java.util.Objects;
 
@@ -35,11 +35,11 @@ public class GameActivity extends AppCompatActivity {
 
     private Button paramButton, historicButton;
 
-    private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, historicPopup;
+    private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, historicPopup, endPopup;
     private EditText popupInput;
 
 
-    //TODO: Create dialogue parameters and historic (Recycle View)
+    //TODO: Create dialogue historic (Recycle View)
 
     //Model
     private Player[] players;
@@ -133,6 +133,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void gameUI() {
+        endPopup = new GamePopup(this, false);
+        endPopup.setContentView(R.layout.end_popup);
+
         parametersPopup = new GamePopup(this);
         parametersPopup.setContentView(R.layout.parameter_popup);
 
@@ -485,7 +488,66 @@ public class GameActivity extends AppCompatActivity {
         updateInfosDisplay();
         updateUI();
 
-        //TODO: verifier état du jeu
+        if(game.areBothOver()){
+            showDrawPopup();
+        } else if(game.isOver()){
+            showVictoryPopup(game.getWinner());
+        }
+
+    }
+
+    private void showVictoryPopup(PlayingEntity winner){
+        TextView title_view, message_view, butt1, restart;
+
+        title_view = endPopup.findViewById(R.id.popup_title);
+        message_view = endPopup.findViewById(R.id.popup_message);
+
+        title_view.setText(String.format("Félicitation %s !", winner.getName()));
+        message_view.setText(String.format("Bravo à %s pour cette belle victoire !",winner.getName()));
+
+        butt1 = endPopup.findViewById(R.id.popup_button_1);
+        restart = endPopup.findViewById(R.id.popup_button_2);
+
+        butt1.setVisibility(View.GONE);
+        butt1.setEnabled(false);
+
+        restart.setText("Recommencer");
+        restart.setOnClickListener(l -> {
+            game.restart();
+            updateGame();
+            endPopup.dismiss();
+        });
+
+        Objects.requireNonNull(endPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        endPopup.show();
+    }
+
+    private void showDrawPopup(){
+        TextView title_view, message_view, team0_butt, team1_butt;
+
+        title_view = endPopup.findViewById(R.id.popup_title);
+        message_view = endPopup.findViewById(R.id.popup_message);
+
+        title_view.setText("Les deux équipes ont passé le score final");
+        message_view.setText("Quelle équipe a passé le score en premier ?");
+
+        team0_butt = endPopup.findViewById(R.id.popup_button_1);
+        team1_butt = endPopup.findViewById(R.id.popup_button_2);
+
+        team0_butt.setText(duos[0].getName());
+        team0_butt.setOnClickListener(l -> {
+            game.setWinner(duos[0]);
+            updateGame();
+        });
+
+        team1_butt.setText(duos[1].getName());
+        team1_butt.setOnClickListener(l -> {
+            game.setWinner(duos[1]);
+            updateGame();
+        });
+
+        Objects.requireNonNull(endPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        endPopup.show();
     }
 
     private void updateInfosDisplay() {
@@ -673,15 +735,23 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private class GamePopup extends Dialog {
+        private boolean backEnable;
+
+        public GamePopup(@NonNull Context context, boolean backEnable) {
+            super(context);
+            this.backEnable = backEnable;
+        }
 
         public GamePopup(@NonNull Context context) {
-            super(context);
+            this(context, true);
         }
 
         @Override
         public void onBackPressed() {
-            super.onBackPressed();
-            updateGame();
+            if (backEnable) {
+                super.onBackPressed();
+                updateGame();
+            }
         }
     }
 }
