@@ -5,4 +5,6 @@
     <dimen name="add_popup_width">300dp</dimen>
     <dimen name="popup_editText_width">180dp</dimen>
     <dimen name="end_popup_width">250dp</dimen>
+    <dimen name="historic_popup_height">404dp</dimen>
+    <dimen name="historic_popup_width">250dp</dimen>
 </resources>
