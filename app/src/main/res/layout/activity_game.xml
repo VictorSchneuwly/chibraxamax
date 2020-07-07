@@ -193,6 +193,21 @@
         app:layout_constraintStart_toStartOf="@+id/z1"
         app:layout_constraintTop_toTopOf="@+id/z1" />
 
+    <TextView
+        android:id="@+id/team0_big_score"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:fontFamily="@font/adam_bold"
+        android:text="@string/default_team_score"
+        android:textColor="@android:color/white"
+        android:textSize="100sp"
+        app:layout_constraintBottom_toBottomOf="@+id/z1"
+        app:layout_constraintEnd_toEndOf="@+id/z1"
+        app:layout_constraintStart_toStartOf="@+id/z1"
+        app:layout_constraintTop_toTopOf="@+id/z1" />
+
     <!-- Top -->
     <TextView
         android:id="@+id/team1_name"
@@ -320,6 +335,22 @@
         app:layout_constraintBottom_toBottomOf="@+id/z2"
         app:layout_constraintEnd_toEndOf="@+id/z2"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/z2"
+        app:layout_constraintTop_toTopOf="@+id/z2" />
+
+    <TextView
+        android:id="@+id/team1_big_score"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:rotation="180"
+        android:visibility="invisible"
+        android:fontFamily="@font/adam_bold"
+        android:text="@string/default_team_score"
+        android:textColor="@android:color/white"
+        android:textSize="100sp"
+        app:layout_constraintBottom_toBottomOf="@+id/z2"
+        app:layout_constraintEnd_toEndOf="@+id/z2"
         app:layout_constraintStart_toStartOf="@+id/z2"
         app:layout_constraintTop_toTopOf="@+id/z2" />
 

@@ -22,6 +22,7 @@ public class SplashActivity extends AppCompatActivity {
             //Intent startIntent = new Intent(SplashActivity.this, MenuActivity.class);
             Intent startIntent = new Intent(SplashActivity.this, GameActivity.class);
             startActivity(startIntent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         }, SPLASH_SCREEN);
     }

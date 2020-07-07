@@ -22,4 +22,7 @@
     <string name="historic_reinitialise">Réinitialiser</string>
     <string name="historic"></string>
     <string name="prameter"></string>
+    <string name="save">Sauvegarder</string>
+    <string name="param_guide">Afficher les guides (Z)</string>
+    <string name="param_marks">Afficher les marques</string>
 </resources>

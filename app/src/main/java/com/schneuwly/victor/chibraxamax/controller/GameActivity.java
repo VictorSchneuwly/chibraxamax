@@ -11,15 +11,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.model.Duo;
 import com.schneuwly.victor.chibraxamax.model.Game;
+import com.schneuwly.victor.chibraxamax.model.GameDisplayParameters;
 import com.schneuwly.victor.chibraxamax.model.Player;
 
 import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
     private TextView endScoreView,
-            team0_name, team0_score, team0_20, team0_50, team0_100, team0_rest, team0_V,
-            team1_name, team1_score, team1_20, team1_50, team1_100, team1_rest, team1_V;
+            team0_name, team0_score, team0_big_score, team0_20, team0_50, team0_100, team0_rest, team0_V,
+            team1_name, team1_score, team1_big_score, team1_20, team1_50, team1_100, team1_rest, team1_V;
     private Button[] addButtons = new Button[2];
+
+    private Button paramButton, historicButton;
 
     private Dialog valuePopup, addPopup, endScorePopup;
     private EditText popupInput;
@@ -30,6 +33,9 @@ public class GameActivity extends AppCompatActivity {
     private Player[] players;
     private Duo[] duos;
     private Game game;
+
+    //TODO: changer et faire de shared property
+    private GameDisplayParameters parameters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,8 @@ public class GameActivity extends AppCompatActivity {
         };
 
         game = new Game(duos[0], duos[1], Integer.parseInt(getResources().getString(R.string.default_score)));
+
+        parameters = new GameDisplayParameters(true, true, true, false);
     }
 
     private void gameInfos() {
@@ -99,6 +107,14 @@ public class GameActivity extends AppCompatActivity {
                     }
             );
         });
+
+        paramButton = findViewById(R.id.param_button);
+        paramButton.setOnClickListener(l -> showParamPopup());
+
+
+        historicButton = findViewById(R.id.historic);
+        historicButton.setOnClickListener(l -> showHistoricPopup());
+
     }
 
     private void gameScores() {
@@ -117,6 +133,8 @@ public class GameActivity extends AppCompatActivity {
 
         team0_score = findViewById(R.id.team0_score);
         team1_score = findViewById(R.id.team1_score);
+        team0_big_score = findViewById(R.id.team0_big_score);
+        team1_big_score = findViewById(R.id.team1_big_score);
 
         team0_20 = findViewById(R.id.team0_20);
         team0_20.setOnClickListener(l -> {
@@ -375,29 +393,77 @@ public class GameActivity extends AppCompatActivity {
         addPopup.show();
     }
 
+    private void showParamPopup(){
+
+    }
+
+    private void showHistoricPopup(){
+
+    }
+
     private void updateGame() {
-        updateDisplay();
+        updateInfosDisplay();
+        updateUI();
 
         //TODO: verifier état du jeu
     }
 
-    private void updateDisplay() {
+    private void updateInfosDisplay() {
         endScoreView.setText(String.valueOf(game.getEndScore()));
 
-        team0_score.setText(String.valueOf(duos[0].getTotalPoints()));
+        setTeam0Score(duos[0].getTotalPoints());
         team0_20.setText(tallyMarks(duos[0].getPointsDisplay().getNb20()));
         team0_50.setText(xMarks(duos[0].getPointsDisplay().getNb50()));
         team0_100.setText(tallyMarks(duos[0].getPointsDisplay().getNb100()));
         team0_rest.setText(String.valueOf(duos[0].getPointsDisplay().getRest()));
         team0_V.setText(vMarks(duos[0].getPointsDisplay().getNbV()));
 
-        team1_score.setText(String.valueOf(duos[1].getTotalPoints()));
+        setTeam1Score(duos[1].getTotalPoints());
         team1_20.setText(tallyMarks(duos[1].getPointsDisplay().getNb20()));
         team1_50.setText(xMarks(duos[1].getPointsDisplay().getNb50()));
         team1_100.setText(tallyMarks(duos[1].getPointsDisplay().getNb100()));
         team1_rest.setText(String.valueOf(duos[1].getPointsDisplay().getRest()));
         team1_V.setText(vMarks(duos[1].getPointsDisplay().getNbV()));
     }
+
+    private void updateUI() {
+        //TODO: hide stuff if needed
+
+        if (parameters.touchPointsEnabled()){
+
+        } else {
+
+        }
+
+        if (parameters.isScoreBig()){
+
+        } else {
+
+        }
+
+        if (parameters.isGuideShown()){
+
+        } else {
+
+        }
+
+        if (parameters.areMarksShown()){
+
+        } else {
+
+        }
+    }
+
+        private void setTeam0Score(int score){
+        team0_score.setText(String.valueOf(score));
+        team0_big_score.setText(String.valueOf(score));
+    }
+
+    private void setTeam1Score(int score){
+        team1_score.setText(String.valueOf(score));
+        team1_big_score.setText(String.valueOf(score));
+    }
+
 
     /**
      * Returns the tally marks representation of a given number (using the tally marks font).
