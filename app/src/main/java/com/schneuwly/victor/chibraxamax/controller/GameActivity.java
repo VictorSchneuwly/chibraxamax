@@ -38,9 +38,6 @@ public class GameActivity extends AppCompatActivity {
     private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, historicPopup, endPopup;
     private EditText popupInput;
 
-
-    //TODO: Create dialogue historic (Recycle View)
-
     //Model
     private Player[] players;
     private Duo[] duos;
@@ -334,7 +331,7 @@ public class GameActivity extends AppCompatActivity {
 
         TextView title, score, total, ok, cancel, announce;
         RadioGroup radioGroup;
-        RadioButton radioButton;
+        final int[] multiplier = {1};
         Button match_button, clear_button, erase_button;
         Button[] digits = new Button[10];
 
@@ -349,6 +346,17 @@ public class GameActivity extends AppCompatActivity {
         announce = addPopup.findViewById(R.id.popup_annonce);
 
         radioGroup = addPopup.findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener((g, id) -> {
+            multiplier[0] = Integer.parseInt(
+                    (String) addPopup.findViewById(id).getTag());
+
+            int inputScore = Integer.parseInt(score.getText().toString());
+
+            total.setText(
+                    computeTotal(inputScore, multiplier[0])
+            );
+
+        });
 
         match_button = addPopup.findViewById(R.id.popup_match);
         clear_button = addPopup.findViewById(R.id.popup_clear);
@@ -376,31 +384,27 @@ public class GameActivity extends AppCompatActivity {
 
                     score.setText(newInput);
                     total.setText(
-                            String.format("Total: %s (Adversaire: %s)", newInput,
-                                    (Integer.parseInt(newInput) >= 157) ? "0" : Game.MAX_POINTS - Integer.parseInt(newInput))
+                            computeTotal(Integer.parseInt(newInput), multiplier[0])
                     );
                 }
 
             });
         }
 
-        //TODO: multiplication
-
         match_button.setOnClickListener(l -> {
             score.setText(String.valueOf(Game.MATCH_POINTS));
             total.setText(
-                    String.format("Total: %s (Adversaire: %s)", Game.MATCH_POINTS, "0")
+                    computeTotal(Game.MATCH_POINTS, multiplier[0])
             );
         });
 
         erase_button.setOnClickListener(l -> {
             String currentInput = score.getText().toString();
-            String newInput = currentInput.substring(0, currentInput.length() - 1);
+            String newInput = (currentInput.length() > 1) ? currentInput.substring(0, currentInput.length() - 1) : "0";
 
             score.setText(newInput);
             total.setText(
-                    String.format("Total: %s (Adversaire: %s)", newInput,
-                            (Integer.parseInt(newInput) >= 157) ? "0" : Game.MAX_POINTS - Integer.parseInt(newInput))
+                    computeTotal(Integer.parseInt(newInput), multiplier[0])
             );
 
         });
@@ -408,20 +412,20 @@ public class GameActivity extends AppCompatActivity {
         clear_button.setOnClickListener(l -> {
             score.setText("0");
             total.setText(
-                    String.format("Total: %s (Adversaire: %s)", "0", "157")
+                    computeTotal(0, multiplier[0])
             );
         });
 
         ok.setOnClickListener(l -> {
             int inputScore = Integer.parseInt(score.getText().toString());
-            game.addPointsForBothDuo(duo, inputScore);
+            game.addPointsForBothDuo(duo, inputScore, multiplier[0]);
             updateGame();
             addPopup.dismiss();
         });
 
         announce.setOnClickListener(l -> {
             int inputScore = Integer.parseInt(score.getText().toString());
-            game.addPoints(duo, inputScore);
+            game.addPoints(duo, inputScore, multiplier[0]);
             updateGame();
             addPopup.dismiss();
         });
@@ -430,6 +434,11 @@ public class GameActivity extends AppCompatActivity {
 
         Objects.requireNonNull(addPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         addPopup.show();
+    }
+
+    private String computeTotal(int input, int multiplier) {
+        return String.format("Total: %s (Adversaire: %s)", input * multiplier,
+                (input >= 157) ? "0" : (Game.MAX_POINTS - input) * multiplier);
     }
 
     private void showParamPopup() {
@@ -481,29 +490,29 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showHistoricPopup() {
-
+        //TODO: Create dialogue historic (Recycle View)
     }
 
     private void updateGame() {
         updateInfosDisplay();
         updateUI();
 
-        if(game.areBothOver()){
+        if (game.areBothOver()) {
             showDrawPopup();
-        } else if(game.isOver()){
+        } else if (game.isOver()) {
             showVictoryPopup(game.getWinner());
         }
 
     }
 
-    private void showVictoryPopup(PlayingEntity winner){
+    private void showVictoryPopup(PlayingEntity winner) {
         TextView title_view, message_view, butt1, restart;
 
         title_view = endPopup.findViewById(R.id.popup_title);
         message_view = endPopup.findViewById(R.id.popup_message);
 
         title_view.setText(String.format("Félicitation %s !", winner.getName()));
-        message_view.setText(String.format("Bravo à %s pour cette belle victoire !",winner.getName()));
+        message_view.setText(String.format("Bravo à %s pour cette belle victoire !", winner.getName()));
 
         butt1 = endPopup.findViewById(R.id.popup_button_1);
         restart = endPopup.findViewById(R.id.popup_button_2);
@@ -522,7 +531,7 @@ public class GameActivity extends AppCompatActivity {
         endPopup.show();
     }
 
-    private void showDrawPopup(){
+    private void showDrawPopup() {
         TextView title_view, message_view, team0_butt, team1_butt;
 
         title_view = endPopup.findViewById(R.id.popup_title);
@@ -634,7 +643,7 @@ public class GameActivity extends AppCompatActivity {
         team1_big_score.setText(String.valueOf(score));
     }
 
-    private void setMarksColor(int color){
+    private void setMarksColor(int color) {
         team0_20.setTextColor(color);
         team0_50.setTextColor(color);
         team0_100.setTextColor(color);

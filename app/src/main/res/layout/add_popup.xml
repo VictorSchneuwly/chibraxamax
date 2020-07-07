@@ -59,6 +59,9 @@
             android:id="@+id/radioButton_1x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:buttonTint="@color/primaryDark"
+            android:tag="4"
             android:textColor="@android:color/white"
             android:text="x1"
             android:checked="true" />
@@ -68,6 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:tag="2"
+            android:buttonTint="@color/primaryDark"
             android:textColor="@android:color/white"
             android:text="x2" />
 
@@ -75,6 +80,9 @@
             android:id="@+id/radioButton_3x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:tag="3"
+            android:buttonTint="@color/primaryDark"
             android:textColor="@android:color/white"
             android:text="x3" />
 
@@ -82,6 +90,9 @@
             android:id="@+id/radioButton_4x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/primaryDark"
+            android:layout_margin="5dp"
+            android:tag="4"
             android:textColor="@android:color/white"
             android:text="x4" />
     </RadioGroup>

@@ -51,9 +51,9 @@ public class Duo extends PlayingEntity {
         totalPoints = 0;
     }
 
-    void addPoints(int points) {
-        pointsDisplay.calculatePointsToDisplay(points);
-        totalPoints += points;
+    void addPoints(int points, int multiplier) {
+        pointsDisplay.calculatePointsToDisplay(points * multiplier);
+        totalPoints += points * multiplier;
     }
 
 
