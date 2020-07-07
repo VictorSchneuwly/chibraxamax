@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:text="x1"
-            android:checked="true"/>
+            android:checked="true" />
 
         <RadioButton
             android:id="@+id/radioButton_2x"
@@ -234,18 +234,16 @@
                 android:textColor="@android:color/white"
                 android:background="@drawable/button_primary" />
 
-            <!-- TODO: Design du bouton -->
-
             <Button
                 android:id="@+id/popup_erase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
                 android:textAllCaps="false"
-                android:text="Oui"
+                android:fontFamily="@font/font_awesome_5"
+                android:text="@string/right_arrow"
                 android:textColor="@android:color/white"
                 android:background="@drawable/button_primary" />
-
         </TableRow>
 
     </TableLayout>

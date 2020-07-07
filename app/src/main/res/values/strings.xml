@@ -14,4 +14,6 @@
     <string name="add_title_without_name">Ajout de points à </string>
     <string name="end_score_popup_score">Score</string>
     <string name="end_score_popup_message">Changer le score final:</string>
+    <string name="param_title">Paramètre</string>
+    <string name="right_arrow"></string>
 </resources>
