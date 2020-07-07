@@ -25,4 +25,6 @@
     <string name="save">Sauvegarder</string>
     <string name="param_guide">Afficher les guides (Z)</string>
     <string name="param_marks">Afficher les marques</string>
+    <string name="cie_name"><![CDATA[Truc&Muche]]></string>
+    <string name="cie_sign"><![CDATA[- Truc&Muche -]]></string>
 </resources>
