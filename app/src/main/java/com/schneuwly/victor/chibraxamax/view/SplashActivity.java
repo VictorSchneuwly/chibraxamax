@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import com.schneuwly.victor.chibraxamax.R;
+import com.schneuwly.victor.chibraxamax.controller.GameActivity;
 import com.schneuwly.victor.chibraxamax.controller.MenuActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -17,7 +18,9 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {
-            Intent startIntent = new Intent(SplashActivity.this, MenuActivity.class);
+            //TODO: A changer quand menu plus fourni
+            //Intent startIntent = new Intent(SplashActivity.this, MenuActivity.class);
+            Intent startIntent = new Intent(SplashActivity.this, GameActivity.class);
             startActivity(startIntent);
             finish();
         }, SPLASH_SCREEN);

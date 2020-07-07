@@ -16,4 +16,10 @@
     <string name="end_score_popup_message">Changer le score final:</string>
     <string name="param_title">Paramètre</string>
     <string name="right_arrow"></string>
+    <string name="param_big_score">Afficher score en grand</string>
+    <string name="param_touch_points">Ajouter points en touchant l\'écran</string>
+    <string name="historic_title">Historique</string>
+    <string name="historic_reinitialise">Réinitialiser</string>
+    <string name="historic"></string>
+    <string name="prameter"></string>
 </resources>
