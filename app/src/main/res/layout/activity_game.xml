@@ -75,10 +75,11 @@
     <!-- Bottom -->
     <TextView
         android:id="@+id/team0_name"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/default_name_team0"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/line1"
@@ -210,11 +211,12 @@
     <!-- Top -->
     <TextView
         android:id="@+id/team1_name"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:rotation="180"
         android:text="@string/default_name_team1"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/end_line"

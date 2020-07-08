@@ -727,19 +727,9 @@ public class GameActivity extends AppCompatActivity {
         guides[0].setVisibility(showGuideVisibility);
         guides[1].setVisibility(showGuideVisibility);
 
-        int showMarksVisibility = (getPreferences(MODE_PRIVATE).getBoolean(showMarksKey, true)) ? View.VISIBLE : View.INVISIBLE;
+        float showMarksVisibility = (getPreferences(MODE_PRIVATE).getBoolean(showMarksKey, true)) ? 1f : 0f;
 
-        team0_20.setVisibility(showMarksVisibility);
-        team0_50.setVisibility(showMarksVisibility);
-        team0_100.setVisibility(showMarksVisibility);
-        team0_rest.setVisibility(showMarksVisibility);
-        team0_V.setVisibility(showMarksVisibility);
-
-        team1_20.setVisibility(showMarksVisibility);
-        team1_50.setVisibility(showMarksVisibility);
-        team1_100.setVisibility(showMarksVisibility);
-        team1_rest.setVisibility(showMarksVisibility);
-        team1_V.setVisibility(showMarksVisibility);
+        setMarksAlpha(showMarksVisibility);
     }
 
     private void setTeam0Score(int score) {
@@ -764,6 +754,19 @@ public class GameActivity extends AppCompatActivity {
         team1_100.setTextColor(color);
         team1_rest.setTextColor(color);
         team1_V.setTextColor(color);
+    }
+
+    private void setMarksAlpha(float alpha) {
+        team0_20.setAlpha(alpha);
+        team0_50.setAlpha(alpha);
+        team0_100.setAlpha(alpha);
+        team0_rest.setAlpha(alpha);
+        team0_V.setAlpha(alpha);
+        team1_20.setAlpha(alpha);
+        team1_50.setAlpha(alpha);
+        team1_100.setAlpha(alpha);
+        team1_rest.setAlpha(alpha);
+        team1_V.setAlpha(alpha);
     }
 
     /**
