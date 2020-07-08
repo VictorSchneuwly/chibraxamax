@@ -265,7 +265,7 @@
             android:id="@+id/popup_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/adam_bold"
+            android:fontFamily="sans-serif"
             android:padding="5dp"
             android:text="Ok"
             android:textAllCaps="false"
