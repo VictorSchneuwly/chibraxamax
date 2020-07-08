@@ -13,7 +13,7 @@ import java.util.Comparator;
 public class Duo extends PlayingEntity {
     private final Player[] players = new Player[2];
     private final PointsDisplay pointsDisplay;
-    private int totalPoints;
+    private int totalPoints, totalAnnounce;
 
     public Duo(Player player1, Player player2, Record record, String teamName) {
         super(teamName, record);
@@ -23,6 +23,7 @@ public class Duo extends PlayingEntity {
 
         pointsDisplay = new PointsDisplay();
         totalPoints = 0;
+        totalAnnounce = 0;
     }
 
     public Duo(Player player1, Player player2, Record record) {
@@ -42,6 +43,10 @@ public class Duo extends PlayingEntity {
         return totalPoints;
     }
 
+    public int getTotalAnnounce() {
+        return totalAnnounce;
+    }
+
     public boolean contains(Player player) {
         return player.equals(players[0]) || player.equals(players[1]);
     }
@@ -49,11 +54,16 @@ public class Duo extends PlayingEntity {
     public void reinitialisePoints() {
         pointsDisplay.reinitialise();
         totalPoints = 0;
+        totalAnnounce = 0;
     }
 
-    void addPoints(int points, int multiplier) {
+    void addPoints(int points, int multiplier, boolean announce) {
         pointsDisplay.calculatePointsToDisplay(points * multiplier);
         totalPoints += points * multiplier;
+
+        if (announce) {
+            totalAnnounce += points * multiplier;
+        }
     }
 
 

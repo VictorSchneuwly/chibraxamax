@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/historic_popup_width"
     android:layout_height="@dimen/historic_popup_height"
     android:layout_gravity="center"
@@ -19,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/historic_return"
+            android:id="@+id/stat_return"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -29,19 +30,50 @@
             android:textColor="@android:color/white" />
 
         <TextView
-            android:id="@+id/historic_title"
+            android:id="@+id/stat_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/historic_title"
+            android:text="@string/stat_title"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/stat_choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_layout">
+
+        <TextView
+            android:id="@+id/stat_historic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:padding="5dp"
+            android:text="@string/historic_title" />
+
+        <TextView
+            android:id="@+id/stat_announce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/announce_title"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:padding="5dp"
+            android:background="@color/primaryDark"/>
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/historic_team0"
+        android:id="@+id/stat_team0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -54,11 +86,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_layout"
+        app:layout_constraintTop_toBottomOf="@id/stat_choice"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/historic_team1"
+        android:id="@+id/stat_team1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -66,10 +98,50 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/historic_team0"
-        app:layout_constraintStart_toEndOf="@id/historic_team0"
+        app:layout_constraintBottom_toBottomOf="@id/stat_team0"
+        app:layout_constraintStart_toEndOf="@id/stat_team0"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/historic_team0" />
+        app:layout_constraintTop_toTopOf="@id/stat_team0" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/announce_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line">
+
+        <TextView
+            android:id="@+id/announce_team0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="157"
+            android:textSize="20dp"
+            android:fontFamily="@font/adam_bold"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/announce_team1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="157"
+            android:fontFamily="@font/adam_bold"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/announce_team0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/announce_team0"
+            app:layout_constraintTop_toTopOf="@+id/announce_team0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/line"
@@ -79,13 +151,12 @@
         android:background="@color/primaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/historic_team0" />
+        app:layout_constraintTop_toBottomOf="@id/stat_team0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/historic_reinitialise"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +178,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

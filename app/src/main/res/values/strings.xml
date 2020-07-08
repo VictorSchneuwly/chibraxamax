@@ -28,4 +28,6 @@
     <string name="cie_name"><![CDATA[Truc&Muche]]></string>
     <string name="cie_sign"><![CDATA[- Truc&Muche -]]></string>
     <string name="cross"> </string>
+    <string name="stat_title">Statistiques</string>
+    <string name="announce_title">Annonces</string>
 </resources>

@@ -48,18 +48,18 @@ public class Game {
         if (!(contains(inputDuo))) {
             throw new IllegalArgumentException("Duo not in the game.");
         } else if (inputDuo.equals(duos[0])) {
-            duos[0].addPoints(points, multiplier);
+            duos[0].addPoints(points, multiplier, false);
 
             int otherPoints = (points >= MAX_POINTS) ? 0 : MAX_POINTS - points;
-            duos[1].addPoints(otherPoints, multiplier);
+            duos[1].addPoints(otherPoints, multiplier, false);
 
             historic.add(new Pair<>(points * multiplier, otherPoints * multiplier));
 
         } else if (inputDuo.equals(duos[1])) {
-            duos[1].addPoints(points, multiplier);
+            duos[1].addPoints(points, multiplier, false);
 
             int otherPoints = (points >= MAX_POINTS) ? 0 : MAX_POINTS - points;
-            duos[0].addPoints(otherPoints, multiplier);
+            duos[0].addPoints(otherPoints, multiplier, false);
 
             historic.add(new Pair<>(otherPoints * multiplier, points * multiplier));
         }
@@ -67,15 +67,15 @@ public class Game {
         checkForWinner();
     }
 
-    public void addPoints(Duo duo, int points, int multiplier) throws IllegalArgumentException {
-        addPoints(duo, points, multiplier, true);
+    public void addPoints(Duo duo, int points, int multiplier, boolean announce) throws IllegalArgumentException {
+        addPoints(duo, points, multiplier, true, announce);
     }
-    public void addPoints(Duo duo, int points, int multiplier, boolean addToHistoric) throws IllegalArgumentException {
+    private void addPoints(Duo duo, int points, int multiplier, boolean addToHistoric, boolean announce) throws IllegalArgumentException {
 
         if (!(contains(duo))) {
             throw new IllegalArgumentException("Duo not in the game.");
         } else if (duo.equals(duos[0])) {
-            duos[0].addPoints(points, multiplier);
+            duos[0].addPoints(points, multiplier, announce);
 
             if (addToHistoric){
                 historic.add(new Pair<>(points * multiplier, 0));
@@ -84,7 +84,7 @@ public class Game {
             checkWinner(duos[0]);
 
         } else if (duo.equals(duos[1])) {
-            duos[1].addPoints(points, multiplier);
+            duos[1].addPoints(points, multiplier, announce);
 
             if (addToHistoric) {
                 historic.add(new Pair<>(0, points * multiplier));
@@ -94,20 +94,20 @@ public class Game {
         }
     }
 
-    public void add1Point(Duo duo) throws IllegalArgumentException {
-        addPoints(duo, 1,1);
+    public void add1Point(Duo duo, boolean announce) throws IllegalArgumentException {
+        addPoints(duo, 1,1, announce);
     }
 
-    public void add20Points(Duo duo) throws IllegalArgumentException {
-        addPoints(duo, 20,1);
+    public void add20Points(Duo duo, boolean announce) throws IllegalArgumentException {
+        addPoints(duo, 20,1, announce);
     }
 
-    public void add50Points(Duo duo) throws IllegalArgumentException {
-        addPoints(duo, 50,1);
+    public void add50Points(Duo duo, boolean announce) throws IllegalArgumentException {
+        addPoints(duo, 50,1, announce);
     }
 
-    public void add100Points(Duo duo) throws IllegalArgumentException {
-        addPoints(duo, 100,1);
+    public void add100Points(Duo duo, boolean announce) throws IllegalArgumentException {
+        addPoints(duo, 100,1, announce);
     }
 
     public void setEndScore(int endScore) {
@@ -155,8 +155,8 @@ public class Game {
     public void undoLastMove() {
         Pair<Integer, Integer> lastPair = historic.get(historic.size() - 1);
 
-        addPoints(duos[0], -lastPair.first,1, false);
-        addPoints(duos[1], -lastPair.second,1, false);
+        addPoints(duos[0], -lastPair.first,1, false, false);
+        addPoints(duos[1], -lastPair.second,1, false, false);
 
         historic.remove(historic.size() - 1);
     }

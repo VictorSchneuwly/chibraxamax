@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.schneuwly.victor.chibraxamax.R;
@@ -24,6 +25,7 @@ import java.util.Objects;
 public class GameActivity extends AppCompatActivity {
     private final String firstTimeKey = "firstTime";
     private final String touchPointsKey = "touchPoints";
+    private final String touchAnnounceKey = "touchAnnouncePoints";
     private final String showMarksKey = "showMarks";
     private final String showGuideKey = "showGuide";
     private final String bigScoreKey = "bigScore";
@@ -37,7 +39,7 @@ public class GameActivity extends AppCompatActivity {
 
     private Button paramButton, historicButton;
 
-    private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, historicPopup, endPopup;
+    private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, statisticPopup, endPopup;
     private EditText popupInput;
 
     //Model
@@ -82,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
             preferences.edit()
                     .putBoolean(firstTimeKey, false)
                     .putBoolean(touchPointsKey, true)
+                    .putBoolean(touchAnnounceKey, true)
                     .putBoolean(bigScoreKey, false)
                     .putBoolean(showGuideKey, true)
                     .putBoolean(showMarksKey, true)
@@ -144,10 +147,10 @@ public class GameActivity extends AppCompatActivity {
         });
 
         historicButton = findViewById(R.id.historic);
-        historicButton.setOnClickListener(l -> showHistoricPopup());
+        historicButton.setOnClickListener(l -> showStatisticPopup());
 
-        historicPopup = new GamePopup(this);
-        historicPopup.setContentView(R.layout.historic_popup);
+        statisticPopup = new GamePopup(this);
+        statisticPopup.setContentView(R.layout.statistic_popup);
 
         addPopup = new GamePopup(this);
         addPopup.setContentView(R.layout.add_popup);
@@ -165,8 +168,8 @@ public class GameActivity extends AppCompatActivity {
         guides[0] = findViewById(R.id.z1);
         guides[1] = findViewById(R.id.z2);
 
-        team0_score = findViewById(R.id.row_team0_score);
-        team1_score = findViewById(R.id.row_team1_score);
+        team0_score = findViewById(R.id.team0_score);
+        team1_score = findViewById(R.id.team1_score);
         team0_big_score = findViewById(R.id.team0_big_score);
         team1_big_score = findViewById(R.id.team1_big_score);
 
@@ -183,44 +186,44 @@ public class GameActivity extends AppCompatActivity {
         team1_V = findViewById(R.id.team1_V);
 
         team0_20.setOnClickListener(l -> {
-            game.add20Points(duos[0]);
+            game.add20Points(duos[0], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team0_50.setOnClickListener(l -> {
-            game.add50Points(duos[0]);
+            game.add50Points(duos[0], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
 
         team0_100.setOnClickListener(l -> {
-            game.add100Points(duos[0]);
+            game.add100Points(duos[0], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team0_rest.setOnClickListener(l -> {
-            game.add1Point(duos[0]);
+            game.add1Point(duos[0], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
 
         team1_20.setOnClickListener(l -> {
-            game.add20Points(duos[1]);
+            game.add20Points(duos[1], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team1_50.setOnClickListener(l -> {
-            game.add50Points(duos[1]);
+            game.add50Points(duos[1], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team1_100.setOnClickListener(l -> {
-            game.add100Points(duos[1]);
+            game.add100Points(duos[1], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team1_rest.setOnClickListener(l -> {
-            game.add1Point(duos[1]);
+            game.add1Point(duos[1], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
@@ -427,7 +430,7 @@ public class GameActivity extends AppCompatActivity {
 
         announce.setOnClickListener(l -> {
             int inputScore = Integer.parseInt(score.getText().toString());
-            game.addPoints(duo, inputScore, multiplier[0]);
+            game.addPoints(duo, inputScore, multiplier[0], true);
             updateGame();
             addPopup.dismiss();
         });
@@ -491,36 +494,71 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void showHistoricPopup() {
-        Button historicReturn, reinitialise;
+    private void showStatisticPopup() {
+        Button statReturn, reinitialise;
         RecyclerView recyclerView;
         MyAdapter myAdapter;
+        TextView historicButt, announceButt, team0_announce, team1_announce;
+        ConstraintLayout announceDisplay;
 
-        recyclerView = historicPopup.findViewById(R.id.recyclerView);
+        announceDisplay = statisticPopup.findViewById(R.id.announce_display);
+        team0_announce = statisticPopup.findViewById(R.id.announce_team0);
+        team1_announce = statisticPopup.findViewById(R.id.announce_team1);
+
+        historicButt = statisticPopup.findViewById(R.id.stat_historic);
+        announceButt = statisticPopup.findViewById(R.id.stat_announce);
+
+        recyclerView = statisticPopup.findViewById(R.id.recyclerView);
 
         myAdapter = new MyAdapter(this, game.getHistoric(), l -> {
-                game.undoLastMove();
-                recyclerView.setAdapter(new MyAdapter(this, game.getHistoric()));
+            game.undoLastMove();
+            recyclerView.setAdapter(new MyAdapter(this, game.getHistoric()));
         });
 
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        historicReturn = historicPopup.findViewById(R.id.historic_return);
-        reinitialise = historicPopup.findViewById(R.id.historic_reinitialise);
+        statReturn = statisticPopup.findViewById(R.id.stat_return);
+        reinitialise = statisticPopup.findViewById(R.id.historic_reinitialise);
 
-        historicReturn.setOnClickListener(l -> {
+        statReturn.setOnClickListener(l -> {
             updateGame();
-            historicPopup.dismiss();
+            statisticPopup.dismiss();
         });
+
         reinitialise.setOnClickListener(l -> {
             game.restart();
             updateGame();
-            historicPopup.dismiss();
+            statisticPopup.dismiss();
         });
 
-        Objects.requireNonNull(historicPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        historicPopup.show();
+        historicButt.setOnClickListener(l -> {
+            historicButt.setBackgroundColor(getResources().getColor(R.color.primary, getTheme()));
+            announceButt.setBackgroundColor(getResources().getColor(R.color.primaryDark, getTheme()));
+
+            recyclerView.setVisibility(View.VISIBLE);
+            reinitialise.setVisibility(View.VISIBLE);
+
+            announceDisplay.setVisibility(View.GONE);
+
+        });
+
+        announceButt.setOnClickListener(l -> {
+            historicButt.setBackgroundColor(getResources().getColor(R.color.primaryDark, getTheme()));
+            announceButt.setBackgroundColor(getResources().getColor(R.color.primary, getTheme()));
+
+            recyclerView.setVisibility(View.GONE);
+            reinitialise.setVisibility(View.GONE);
+
+            team0_announce.setText(String.valueOf(duos[0].getTotalAnnounce()));
+            team1_announce.setText(String.valueOf(duos[1].getTotalAnnounce()));
+
+            announceDisplay.setVisibility(View.VISIBLE);
+
+        });
+
+        Objects.requireNonNull(statisticPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        statisticPopup.show();
     }
 
     private void updateGame() {
