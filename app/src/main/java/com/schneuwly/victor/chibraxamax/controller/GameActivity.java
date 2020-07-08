@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -336,21 +337,29 @@ public class GameActivity extends AppCompatActivity {
 
         TextView title, score, total, ok, cancel, announce;
         RadioGroup radioGroup;
-        final int[] multiplier = {1};
         Button match_button, clear_button, erase_button;
         Button[] digits = new Button[10];
+
+        radioGroup = addPopup.findViewById(R.id.radioGroup);
+
+        final int[] multiplier = {
+                Integer.parseInt(
+                        (String) addPopup.findViewById(radioGroup.getCheckedRadioButtonId())
+                                .getTag())
+        };
 
         title = addPopup.findViewById(R.id.popup_title);
         title.setText(getResources().getString(R.string.add_title_without_name) + " " + duo.getName());
         score = addPopup.findViewById(R.id.popup_score);
         score.setText("0");
         total = addPopup.findViewById(R.id.popup_total);
-        total.setText("");
+        total.setText(
+                computeTotal(Integer.parseInt(score.getText().toString()), multiplier[0])
+        );
         ok = addPopup.findViewById(R.id.popup_ok);
         cancel = addPopup.findViewById(R.id.popup_cancel);
         announce = addPopup.findViewById(R.id.popup_annonce);
 
-        radioGroup = addPopup.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener((g, id) -> {
             multiplier[0] = Integer.parseInt(
                     (String) addPopup.findViewById(id).getTag());
@@ -473,7 +482,7 @@ public class GameActivity extends AppCompatActivity {
                     .putBoolean(touchAnnounceKey, touchPointsCheckBox.isChecked() && touchAnnounceCheckBox.isChecked())
                     .apply();
 
-            if (!touchPointsCheckBox.isChecked()){
+            if (!touchPointsCheckBox.isChecked()) {
                 touchAnnounceCheckBox.setChecked(false);
                 touchAnnounceCheckBox.setEnabled(false);
 
@@ -522,12 +531,20 @@ public class GameActivity extends AppCompatActivity {
         Button statReturn, reinitialise;
         RecyclerView recyclerView;
         MyAdapter myAdapter;
-        TextView historicButt, announceButt, team0_announce, team1_announce;
+        TextView historicButt, announceButt, stat_team0, stat_team1, team0_announce, team1_announce;
         ConstraintLayout announceDisplay;
+
+        stat_team0 = statisticPopup.findViewById(R.id.stat_team0);
+        stat_team0.setText(duos[0].getName());
+        stat_team1 = statisticPopup.findViewById(R.id.stat_team1);
+        stat_team1.setText(duos[1].getName());
 
         announceDisplay = statisticPopup.findViewById(R.id.announce_display);
         team0_announce = statisticPopup.findViewById(R.id.announce_team0);
         team1_announce = statisticPopup.findViewById(R.id.announce_team1);
+
+        team0_announce.setText(String.valueOf(duos[0].getTotalAnnounce()));
+        team1_announce.setText(String.valueOf(duos[1].getTotalAnnounce()));
 
         historicButt = statisticPopup.findViewById(R.id.stat_historic);
         announceButt = statisticPopup.findViewById(R.id.stat_announce);
@@ -853,6 +870,18 @@ public class GameActivity extends AppCompatActivity {
                 super.onBackPressed();
                 updateGame();
             }
+        }
+
+        @Override
+        public void dismiss() {
+            updateGame();
+            super.dismiss();
+        }
+
+        @Override
+        public void cancel() {
+            updateGame();
+            super.cancel();
         }
     }
 }

@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:buttonTint="@color/primaryDark"
-            android:tag="4"
+            android:tag="1"
             android:textColor="@android:color/white"
             android:text="x1"
             android:checked="true" />
