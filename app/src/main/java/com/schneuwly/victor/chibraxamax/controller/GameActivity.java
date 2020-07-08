@@ -164,8 +164,8 @@ public class GameActivity extends AppCompatActivity {
         guides[0] = findViewById(R.id.z1);
         guides[1] = findViewById(R.id.z2);
 
-        team0_score = findViewById(R.id.team0_score);
-        team1_score = findViewById(R.id.team1_score);
+        team0_score = findViewById(R.id.row_team0_score);
+        team1_score = findViewById(R.id.row_team1_score);
         team0_big_score = findViewById(R.id.team0_big_score);
         team1_big_score = findViewById(R.id.team1_big_score);
 
@@ -498,12 +498,9 @@ public class GameActivity extends AppCompatActivity {
         MyAdapter myAdapter;
 
         recyclerView = historicPopup.findViewById(R.id.recyclerView);
-        myAdapter = new MyAdapter(this, game.getHistoric());
+        myAdapter = new MyAdapter(this, game);
 
-
-
-
-
+        recyclerView.setAdapter(myAdapter);
 
         historicReturn = historicPopup.findViewById(R.id.historic_return);
         reinitialise = historicPopup.findViewById(R.id.historic_reinitialise);

@@ -14,7 +14,7 @@
             android:layout_height="25dp">
 
             <TextView
-                android:id="@+id/delete"
+                android:id="@+id/row_delete"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:gravity="center"
@@ -22,13 +22,13 @@
                 android:text="@string/cross"
                 android:textColor="@android:color/white"
                 android:fontFamily="@font/font_awesome_5"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/team0_score"
+                app:layout_constraintBottom_toBottomOf="@+id/row_team0_score"
+                app:layout_constraintEnd_toStartOf="@+id/row_team0_score"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/row_team0_score" />
 
             <TextView
-                android:id="@+id/team0_score"
+                android:id="@+id/row_team0_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -39,20 +39,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.45"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/line" />
 
             <TextView
-                android:id="@+id/team1_score"
+                android:id="@+id/row_team1_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="157"
                 android:fontFamily="@font/adam_bold"
                 android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/team0_score"
+                app:layout_constraintBottom_toBottomOf="@+id/row_team0_score"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/team0_score"
-                app:layout_constraintTop_toTopOf="@+id/team0_score" />
+                app:layout_constraintStart_toEndOf="@+id/row_team0_score"
+                app:layout_constraintTop_toTopOf="@+id/row_team0_score" />
 
             <View
                 android:id="@+id/line"
@@ -61,8 +61,7 @@
                 android:background="@color/primaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/team0_score"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
