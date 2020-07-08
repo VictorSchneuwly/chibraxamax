@@ -661,6 +661,8 @@ public class GameActivity extends AppCompatActivity {
         team1_100.setEnabled(touchPoints);
         team1_rest.setEnabled(touchPoints);
 
+        //TODO: Ajouter OnClickListener pour la CheckBox des annonces
+
         if (getPreferences(MODE_PRIVATE).getBoolean(bigScoreKey, false)) {
             team0_score.setVisibility(View.INVISIBLE);
             team0_big_score.setVisibility(View.VISIBLE);

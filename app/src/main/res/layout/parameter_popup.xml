@@ -36,6 +36,10 @@
 
     </LinearLayout>
 
+    <!-- TODO: Ajouter checkbox pour les annonces touchées
+    Texte: Les points attribuer en touchant l'écran sont des annonces
+     -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
