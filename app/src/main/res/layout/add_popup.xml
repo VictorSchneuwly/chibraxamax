@@ -41,10 +41,11 @@
         android:id="@+id/popup_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:layout_marginStart="10dp"
-        android:text="Total:"
         android:alpha="0.3"
+        android:fontFamily="@font/adam_bold"
+        android:padding="5dp"
+        android:text="Total:"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="15sp" />
@@ -62,40 +63,44 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:buttonTint="@color/primaryDark"
+            android:checked="true"
+            android:fontFamily="@font/adam_bold"
             android:tag="1"
-            android:textColor="@android:color/white"
             android:text="x1"
-            android:checked="true" />
+            android:textColor="@android:color/white" />
 
         <RadioButton
             android:id="@+id/radioButton_2x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:tag="2"
             android:buttonTint="@color/primaryDark"
-            android:textColor="@android:color/white"
-            android:text="x2" />
+            android:fontFamily="@font/adam_bold"
+            android:tag="2"
+            android:text="x2"
+            android:textColor="@android:color/white" />
 
         <RadioButton
             android:id="@+id/radioButton_3x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:tag="3"
             android:buttonTint="@color/primaryDark"
-            android:textColor="@android:color/white"
-            android:text="x3" />
+            android:fontFamily="@font/adam_bold"
+            android:tag="3"
+            android:text="x3"
+            android:textColor="@android:color/white" />
 
         <RadioButton
             android:id="@+id/radioButton_4x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/primaryDark"
             android:layout_margin="5dp"
+            android:buttonTint="@color/primaryDark"
+            android:fontFamily="@font/adam_bold"
             android:tag="4"
-            android:textColor="@android:color/white"
-            android:text="x4" />
+            android:text="x4"
+            android:textColor="@android:color/white" />
     </RadioGroup>
 
     <Button
@@ -103,12 +108,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="7dp"
+        android:layout_marginStart="5dp"
+        android:background="@drawable/button_primary"
+        android:fontFamily="@font/adam_bold"
         android:gravity="center"
         android:text="Match"
         android:textAllCaps="false"
-        android:layout_marginStart="5dp"
-        android:textColor="@android:color/white"
-        android:background="@drawable/button_primary" />
+        android:textColor="@android:color/white" />
 
 
     <TableLayout
@@ -125,30 +131,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="1"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/popup_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="2"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/popup_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="3"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
         </TableRow>
 
 
@@ -161,30 +170,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="4"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/popup_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="5"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/popup_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="6"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
         </TableRow>
 
         <TableRow
@@ -196,30 +208,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="7"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/popup_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="8"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/popup_9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="9"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
         </TableRow>
 
         <TableRow
@@ -241,10 +256,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/adam_bold"
                 android:text="0"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_primary" />
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/popup_erase"
@@ -271,6 +287,7 @@
             android:id="@+id/popup_annonce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/adam_bold"
             android:padding="5dp"
             android:text="Annonce"
             android:textAllCaps="false"
@@ -301,8 +318,9 @@
             android:id="@+id/popup_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/adam_bold"
             android:padding="5dp"
-            android:text="Annulé"
+            android:text="Annuler"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="15sp"
