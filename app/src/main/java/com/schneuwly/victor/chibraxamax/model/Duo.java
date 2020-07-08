@@ -166,7 +166,6 @@ public class Duo extends PlayingEntity {
 
             computeRest(pointsToCompute, sign);
 
-            System.out.printf("V:%s 100:%s 50:%s 20:%s Rest:%s%n", nbV, nb100, nb50, nb20, restToDisplay);
 
         }
 

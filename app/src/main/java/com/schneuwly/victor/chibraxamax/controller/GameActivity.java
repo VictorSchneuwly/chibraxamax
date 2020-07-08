@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.model.Duo;
@@ -491,24 +492,31 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showHistoricPopup() {
-        //TODO: Create dialogue historic (Recycle View)
-
         Button historicReturn, reinitialise;
         RecyclerView recyclerView;
         MyAdapter myAdapter;
 
         recyclerView = historicPopup.findViewById(R.id.recyclerView);
-        myAdapter = new MyAdapter(this, game);
+
+        myAdapter = new MyAdapter(this, game.getHistoric(), l -> {
+                game.undoLastMove();
+                recyclerView.setAdapter(new MyAdapter(this, game.getHistoric()));
+        });
 
         recyclerView.setAdapter(myAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         historicReturn = historicPopup.findViewById(R.id.historic_return);
         reinitialise = historicPopup.findViewById(R.id.historic_reinitialise);
-        
-        historicReturn.setOnClickListener(l -> historicPopup.dismiss());
+
+        historicReturn.setOnClickListener(l -> {
+            updateGame();
+            historicPopup.dismiss();
+        });
         reinitialise.setOnClickListener(l -> {
             game.restart();
-            myAdapter.setHistoric(game.getHistoric());
+            updateGame();
+            historicPopup.dismiss();
         });
 
         Objects.requireNonNull(historicPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

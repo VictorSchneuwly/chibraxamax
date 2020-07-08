@@ -68,18 +68,27 @@ public class Game {
     }
 
     public void addPoints(Duo duo, int points, int multiplier) throws IllegalArgumentException {
+        addPoints(duo, points, multiplier, true);
+    }
+    public void addPoints(Duo duo, int points, int multiplier, boolean addToHistoric) throws IllegalArgumentException {
 
         if (!(contains(duo))) {
             throw new IllegalArgumentException("Duo not in the game.");
         } else if (duo.equals(duos[0])) {
             duos[0].addPoints(points, multiplier);
-            historic.add(new Pair<>(points * multiplier, 0));
+
+            if (addToHistoric){
+                historic.add(new Pair<>(points * multiplier, 0));
+            }
 
             checkWinner(duos[0]);
 
         } else if (duo.equals(duos[1])) {
             duos[1].addPoints(points, multiplier);
-            historic.add(new Pair<>(0, points * multiplier));
+
+            if (addToHistoric) {
+                historic.add(new Pair<>(0, points * multiplier));
+            }
 
             checkWinner(duos[1]);
         }
@@ -126,6 +135,7 @@ public class Game {
         winner = null;
         over = false;
         bothOver = false;
+        historic.clear();
         for (Duo duo : duos) {
             duo.reinitialisePoints();
         }
@@ -145,8 +155,8 @@ public class Game {
     public void undoLastMove() {
         Pair<Integer, Integer> lastPair = historic.get(historic.size() - 1);
 
-        addPoints(duos[0], -lastPair.first,1);
-        addPoints(duos[1], -lastPair.second,1);
+        addPoints(duos[0], -lastPair.first,1, false);
+        addPoints(duos[1], -lastPair.second,1, false);
 
         historic.remove(historic.size() - 1);
     }
