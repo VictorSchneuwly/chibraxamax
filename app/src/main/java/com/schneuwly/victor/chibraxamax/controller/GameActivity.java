@@ -456,11 +456,13 @@ public class GameActivity extends AppCompatActivity {
         });
 
         CheckBox touchPointsCheckBox = parametersPopup.findViewById(R.id.param_touch_points_checkBox);
+        CheckBox touchAnnounceCheckBox = parametersPopup.findViewById(R.id.param_touch_announce_checkBox);
         CheckBox showMarksCheckBox = parametersPopup.findViewById(R.id.param_marks_checkBox);
         CheckBox showGuideCheckBox = parametersPopup.findViewById(R.id.param_guide_checkBox);
         CheckBox bigScoreCheckBox = parametersPopup.findViewById(R.id.param_big_score_checkBox);
 
         touchPointsCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchPointsKey, true));
+        touchAnnounceCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
         showMarksCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(showMarksKey, true));
         showGuideCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(showGuideKey, true));
         bigScoreCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(bigScoreKey, false));
@@ -468,6 +470,28 @@ public class GameActivity extends AppCompatActivity {
         touchPointsCheckBox.setOnClickListener(l -> {
             preferences.edit()
                     .putBoolean(touchPointsKey, touchPointsCheckBox.isChecked())
+                    .putBoolean(touchAnnounceKey, touchPointsCheckBox.isChecked() && touchAnnounceCheckBox.isChecked())
+                    .apply();
+
+            if (!touchPointsCheckBox.isChecked()){
+                touchAnnounceCheckBox.setChecked(false);
+                touchAnnounceCheckBox.setEnabled(false);
+
+                parametersPopup.findViewById(R.id.param_touch_announce_row)
+                        .setAlpha(0.4f);
+
+            } else {
+                touchAnnounceCheckBox.setEnabled(true);
+                touchAnnounceCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+                parametersPopup.findViewById(R.id.param_touch_announce_row)
+                        .setAlpha(1f);
+
+            }
+        });
+
+        touchAnnounceCheckBox.setOnClickListener(l -> {
+            preferences.edit()
+                    .putBoolean(touchAnnounceKey, touchAnnounceCheckBox.isChecked())
                     .apply();
         });
 
@@ -660,8 +684,6 @@ public class GameActivity extends AppCompatActivity {
         team1_50.setEnabled(touchPoints);
         team1_100.setEnabled(touchPoints);
         team1_rest.setEnabled(touchPoints);
-
-        //TODO: Ajouter OnClickListener pour la CheckBox des annonces
 
         if (getPreferences(MODE_PRIVATE).getBoolean(bigScoreKey, false)) {
             team0_score.setVisibility(View.INVISIBLE);

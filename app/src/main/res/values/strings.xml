@@ -30,4 +30,5 @@
     <string name="cross"> </string>
     <string name="stat_title">Statistiques</string>
     <string name="announce_title">Annonces</string>
+    <string name="param_touch_announce">Les points attribués en touchant l\'écran sont des annonces</string>
 </resources>
