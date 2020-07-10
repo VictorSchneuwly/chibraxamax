@@ -11,19 +11,25 @@ import java.util.Comparator;
  * @author Victor Schneuwly
  */
 public class Duo extends PlayingEntity {
+    private static int playerID = 0;
+
     private final Player[] players = new Player[2];
     private final PointsDisplay pointsDisplay;
     private int totalPoints, totalAnnounce;
 
-    public Duo(Player player1, Player player2, Record record, String teamName) {
+    protected Duo(Player player1, Player player2, Record record, String teamName, PointsDisplay pointsDisplay, int totalPoints, int totalAnnounce) {
         super(teamName, record);
         players[0] = player1;
         players[1] = player2;
         Arrays.sort(players, Comparator.comparing(Player::getName));
 
-        pointsDisplay = new PointsDisplay();
-        totalPoints = 0;
-        totalAnnounce = 0;
+        this.pointsDisplay = pointsDisplay;
+        this.totalPoints = totalPoints;
+        this.totalAnnounce = totalAnnounce;
+    }
+
+    public Duo(Player player1, Player player2, Record record, String teamName) {
+        this(player1, player2, new Record(0, 0), teamName, new PointsDisplay(), 0, 0);
     }
 
     public Duo(Player player1, Player player2, Record record) {
@@ -33,6 +39,14 @@ public class Duo extends PlayingEntity {
 
     public Duo(Player player1, Player player2, String teamName) {
         this(player1, player2, new Record(0, 0), teamName);
+    }
+
+    public Duo(String teamName) {
+        this(new Player("Player " + ++playerID), new Player("Player " + ++playerID), new Record(0, 0), teamName);
+    }
+
+    public static Duo restore(String teamName, String savedPointsDisplay, int totalPoints, int totalAnnounce) {
+        return new Duo(new Player("Player " + ++playerID), new Player("Player " + ++playerID), new Record(0, 0), teamName, PointsDisplay.restore(savedPointsDisplay), totalPoints, totalAnnounce);
     }
 
     public PointsDisplay getPointsDisplay() {
@@ -83,12 +97,20 @@ public class Duo extends PlayingEntity {
         }
     }
 
-    public class PointsDisplay {
+    public static class PointsDisplay {
 
         private int nbV, nb20, nb50, nb100, restToDisplay;
 
         private PointsDisplay() {
             reinitialise();
+        }
+
+        private PointsDisplay(int nbV, int nb20, int nb50, int nb100, int restToDisplay) {
+            this.nbV = nbV;
+            this.nb20 = nb20;
+            this.nb50 = nb50;
+            this.nb100 = nb100;
+            this.restToDisplay = restToDisplay;
         }
 
         public void reinitialise() {
@@ -97,6 +119,24 @@ public class Duo extends PlayingEntity {
             nb50 = 0;
             nb100 = 0;
             restToDisplay = 0;
+        }
+
+        protected String save() {
+            return String.format("%s;%s;%s;%s;%s", nbV, nb20, nb50, nb100, restToDisplay);
+        }
+
+
+        private static PointsDisplay restore(String save) {
+            String[] nbSaved = save.split(";");
+
+            return new PointsDisplay(
+                    Integer.parseInt(nbSaved[0]),
+                    Integer.parseInt(nbSaved[1]),
+                    Integer.parseInt(nbSaved[2]),
+                    Integer.parseInt(nbSaved[3]),
+                    Integer.parseInt(nbSaved[4])
+            );
+
         }
 
         public int getNb20() {

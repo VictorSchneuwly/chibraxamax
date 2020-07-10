@@ -3,6 +3,7 @@ package com.schneuwly.victor.chibraxamax.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * A historic
@@ -10,14 +11,14 @@ import java.util.List;
  * @author Victor Schneuwly
  */
 public class Historic<T> {
-
+    public final static String SEPARATOR = "<--->";
     private final List<T> historic;
 
     public Historic() {
         historic = new ArrayList<>();
     }
 
-    private Historic(List<T> historic) {
+    protected Historic(List<T> historic) {
         this.historic = Collections.unmodifiableList(historic);
     }
 
@@ -35,7 +36,7 @@ public class Historic<T> {
         }
     }
 
-    public T getLastEntry(){
+    public T getLastEntry() {
         return get(-1);
     }
 
@@ -64,5 +65,14 @@ public class Historic<T> {
         return new Historic<>(historic);
     }
 
+    public String getSave() {
+        StringBuilder sb = new StringBuilder();
+        for (T entry : historic) {
+            sb.append(entry.toString())
+                    .append(SEPARATOR);
+        }
+
+        return sb.toString();
+    }
 
 }

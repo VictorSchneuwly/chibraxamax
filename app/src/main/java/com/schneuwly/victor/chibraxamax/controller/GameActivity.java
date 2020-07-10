@@ -17,13 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.model.Duo;
 import com.schneuwly.victor.chibraxamax.model.Game;
-import com.schneuwly.victor.chibraxamax.model.Player;
 import com.schneuwly.victor.chibraxamax.model.abstractEntitiy.PlayingEntity;
 
 import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
     private final String firstTimeKey = "firstTime";
+    private final String gameSavedKey = "gameSaved";
     private final String touchPointsKey = "touchPoints";
     private final String touchAnnounceKey = "touchAnnouncePoints";
     private final String showMarksKey = "showMarks";
@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
     private Duo[] duos;
     private Game game;
 
-    private SharedPreferences preferences;
+    private SharedPreferences preferences, gameSave;
 
 
     @Override
@@ -51,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         preferences = getPreferences(MODE_PRIVATE);
+        gameSave = getSharedPreferences("gameSave", MODE_PRIVATE);
 
         gameInit();
 
@@ -61,20 +62,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void gameInit() {
-        //Model
-        Player[] players = new Player[]{
-                new Player("Player 1"),
-                new Player("Player 2"),
-                new Player("Player 3"),
-                new Player("Player 4")
-        };
 
-        duos = new Duo[]{
-                new Duo(players[0], players[1], getResources().getString(R.string.default_name_team0)),
-                new Duo(players[2], players[3], getResources().getString(R.string.default_name_team1))
-        };
+        if (gameSave.getBoolean(gameSavedKey, false)) {
+            duos = new Duo[]{
+                    new Duo(getResources().getString(R.string.default_name_team0)),
+                    new Duo(getResources().getString(R.string.default_name_team1))
+            };
 
-        game = new Game(duos[0], duos[1], Integer.parseInt(getResources().getString(R.string.default_score)));
+            game = new Game(duos[0], duos[1], Integer.parseInt(getResources().getString(R.string.default_score)));
+        } else {
+            showRestorePopUp();
+        }
+
 
         if (getPreferences(MODE_PRIVATE).getBoolean(firstTimeKey, true)) {
 
@@ -87,6 +86,22 @@ public class GameActivity extends AppCompatActivity {
                     .putBoolean(showMarksKey, true)
                     .apply();
         }
+    }
+
+    private void save() {
+        gameSave.edit()
+                .putBoolean(gameSavedKey, true)
+                .putInt(Game.END_SCORE_KEY, (int) (game.saveGame().get(Game.END_SCORE_KEY)))
+                .putString(Game.HISTORIC_KEY, (String) game.saveGame().get(Game.HISTORIC_KEY))
+                .putString(Game.DUO_0_NAME_KEY, (String) game.saveGame().get(Game.DUO_0_NAME_KEY))
+                .putString(Game.DUO_1_NAME_KEY, (String) game.saveGame().get(Game.DUO_1_NAME_KEY))
+                .putInt(Game.DUO_0_SCORE_KEY, (int) game.saveGame().get(Game.DUO_0_SCORE_KEY))
+                .putInt(Game.DUO_1_SCORE_KEY, (int) game.saveGame().get(Game.DUO_1_SCORE_KEY))
+                .putInt(Game.DUO_0_ANNOUNCE_KEY, (int) game.saveGame().get(Game.DUO_0_ANNOUNCE_KEY))
+                .putInt(Game.DUO_1_ANNOUNCE_KEY, (int) game.saveGame().get(Game.DUO_1_ANNOUNCE_KEY))
+                .putInt(Game.DUO_0_DISPLAY_KEY, (int) game.saveGame().get(Game.DUO_0_DISPLAY_KEY))
+                .putString(Game.DUO_1_DISPLAY_KEY, (String) game.saveGame().get(Game.DUO_1_DISPLAY_KEY))
+                .apply();
     }
 
     private void gameInfos() {
@@ -491,7 +506,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void checkAnnounceParam(CheckBox points, CheckBox announce){
+    private void checkAnnounceParam(CheckBox points, CheckBox announce) {
         if (!points.isChecked()) {
             announce.setChecked(false);
             announce.setEnabled(false);
@@ -584,12 +599,17 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateGame() {
+        save();
         updateInfosDisplay();
         updateUI();
 
         if (game.areBothOver()) {
             showDrawPopup();
         } else if (game.isOver()) {
+            gameSave.edit()
+                    .putBoolean(gameSavedKey, false)
+                    .apply();
+
             showVictoryPopup(game.getWinner());
         }
 
@@ -647,6 +667,10 @@ public class GameActivity extends AppCompatActivity {
 
         Objects.requireNonNull(endPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         endPopup.show();
+    }
+
+    private void showRestorePopUp() {
+
     }
 
     private void updateInfosDisplay() {

@@ -1,5 +1,7 @@
 package com.schneuwly.victor.chibraxamax.model;
 
+import java.util.*;
+
 /**
  * A game of Chibre
  *
@@ -8,6 +10,16 @@ package com.schneuwly.victor.chibraxamax.model;
 public class Game {
     public final static int MAX_POINTS = 157;
     public final static int MATCH_POINTS = 257;
+    public final static String END_SCORE_KEY     = "endScore";
+    public final static String HISTORIC_KEY       = "historic";
+    public final static String DUO_0_NAME_KEY     = "duo0Name";
+    public final static String DUO_1_NAME_KEY     = "duo1Name";
+    public final static String DUO_0_SCORE_KEY   = "duo0Score";
+    public final static String DUO_1_SCORE_KEY     = "duo1Score";
+    public final static String DUO_0_ANNOUNCE_KEY = "duo0Announce";
+    public final static String DUO_1_ANNOUNCE_KEY = "duo1Announce";
+    public final static String DUO_0_DISPLAY_KEY = "duo0Display";
+    public final static String DUO_1_DISPLAY_KEY = "duo1Display";
 
     private final Duo[] duos;
     private final Historic<GameHistoricEntry> historic;
@@ -16,14 +28,65 @@ public class Game {
     private boolean over, bothOver;
     private int endScore;
 
-    public Game(Duo duo1, Duo duo2, int endScore) {
+    private Game(Duo duo1, Duo duo2, int endScore, Historic<GameHistoricEntry> historic) {
         this.endScore = endScore;
         duos = new Duo[2];
         duos[0] = duo1;
         duos[1] = duo2;
         over = false;
         bothOver = false;
-        historic = new Historic<>();
+        this.historic = historic;
+    }
+
+    public Game(Duo duo1, Duo duo2, int endScore) {
+        this(duo1, duo2, endScore, new Historic<>());
+    }
+
+    public Game restore(Map<String, ? extends Object> savedMap) {
+        Map<String, Object> save = new HashMap<>(savedMap);
+
+        int savedEndScore = (int) save.get(END_SCORE_KEY);
+
+        List<GameHistoricEntry> savedHistoric = new ArrayList<>();
+
+        String savedEntry = (String) save.get(HISTORIC_KEY);
+
+        for (String line : savedEntry.split(Historic.SEPARATOR)) {
+            savedHistoric.add(GameHistoricEntry.restore(line));
+        }
+
+        String savedNamedDuo0 = (String) save.get(DUO_0_NAME_KEY);
+        String savedNamedDuo1 = (String) save.get(DUO_1_NAME_KEY);
+        int savedScoreDuo0 = (int) save.get(DUO_0_SCORE_KEY);
+        int savedScoreDuo1 = (int) save.get(DUO_1_SCORE_KEY);
+        int savedAnnounceDuo0 = (int) save.get(DUO_0_ANNOUNCE_KEY);
+        int savedAnnounceDuo1 = (int) save.get(DUO_1_ANNOUNCE_KEY);
+        String savedDisplayDuo0 = (String) save.get(DUO_0_DISPLAY_KEY);
+        String savedDisplayDuo1 = (String) save.get(DUO_1_DISPLAY_KEY);
+
+        return new Game(
+                Duo.restore(savedNamedDuo0, savedDisplayDuo0, savedScoreDuo0, savedAnnounceDuo0),
+                Duo.restore(savedNamedDuo1, savedDisplayDuo1, savedScoreDuo1, savedAnnounceDuo1),
+                savedEndScore,
+                new Historic<>(savedHistoric)
+        );
+    }
+
+    public Map<String, Object> saveGame() {
+        Map<String, Object> scoreSave = new HashMap<>();
+        scoreSave.put(END_SCORE_KEY, endScore);
+        scoreSave.put(HISTORIC_KEY, historic.getSave());
+        scoreSave.put(DUO_0_NAME_KEY, duos[0].getName());
+        scoreSave.put(DUO_1_NAME_KEY, duos[1].getName());
+        scoreSave.put(DUO_0_SCORE_KEY, duos[0].getTotalPoints());
+        scoreSave.put(DUO_1_SCORE_KEY, duos[1].getTotalPoints());
+        scoreSave.put(DUO_0_ANNOUNCE_KEY, duos[0].getTotalAnnounce());
+        scoreSave.put(DUO_1_ANNOUNCE_KEY, duos[1].getTotalAnnounce());
+        scoreSave.put(DUO_0_DISPLAY_KEY, duos[0].getPointsDisplay().save());
+        scoreSave.put(DUO_1_DISPLAY_KEY, duos[1].getPointsDisplay().save());
+
+
+        return Collections.unmodifiableMap(scoreSave);
     }
 
     public boolean contains(Duo duo) {
@@ -198,6 +261,16 @@ public class Game {
             this.announce = announce;
         }
 
+        public static GameHistoricEntry restore(String save) {
+            String[] savedArray = save.split(";");
+
+            return new GameHistoricEntry(
+                    Integer.parseInt(savedArray[0]),
+                    Integer.parseInt(savedArray[1]),
+                    Boolean.parseBoolean(savedArray[2])
+            );
+        }
+
 
         public boolean isAnnounce() {
             return announce;
@@ -209,6 +282,26 @@ public class Game {
 
         public int second() {
             return team1Pts;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s;%s;%s", team0Pts, team1Pts, announce);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            GameHistoricEntry that = (GameHistoricEntry) o;
+            return team0Pts == that.team0Pts &&
+                    team1Pts == that.team1Pts &&
+                    announce == that.announce;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(team0Pts, team1Pts, announce);
         }
     }
 }
