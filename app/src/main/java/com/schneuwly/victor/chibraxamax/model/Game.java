@@ -148,7 +148,7 @@ public class Game {
     }
 
     public void undoLastMove() {
-        GameHistoricEntry lastEntry = historic.get(historic.size() - 1);
+        GameHistoricEntry lastEntry = historic.getLastEntry();
 
         addPoints(duos[0], -lastEntry.first(), 1, false, lastEntry.isAnnounce());
         addPoints(duos[1], -lastEntry.second(), 1, false, lastEntry.isAnnounce());

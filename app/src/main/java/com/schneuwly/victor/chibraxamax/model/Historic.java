@@ -17,41 +17,49 @@ public class Historic<T> {
         historic = new ArrayList<>();
     }
 
-    private Historic(List<T> historic){
+    private Historic(List<T> historic) {
         this.historic = Collections.unmodifiableList(historic);
     }
 
-    
+
     public void add(T entry) {
         historic.add(entry);
     }
 
-    
+
     public T get(int i) {
-        return historic.get(i);
+        if (i >= 0) {
+            return historic.get(i);
+        } else {
+            return historic.get(size() + i);
+        }
     }
 
-    
+    public T getLastEntry(){
+        return get(-1);
+    }
+
+
     public void remove(int i) {
         historic.remove(i);
     }
 
-    
+
     public int size() {
         return historic.size();
     }
 
-    
+
     public boolean isEmpty() {
         return historic.isEmpty();
     }
 
-    
+
     public void clear() {
         historic.clear();
     }
 
-    
+
     public Historic<T> clone() {
         return new Historic<>(historic);
     }
