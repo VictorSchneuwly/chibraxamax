@@ -62,10 +62,10 @@ public class Game {
     }
 
     public void addPoints(Duo duo, int points, int multiplier, boolean announce) throws IllegalArgumentException {
-        addPoints(duo, points, multiplier, true, announce);
+        addPoints(duo, points, multiplier, announce, true);
     }
 
-    private void addPoints(Duo duo, int points, int multiplier, boolean addToHistoric, boolean announce) throws IllegalArgumentException {
+    private void addPoints(Duo duo, int points, int multiplier, boolean announce, boolean addToHistoric) throws IllegalArgumentException {
 
         if (!(contains(duo))) {
             throw new IllegalArgumentException("Duo not in the game.");
@@ -150,8 +150,8 @@ public class Game {
     public void undoLastMove() {
         GameHistoricEntry lastEntry = historic.getLastEntry();
 
-        addPoints(duos[0], -lastEntry.first(), 1, false, lastEntry.isAnnounce());
-        addPoints(duos[1], -lastEntry.second(), 1, false, lastEntry.isAnnounce());
+        addPoints(duos[0], -lastEntry.first(), 1, lastEntry.isAnnounce(), false);
+        addPoints(duos[1], -lastEntry.second(), 1, lastEntry.isAnnounce(), false);
 
         historic.remove(historic.size() - 1);
     }
