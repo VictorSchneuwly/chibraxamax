@@ -341,6 +341,7 @@ public class GameActivity extends AppCompatActivity {
         Button[] digits = new Button[10];
 
         radioGroup = addPopup.findViewById(R.id.radioGroup);
+        radioGroup.check(R.id.radioButton_1x);
 
         final int[] multiplier = {
                 Integer.parseInt(
@@ -472,6 +473,8 @@ public class GameActivity extends AppCompatActivity {
 
         touchPointsCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchPointsKey, true));
         touchAnnounceCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+        checkAnnounceParam(touchPointsCheckBox, touchAnnounceCheckBox);
+
         showMarksCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(showMarksKey, true));
         showGuideCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(showGuideKey, true));
         bigScoreCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(bigScoreKey, false));
@@ -482,20 +485,7 @@ public class GameActivity extends AppCompatActivity {
                     .putBoolean(touchAnnounceKey, touchPointsCheckBox.isChecked() && touchAnnounceCheckBox.isChecked())
                     .apply();
 
-            if (!touchPointsCheckBox.isChecked()) {
-                touchAnnounceCheckBox.setChecked(false);
-                touchAnnounceCheckBox.setEnabled(false);
-
-                parametersPopup.findViewById(R.id.param_touch_announce_row)
-                        .setAlpha(0.4f);
-
-            } else {
-                touchAnnounceCheckBox.setEnabled(true);
-                touchAnnounceCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
-                parametersPopup.findViewById(R.id.param_touch_announce_row)
-                        .setAlpha(1f);
-
-            }
+            checkAnnounceParam(touchPointsCheckBox, touchAnnounceCheckBox);
         });
 
         touchAnnounceCheckBox.setOnClickListener(l -> {
@@ -525,6 +515,23 @@ public class GameActivity extends AppCompatActivity {
         Objects.requireNonNull(parametersPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         parametersPopup.show();
 
+    }
+
+    private void checkAnnounceParam(CheckBox points, CheckBox announce){
+        if (!points.isChecked()) {
+            announce.setChecked(false);
+            announce.setEnabled(false);
+
+            parametersPopup.findViewById(R.id.param_touch_announce_row)
+                    .setAlpha(0.4f);
+
+        } else {
+            announce.setEnabled(true);
+            announce.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            parametersPopup.findViewById(R.id.param_touch_announce_row)
+                    .setAlpha(1f);
+
+        }
     }
 
     private void showStatisticPopup() {
