@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.schneuwly.victor.chibraxamax.R;
+import com.schneuwly.victor.chibraxamax.model.Game;
+import com.schneuwly.victor.chibraxamax.model.Historic;
 
 import java.util.List;
 
@@ -18,17 +20,19 @@ import java.util.List;
  * @author Victor Schneuwly
  */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private final Context context;
-    private final List<Pair<Integer, Integer>> historic;
     private static View.OnClickListener listener;
 
-    public MyAdapter(Context context, List<Pair<Integer, Integer>> historic, View.OnClickListener listener) {
+
+    private final Context context;
+    private final Historic<Game.GameHistoricEntry> historic;
+
+    public MyAdapter(Context context, Historic<Game.GameHistoricEntry> historic, View.OnClickListener listener) {
         this.context = context;
         this.historic = historic;
         MyAdapter.listener = listener;
     }
 
-    public MyAdapter(Context context, List<Pair<Integer, Integer>> historic) {
+    public MyAdapter(Context context, Historic<Game.GameHistoricEntry> historic) {
         this(context, historic, listener);
     }
 
@@ -44,8 +48,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         if (!(historic.isEmpty())) {
             int displayId = (getItemCount() - 1) - position;
 
-            holder.team0_score.setText(String.valueOf(historic.get(displayId).first));
-            holder.team1_score.setText(String.valueOf(historic.get(displayId).second));
+            holder.team0_score.setText(String.valueOf(historic.get(displayId).first()));
+            holder.team1_score.setText(String.valueOf(historic.get(displayId).second()));
 
             if (position == 0) {
                 holder.delete.setVisibility(View.VISIBLE);

@@ -1,11 +1,5 @@
 package com.schneuwly.victor.chibraxamax.model;
 
-import android.util.Pair;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * A game of Chibre
  *
@@ -16,7 +10,7 @@ public class Game {
     public final static int MATCH_POINTS = 257;
 
     private final Duo[] duos;
-    private final Historic historic;
+    private final Historic<GameHistoricEntry> historic;
 
     private Duo winner;
     private boolean over, bothOver;
@@ -29,7 +23,7 @@ public class Game {
         duos[1] = duo2;
         over = false;
         bothOver = false;
-        historic = new GameHistoric();
+        historic = new Historic<>();
     }
 
     public boolean contains(Duo duo) {
@@ -53,7 +47,7 @@ public class Game {
             int otherPoints = (points >= MAX_POINTS) ? 0 : MAX_POINTS - points;
             duos[1].addPoints(otherPoints, multiplier, false);
 
-            historic.add(new GameHistoric.Entry(points * multiplier, otherPoints * multiplier, false));
+            historic.add(new GameHistoricEntry(points * multiplier, otherPoints * multiplier, false));
 
         } else if (inputDuo.equals(duos[1])) {
             duos[1].addPoints(points, multiplier, false);
@@ -61,7 +55,7 @@ public class Game {
             int otherPoints = (points >= MAX_POINTS) ? 0 : MAX_POINTS - points;
             duos[0].addPoints(otherPoints, multiplier, false);
 
-            historic.add(new GameHistoric.Entry(otherPoints * multiplier, points * multiplier, false));
+            historic.add(new GameHistoricEntry(otherPoints * multiplier, points * multiplier, false));
         }
 
         checkForWinner();
@@ -79,7 +73,7 @@ public class Game {
             duos[0].addPoints(points, multiplier, announce);
 
             if (addToHistoric) {
-                historic.add(new GameHistoric.Entry(points * multiplier, 0, announce));
+                historic.add(new GameHistoricEntry(points * multiplier, 0, announce));
             }
 
             checkWinner(duos[0]);
@@ -88,7 +82,7 @@ public class Game {
             duos[1].addPoints(points, multiplier, announce);
 
             if (addToHistoric) {
-                historic.add(new GameHistoric.Entry(0, points * multiplier, announce));
+                historic.add(new GameHistoricEntry(0, points * multiplier, announce));
             }
 
             checkWinner(duos[1]);
@@ -149,15 +143,15 @@ public class Game {
         addWin();
     }
 
-    public Historic getHistoric() {
+    public Historic<GameHistoricEntry> getHistoric() {
         return historic.clone();
     }
 
     public void undoLastMove() {
-        Historic.Entry<Integer> lastEntry = historic.;
+        GameHistoricEntry lastEntry = historic.get(historic.size() - 1);
 
-        addPoints(duos[0], -lastEntry.first(), 1, false, lastEntry.);
-        addPoints(duos[1], -lastEntry.second(), 1, false, false);
+        addPoints(duos[0], -lastEntry.first(), 1, false, lastEntry.isAnnounce());
+        addPoints(duos[1], -lastEntry.second(), 1, false, lastEntry.isAnnounce());
 
         historic.remove(historic.size() - 1);
     }
@@ -194,76 +188,27 @@ public class Game {
         }
     }
 
-//TODO: tout refaire
-    public static class GameHistoric implements Historic<GameHistoric.Entry> {
-        private final List<GameHistoric.Entry> historic;
+    public static class GameHistoricEntry {
+        private int team0Pts, team1Pts;
+        private boolean announce;
 
-        public GameHistoric() {
-            historic = new ArrayList<>();
-        }
-
-        private GameHistoric(List<Historic.Entry<Integer>> historic){
-            this.historic = Collections.unmodifiableList(historic);
-        }
-
-        @Override
-        public void add(Historic.Entry<Integer> entry) {
-            historic.add((GameHistoric.Entry) entry);
-        }
-
-        @Override
-        public Historic.Entry<Integer> get(int i) {
-            return historic.get(i);
-        }
-
-        @Override
-        public void remove(int i) {
-            historic.remove(i);
-        }
-
-        @Override
-        public int size() {
-            return historic.size();
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return historic.isEmpty();
-        }
-
-        @Override
-        public void clear() {
-            historic.clear();
-        }
-
-        @Override
-        public Historic<Integer> clone() {
-            return new GameHistoric(historic);
+        public GameHistoricEntry(int team0Pts, int team1Pts, boolean announce) {
+            this.team0Pts = team0Pts;
+            this.team1Pts = team1Pts;
+            this.announce = announce;
         }
 
 
-        public static class Entry{
-            private int team0Pts, team1Pts;
-            private boolean announce;
+        public boolean isAnnounce() {
+            return announce;
+        }
 
-            public Entry(int team0Pts, int team1Pts, boolean announce) {
-                this.team0Pts = team0Pts;
-                this.team1Pts = team1Pts;
-                this.announce = announce;
-            }
+        public int first() {
+            return team0Pts;
+        }
 
-
-
-            public boolean isAnnounce() {
-                return announce;
-            }
-            public int first() {
-                return team0Pts;
-            }
-            public int second() {
-                return team1Pts;
-            }
+        public int second() {
+            return team1Pts;
         }
     }
-
 }

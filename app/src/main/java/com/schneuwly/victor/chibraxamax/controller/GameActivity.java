@@ -10,7 +10,6 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,17 +33,13 @@ public class GameActivity extends AppCompatActivity {
     private TextView endScoreView,
             team0_name, team0_score, team0_big_score, team0_20, team0_50, team0_100, team0_rest, team0_V,
             team1_name, team1_score, team1_big_score, team1_20, team1_50, team1_100, team1_rest, team1_V;
-    private ImageView[] guides = new ImageView[2];
+    private final ImageView[] guides = new ImageView[2];
 
-    private Button[] addButtons = new Button[2];
-
-    private Button paramButton, historicButton;
+    private final Button[] addButtons = new Button[2];
 
     private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, statisticPopup, endPopup;
     private EditText popupInput;
 
-    //Model
-    private Player[] players;
     private Duo[] duos;
     private Game game;
 
@@ -66,7 +61,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void gameInit() {
-        players = new Player[]{
+        //Model
+        Player[] players = new Player[]{
                 new Player("Player 1"),
                 new Player("Player 2"),
                 new Player("Player 3"),
@@ -142,12 +138,10 @@ public class GameActivity extends AppCompatActivity {
         parametersPopup = new GamePopup(this);
         parametersPopup.setContentView(R.layout.parameter_popup);
 
-        paramButton = findViewById(R.id.parameter);
-        paramButton.setOnClickListener(l -> {
-            showParamPopup();
-        });
+        Button paramButton = findViewById(R.id.parameter);
+        paramButton.setOnClickListener(l -> showParamPopup());
 
-        historicButton = findViewById(R.id.historic);
+        Button historicButton = findViewById(R.id.historic);
         historicButton.setOnClickListener(l -> showStatisticPopup());
 
         statisticPopup = new GamePopup(this);
@@ -157,14 +151,10 @@ public class GameActivity extends AppCompatActivity {
         addPopup.setContentView(R.layout.add_popup);
 
         addButtons[0] = findViewById(R.id.add_button_1);
-        addButtons[0].setOnClickListener(l -> {
-            showAddPopUp(duos[0]);
-        });
+        addButtons[0].setOnClickListener(l -> showAddPopUp(duos[0]));
 
         addButtons[1] = findViewById(R.id.add_button_2);
-        addButtons[1].setOnClickListener(l -> {
-            showAddPopUp(duos[1]);
-        });
+        addButtons[1].setOnClickListener(l -> showAddPopUp(duos[1]));
 
         guides[0] = findViewById(R.id.z1);
         guides[1] = findViewById(R.id.z2);
@@ -297,17 +287,11 @@ public class GameActivity extends AppCompatActivity {
             });
         }
 
-        button_1000.setOnClickListener(l -> {
-            score.setText("1000");
-        });
+        button_1000.setOnClickListener(l -> score.setText("1000"));
 
-        button_1500.setOnClickListener(l -> {
-            score.setText("1500");
-        });
+        button_1500.setOnClickListener(l -> score.setText("1500"));
 
-        button_2500.setOnClickListener(l -> {
-            score.setText("2500");
-        });
+        button_2500.setOnClickListener(l -> score.setText("2500"));
 
         erase_button.setOnClickListener(l -> {
             String currentInput = score.getText().toString();
@@ -317,9 +301,7 @@ public class GameActivity extends AppCompatActivity {
 
         });
 
-        clear_button.setOnClickListener(l -> {
-            score.setText("0");
-        });
+        clear_button.setOnClickListener(l -> score.setText("0"));
 
         ok.setOnClickListener(l -> {
             game.setEndScore(Integer.parseInt(score.getText().toString()));
@@ -488,29 +470,21 @@ public class GameActivity extends AppCompatActivity {
             checkAnnounceParam(touchPointsCheckBox, touchAnnounceCheckBox);
         });
 
-        touchAnnounceCheckBox.setOnClickListener(l -> {
-            preferences.edit()
-                    .putBoolean(touchAnnounceKey, touchAnnounceCheckBox.isChecked())
-                    .apply();
-        });
+        touchAnnounceCheckBox.setOnClickListener(l -> preferences.edit()
+                .putBoolean(touchAnnounceKey, touchAnnounceCheckBox.isChecked())
+                .apply());
 
-        showMarksCheckBox.setOnClickListener(l -> {
-            preferences.edit()
-                    .putBoolean(showMarksKey, showMarksCheckBox.isChecked())
-                    .apply();
-        });
+        showMarksCheckBox.setOnClickListener(l -> preferences.edit()
+                .putBoolean(showMarksKey, showMarksCheckBox.isChecked())
+                .apply());
 
-        showGuideCheckBox.setOnClickListener(l -> {
-            preferences.edit()
-                    .putBoolean(showGuideKey, showGuideCheckBox.isChecked())
-                    .apply();
-        });
+        showGuideCheckBox.setOnClickListener(l -> preferences.edit()
+                .putBoolean(showGuideKey, showGuideCheckBox.isChecked())
+                .apply());
 
-        bigScoreCheckBox.setOnClickListener(l -> {
-            preferences.edit()
-                    .putBoolean(bigScoreKey, bigScoreCheckBox.isChecked())
-                    .apply();
-        });
+        bigScoreCheckBox.setOnClickListener(l -> preferences.edit()
+                .putBoolean(bigScoreKey, bigScoreCheckBox.isChecked())
+                .apply());
 
         Objects.requireNonNull(parametersPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         parametersPopup.show();
@@ -863,7 +837,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private class GamePopup extends Dialog {
-        private boolean backEnable;
+        private final boolean backEnable;
 
         public GamePopup(@NonNull Context context, boolean backEnable) {
             super(context);
