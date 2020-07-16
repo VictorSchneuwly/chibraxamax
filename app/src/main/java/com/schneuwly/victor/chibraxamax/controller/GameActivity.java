@@ -18,6 +18,7 @@ import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.model.Duo;
 import com.schneuwly.victor.chibraxamax.model.Game;
 import com.schneuwly.victor.chibraxamax.model.abstractEntitiy.PlayingEntity;
+import com.schneuwly.victor.chibraxamax.view.MyAlertPopup;
 
 import java.util.Objects;
 
@@ -37,7 +38,8 @@ public class GameActivity extends AppCompatActivity {
 
     private final Button[] addButtons = new Button[2];
 
-    private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, statisticPopup, endPopup;
+    private GamePopup valuePopup, addPopup, endScorePopup, parametersPopup, statisticPopup;
+    private MyAlertPopup alertPopup;
     private EditText popupInput;
 
     private Duo[] duos;
@@ -52,6 +54,18 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         preferences = getPreferences(MODE_PRIVATE);
         gameSave = getSharedPreferences("gameSave", MODE_PRIVATE);
+
+        if (getPreferences(MODE_PRIVATE).getBoolean(firstTimeKey, true)) {
+
+            preferences.edit()
+                    .putBoolean(firstTimeKey, false)
+                    .putBoolean(touchPointsKey, true)
+                    .putBoolean(touchAnnounceKey, true)
+                    .putBoolean(bigScoreKey, false)
+                    .putBoolean(showGuideKey, true)
+                    .putBoolean(showMarksKey, true)
+                    .apply();
+        }
 
         gameInit();
 
@@ -75,17 +89,6 @@ public class GameActivity extends AppCompatActivity {
         }
 
 
-        if (getPreferences(MODE_PRIVATE).getBoolean(firstTimeKey, true)) {
-
-            preferences.edit()
-                    .putBoolean(firstTimeKey, false)
-                    .putBoolean(touchPointsKey, true)
-                    .putBoolean(touchAnnounceKey, true)
-                    .putBoolean(bigScoreKey, false)
-                    .putBoolean(showGuideKey, true)
-                    .putBoolean(showMarksKey, true)
-                    .apply();
-        }
     }
 
     private void save() {
@@ -102,6 +105,11 @@ public class GameActivity extends AppCompatActivity {
                 .putInt(Game.DUO_0_DISPLAY_KEY, (int) game.saveGame().get(Game.DUO_0_DISPLAY_KEY))
                 .putString(Game.DUO_1_DISPLAY_KEY, (String) game.saveGame().get(Game.DUO_1_DISPLAY_KEY))
                 .apply();
+    }
+
+    private void restore() {
+        game = Game.restore(gameSave.getAll());
+        duos = game.getDuos();
     }
 
     private void gameInfos() {
@@ -147,8 +155,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void gameUI() {
-        endPopup = new GamePopup(this, false);
-        endPopup.setContentView(R.layout.end_popup);
+        alertPopup = new MyAlertPopup(this);
 
         parametersPopup = new GamePopup(this);
         parametersPopup.setContentView(R.layout.parameter_popup);
@@ -616,60 +623,53 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showVictoryPopup(PlayingEntity winner) {
-        TextView title_view, message_view, butt1, restart;
-
-        title_view = endPopup.findViewById(R.id.popup_title);
-        message_view = endPopup.findViewById(R.id.popup_message);
-
-        title_view.setText(String.format("Félicitation %s !", winner.getName()));
-        message_view.setText(String.format("Bravo à %s pour cette belle victoire !", winner.getName()));
-
-        butt1 = endPopup.findViewById(R.id.popup_button_1);
-        restart = endPopup.findViewById(R.id.popup_button_2);
-
-        butt1.setVisibility(View.GONE);
-        butt1.setEnabled(false);
-
-        restart.setText("Recommencer");
-        restart.setOnClickListener(l -> {
-            game.restart();
-            updateGame();
-            endPopup.dismiss();
-        });
-
-        Objects.requireNonNull(endPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        endPopup.show();
+        alertPopup.setTitle(String.format("Félicitation %s !", winner.getName()))
+                .setMessage(String.format("Bravo à %s pour cette belle victoire !", winner.getName()))
+                .setButton("Recommencer", l -> {
+                    game.restart();
+                    updateGame();
+                    alertPopup.dismiss();
+                })
+                .show();
     }
 
     private void showDrawPopup() {
-        TextView title_view, message_view, team0_butt, team1_butt;
-
-        title_view = endPopup.findViewById(R.id.popup_title);
-        message_view = endPopup.findViewById(R.id.popup_message);
-
-        title_view.setText("Les deux équipes ont passé le score final");
-        message_view.setText("Quelle équipe a passé le score en premier ?");
-
-        team0_butt = endPopup.findViewById(R.id.popup_button_1);
-        team1_butt = endPopup.findViewById(R.id.popup_button_2);
-
-        team0_butt.setText(duos[0].getName());
-        team0_butt.setOnClickListener(l -> {
-            game.setWinner(duos[0]);
-            updateGame();
-        });
-
-        team1_butt.setText(duos[1].getName());
-        team1_butt.setOnClickListener(l -> {
-            game.setWinner(duos[1]);
-            updateGame();
-        });
-
-        Objects.requireNonNull(endPopup.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        endPopup.show();
+        alertPopup.setTitle("Les deux équipes ont passé le score final")
+                .setMessage("Quelle équipe a passé le score en premier ?")
+                .setButton(duos[0].getName(), l -> {
+                    game.setWinner(duos[0]);
+                    updateGame();
+                })
+                .setButton2(duos[1].getName(), l -> {
+                    game.setWinner(duos[1]);
+                    updateGame();
+                })
+                .show();
     }
 
     private void showRestorePopUp() {
+        alertPopup.setTitle("Partie sauvegardée")
+                .setMessage(
+                        String.format("Une partie était en cours lors de la dernière utilisation de l'application: %n%s: %s    %s: %s",
+                                gameSave.getString(Game.DUO_0_NAME_KEY, getResources().getString(R.string.default_name_team0)),
+                                gameSave.getInt(Game.DUO_0_SCORE_KEY, 0),
+                                gameSave.getString(Game.DUO_1_NAME_KEY, getResources().getString(R.string.default_name_team1)),
+                                gameSave.getInt(Game.DUO_0_SCORE_KEY, 0)))
+                .setButton("Continuer", l -> {
+                    restore();
+                    alertPopup.dismiss();
+                })
+                .setButton2("Nouvelle partie", l -> {
+                    gameSave.edit()
+                            .putBoolean(gameSavedKey, false)
+                            .apply();
+
+                    gameInit();
+
+                    alertPopup.dismiss();
+
+                })
+                .show();
 
     }
 
@@ -860,24 +860,16 @@ public class GameActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    private class GamePopup extends Dialog {
-        private final boolean backEnable;
-
-        public GamePopup(@NonNull Context context, boolean backEnable) {
-            super(context);
-            this.backEnable = backEnable;
-        }
+    public class GamePopup extends Dialog {
 
         public GamePopup(@NonNull Context context) {
-            this(context, true);
+            super(context);
         }
 
         @Override
         public void onBackPressed() {
-            if (backEnable) {
-                super.onBackPressed();
-                updateGame();
-            }
+            super.onBackPressed();
+            updateGame();
         }
 
         @Override

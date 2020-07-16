@@ -42,7 +42,7 @@ public class Game {
         this(duo1, duo2, endScore, new Historic<>());
     }
 
-    public Game restore(Map<String, ? extends Object> savedMap) {
+    public static Game restore(Map<String, ?> savedMap) {
         Map<String, Object> save = new HashMap<>(savedMap);
 
         int savedEndScore = (int) save.get(END_SCORE_KEY);
@@ -87,6 +87,10 @@ public class Game {
 
 
         return Collections.unmodifiableMap(scoreSave);
+    }
+
+    public Duo[] getDuos() {
+        return duos;
     }
 
     public boolean contains(Duo duo) {
