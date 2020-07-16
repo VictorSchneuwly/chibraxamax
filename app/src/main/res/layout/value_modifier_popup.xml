@@ -41,7 +41,7 @@
         android:textColorHighlight="@color/primaryDark"
         android:textColorHint="@color/primaryDark"
         android:textColorLink="@color/primaryDark"
-        android:textCursorDrawable="@drawable/button_primary"
+        android:textCursorDrawable="@color/colorPrimaryDark"
         android:textSize="15sp" />
 
     <LinearLayout

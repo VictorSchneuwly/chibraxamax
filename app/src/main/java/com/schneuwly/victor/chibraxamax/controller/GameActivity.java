@@ -23,8 +23,9 @@ import com.schneuwly.victor.chibraxamax.view.MyAlertPopup;
 import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
+    public static final String GAME_SAVED_KEY = "gameSaved";
+
     private final String firstTimeKey = "firstTime";
-    private final String gameSavedKey = "gameSaved";
     private final String touchPointsKey = "touchPoints";
     private final String touchAnnounceKey = "touchAnnouncePoints";
     private final String showMarksKey = "showMarks";
@@ -55,7 +56,8 @@ public class GameActivity extends AppCompatActivity {
         preferences = getPreferences(MODE_PRIVATE);
         gameSave = getSharedPreferences("gameSave", MODE_PRIVATE);
 
-        if (getPreferences(MODE_PRIVATE).getBoolean(firstTimeKey, true)) {
+
+        if (preferences.getBoolean(firstTimeKey, true)) {
 
             preferences.edit()
                     .putBoolean(firstTimeKey, false)
@@ -77,23 +79,28 @@ public class GameActivity extends AppCompatActivity {
 
     private void gameInit() {
 
-        if (gameSave.getBoolean(gameSavedKey, false)) {
+        if (getIntent().getBooleanExtra(RestartGameActivity.RESTART, false)) {
+            game = Game.restore(gameSave.getAll());
+            duos = game.getDuos();
+
+        } else {
             duos = new Duo[]{
                     new Duo(getResources().getString(R.string.default_name_team0)),
                     new Duo(getResources().getString(R.string.default_name_team1))
             };
 
             game = new Game(duos[0], duos[1], Integer.parseInt(getResources().getString(R.string.default_score)));
-        } else {
-            showRestorePopUp();
+
         }
-
-
     }
 
     private void save() {
+        preferences.edit()
+                .putBoolean(GAME_SAVED_KEY, true)
+                .apply();
+
+
         gameSave.edit()
-                .putBoolean(gameSavedKey, true)
                 .putInt(Game.END_SCORE_KEY, (int) (game.saveGame().get(Game.END_SCORE_KEY)))
                 .putString(Game.HISTORIC_KEY, (String) game.saveGame().get(Game.HISTORIC_KEY))
                 .putString(Game.DUO_0_NAME_KEY, (String) game.saveGame().get(Game.DUO_0_NAME_KEY))
@@ -102,14 +109,9 @@ public class GameActivity extends AppCompatActivity {
                 .putInt(Game.DUO_1_SCORE_KEY, (int) game.saveGame().get(Game.DUO_1_SCORE_KEY))
                 .putInt(Game.DUO_0_ANNOUNCE_KEY, (int) game.saveGame().get(Game.DUO_0_ANNOUNCE_KEY))
                 .putInt(Game.DUO_1_ANNOUNCE_KEY, (int) game.saveGame().get(Game.DUO_1_ANNOUNCE_KEY))
-                .putInt(Game.DUO_0_DISPLAY_KEY, (int) game.saveGame().get(Game.DUO_0_DISPLAY_KEY))
+                .putString(Game.DUO_0_DISPLAY_KEY, (String) game.saveGame().get(Game.DUO_0_DISPLAY_KEY))
                 .putString(Game.DUO_1_DISPLAY_KEY, (String) game.saveGame().get(Game.DUO_1_DISPLAY_KEY))
                 .apply();
-    }
-
-    private void restore() {
-        game = Game.restore(gameSave.getAll());
-        duos = game.getDuos();
     }
 
     private void gameInfos() {
@@ -199,44 +201,44 @@ public class GameActivity extends AppCompatActivity {
         team1_V = findViewById(R.id.team1_V);
 
         team0_20.setOnClickListener(l -> {
-            game.add20Points(duos[0], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            game.add20Points(duos[0], preferences.getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team0_50.setOnClickListener(l -> {
-            game.add50Points(duos[0], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            game.add50Points(duos[0], preferences.getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
 
         team0_100.setOnClickListener(l -> {
-            game.add100Points(duos[0], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            game.add100Points(duos[0], preferences.getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team0_rest.setOnClickListener(l -> {
-            game.add1Point(duos[0], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            game.add1Point(duos[0], preferences.getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
 
         team1_20.setOnClickListener(l -> {
-            game.add20Points(duos[1], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            game.add20Points(duos[1], preferences.getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team1_50.setOnClickListener(l -> {
-            game.add50Points(duos[1], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            game.add50Points(duos[1], preferences.getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team1_100.setOnClickListener(l -> {
-            game.add100Points(duos[1], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            game.add100Points(duos[1], preferences.getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
         team1_rest.setOnClickListener(l -> {
-            game.add1Point(duos[1], getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            game.add1Point(duos[1], preferences.getBoolean(touchAnnounceKey, true));
             updateGame();
         });
 
@@ -283,16 +285,7 @@ public class GameActivity extends AppCompatActivity {
         button_1500 = endScorePopup.findViewById(R.id.popup_1500);
         button_2500 = endScorePopup.findViewById(R.id.popup_2500);
 
-        digits[0] = endScorePopup.findViewById(R.id.popup_0);
-        digits[1] = endScorePopup.findViewById(R.id.popup_1);
-        digits[2] = endScorePopup.findViewById(R.id.popup_2);
-        digits[3] = endScorePopup.findViewById(R.id.popup_3);
-        digits[4] = endScorePopup.findViewById(R.id.popup_4);
-        digits[5] = endScorePopup.findViewById(R.id.popup_5);
-        digits[6] = endScorePopup.findViewById(R.id.popup_6);
-        digits[7] = endScorePopup.findViewById(R.id.popup_7);
-        digits[8] = endScorePopup.findViewById(R.id.popup_8);
-        digits[9] = endScorePopup.findViewById(R.id.popup_9);
+        attributeDigits(digits, endScorePopup);
 
         for (Button digit : digits) {
             digit.setOnClickListener(l -> {
@@ -381,16 +374,7 @@ public class GameActivity extends AppCompatActivity {
         clear_button = addPopup.findViewById(R.id.popup_clear);
         erase_button = addPopup.findViewById(R.id.popup_erase);
 
-        digits[0] = addPopup.findViewById(R.id.popup_0);
-        digits[1] = addPopup.findViewById(R.id.popup_1);
-        digits[2] = addPopup.findViewById(R.id.popup_2);
-        digits[3] = addPopup.findViewById(R.id.popup_3);
-        digits[4] = addPopup.findViewById(R.id.popup_4);
-        digits[5] = addPopup.findViewById(R.id.popup_5);
-        digits[6] = addPopup.findViewById(R.id.popup_6);
-        digits[7] = addPopup.findViewById(R.id.popup_7);
-        digits[8] = addPopup.findViewById(R.id.popup_8);
-        digits[9] = addPopup.findViewById(R.id.popup_9);
+        attributeDigits(digits, addPopup);
 
         for (Button digit : digits) {
             digit.setOnClickListener(l -> {
@@ -455,6 +439,19 @@ public class GameActivity extends AppCompatActivity {
         addPopup.show();
     }
 
+    private void attributeDigits(Button[] digits, GamePopup popup) {
+        digits[0] = popup.findViewById(R.id.popup_0);
+        digits[1] = popup.findViewById(R.id.popup_1);
+        digits[2] = popup.findViewById(R.id.popup_2);
+        digits[3] = popup.findViewById(R.id.popup_3);
+        digits[4] = popup.findViewById(R.id.popup_4);
+        digits[5] = popup.findViewById(R.id.popup_5);
+        digits[6] = popup.findViewById(R.id.popup_6);
+        digits[7] = popup.findViewById(R.id.popup_7);
+        digits[8] = popup.findViewById(R.id.popup_8);
+        digits[9] = popup.findViewById(R.id.popup_9);
+    }
+
     private String computeTotal(int input, int multiplier) {
         return String.format("Total: %s (Adversaire: %s)", input * multiplier,
                 (input >= 157) ? "0" : (Game.MAX_POINTS - input) * multiplier);
@@ -475,13 +472,13 @@ public class GameActivity extends AppCompatActivity {
         CheckBox showGuideCheckBox = parametersPopup.findViewById(R.id.param_guide_checkBox);
         CheckBox bigScoreCheckBox = parametersPopup.findViewById(R.id.param_big_score_checkBox);
 
-        touchPointsCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchPointsKey, true));
-        touchAnnounceCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+        touchPointsCheckBox.setChecked(preferences.getBoolean(touchPointsKey, true));
+        touchAnnounceCheckBox.setChecked(preferences.getBoolean(touchAnnounceKey, true));
         checkAnnounceParam(touchPointsCheckBox, touchAnnounceCheckBox);
 
-        showMarksCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(showMarksKey, true));
-        showGuideCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(showGuideKey, true));
-        bigScoreCheckBox.setChecked(getPreferences(MODE_PRIVATE).getBoolean(bigScoreKey, false));
+        showMarksCheckBox.setChecked(preferences.getBoolean(showMarksKey, true));
+        showGuideCheckBox.setChecked(preferences.getBoolean(showGuideKey, true));
+        bigScoreCheckBox.setChecked(preferences.getBoolean(bigScoreKey, false));
 
         touchPointsCheckBox.setOnClickListener(l -> {
             preferences.edit()
@@ -523,7 +520,7 @@ public class GameActivity extends AppCompatActivity {
 
         } else {
             announce.setEnabled(true);
-            announce.setChecked(getPreferences(MODE_PRIVATE).getBoolean(touchAnnounceKey, true));
+            announce.setChecked(preferences.getBoolean(touchAnnounceKey, true));
             parametersPopup.findViewById(R.id.param_touch_announce_row)
                     .setAlpha(1f);
 
@@ -613,8 +610,8 @@ public class GameActivity extends AppCompatActivity {
         if (game.areBothOver()) {
             showDrawPopup();
         } else if (game.isOver()) {
-            gameSave.edit()
-                    .putBoolean(gameSavedKey, false)
+            preferences.edit()
+                    .putBoolean(GAME_SAVED_KEY, false)
                     .apply();
 
             showVictoryPopup(game.getWinner());
@@ -647,32 +644,6 @@ public class GameActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void showRestorePopUp() {
-        alertPopup.setTitle("Partie sauvegardée")
-                .setMessage(
-                        String.format("Une partie était en cours lors de la dernière utilisation de l'application: %n%s: %s    %s: %s",
-                                gameSave.getString(Game.DUO_0_NAME_KEY, getResources().getString(R.string.default_name_team0)),
-                                gameSave.getInt(Game.DUO_0_SCORE_KEY, 0),
-                                gameSave.getString(Game.DUO_1_NAME_KEY, getResources().getString(R.string.default_name_team1)),
-                                gameSave.getInt(Game.DUO_0_SCORE_KEY, 0)))
-                .setButton("Continuer", l -> {
-                    restore();
-                    alertPopup.dismiss();
-                })
-                .setButton2("Nouvelle partie", l -> {
-                    gameSave.edit()
-                            .putBoolean(gameSavedKey, false)
-                            .apply();
-
-                    gameInit();
-
-                    alertPopup.dismiss();
-
-                })
-                .show();
-
-    }
-
     private void updateInfosDisplay() {
         endScoreView.setText(String.valueOf(game.getEndScore()));
 
@@ -695,7 +666,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void updateUI() {
 
-        boolean touchPoints = getPreferences(MODE_PRIVATE).getBoolean(touchPointsKey, true);
+        boolean touchPoints = preferences.getBoolean(touchPointsKey, true);
 
         team0_20.setEnabled(touchPoints);
         team0_50.setEnabled(touchPoints);
@@ -707,7 +678,7 @@ public class GameActivity extends AppCompatActivity {
         team1_100.setEnabled(touchPoints);
         team1_rest.setEnabled(touchPoints);
 
-        if (getPreferences(MODE_PRIVATE).getBoolean(bigScoreKey, false)) {
+        if (preferences.getBoolean(bigScoreKey, false)) {
             team0_score.setVisibility(View.INVISIBLE);
             team0_big_score.setVisibility(View.VISIBLE);
 
@@ -727,12 +698,12 @@ public class GameActivity extends AppCompatActivity {
             setMarksColor(Color.WHITE);
         }
 
-        int showGuideVisibility = (getPreferences(MODE_PRIVATE).getBoolean(showGuideKey, true)) ? View.VISIBLE : View.INVISIBLE;
+        int showGuideVisibility = (preferences.getBoolean(showGuideKey, true)) ? View.VISIBLE : View.INVISIBLE;
 
         guides[0].setVisibility(showGuideVisibility);
         guides[1].setVisibility(showGuideVisibility);
 
-        float showMarksVisibility = (getPreferences(MODE_PRIVATE).getBoolean(showMarksKey, true)) ? 1f : 0f;
+        float showMarksVisibility = (preferences.getBoolean(showMarksKey, true)) ? 1f : 0f;
 
         setMarksAlpha(showMarksVisibility);
     }
@@ -868,8 +839,8 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onBackPressed() {
-            super.onBackPressed();
             updateGame();
+            super.onBackPressed();
         }
 
         @Override

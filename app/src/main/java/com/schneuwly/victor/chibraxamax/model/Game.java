@@ -10,12 +10,12 @@ import java.util.*;
 public class Game {
     public final static int MAX_POINTS = 157;
     public final static int MATCH_POINTS = 257;
-    public final static String END_SCORE_KEY     = "endScore";
-    public final static String HISTORIC_KEY       = "historic";
-    public final static String DUO_0_NAME_KEY     = "duo0Name";
-    public final static String DUO_1_NAME_KEY     = "duo1Name";
-    public final static String DUO_0_SCORE_KEY   = "duo0Score";
-    public final static String DUO_1_SCORE_KEY     = "duo1Score";
+    public final static String END_SCORE_KEY = "endScore";
+    public final static String HISTORIC_KEY = "historic";
+    public final static String DUO_0_NAME_KEY = "duo0Name";
+    public final static String DUO_1_NAME_KEY = "duo1Name";
+    public final static String DUO_0_SCORE_KEY = "duo0Score";
+    public final static String DUO_1_SCORE_KEY = "duo1Score";
     public final static String DUO_0_ANNOUNCE_KEY = "duo0Announce";
     public final static String DUO_1_ANNOUNCE_KEY = "duo1Announce";
     public final static String DUO_0_DISPLAY_KEY = "duo0Display";

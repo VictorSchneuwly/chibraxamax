@@ -170,7 +170,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="7dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/button_primary"
+        android:background="@drawable/button_primary_dark"
         android:gravity="center"
         android:padding="15dp"
         android:text="@string/historic_reinitialise"

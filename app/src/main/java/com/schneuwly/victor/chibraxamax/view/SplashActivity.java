@@ -6,24 +6,30 @@ import android.os.Bundle;
 import android.os.Handler;
 import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.controller.GameActivity;
-import com.schneuwly.victor.chibraxamax.controller.MenuActivity;
+import com.schneuwly.victor.chibraxamax.controller.RestartGameActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN = 3000;
+    private static int SPLASH_SCREEN_TIME = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        boolean gameInProgress = getSharedPreferences("gameSave", MODE_PRIVATE).getBoolean(GameActivity.GAME_SAVED_KEY, false);
+
         new Handler().postDelayed(() -> {
             //TODO: A changer quand menu plus fourni
             //Intent startIntent = new Intent(SplashActivity.this, MenuActivity.class);
-            Intent startIntent = new Intent(SplashActivity.this, GameActivity.class);
+            Intent startIntent = new Intent(SplashActivity.this,
+                    (gameInProgress)
+                            ? RestartGameActivity.class
+                            : GameActivity.class
+            );
             startActivity(startIntent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
-        }, SPLASH_SCREEN);
+        }, SPLASH_SCREEN_TIME);
     }
 }

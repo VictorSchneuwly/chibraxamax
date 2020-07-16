@@ -31,4 +31,7 @@
     <string name="stat_title">Statistiques</string>
     <string name="announce_title">Annonces</string>
     <string name="param_touch_announce">Les points attribués en touchant l\'écran sont des annonces</string>
+    <string name="restart_message">Une partie était en cours lors de la dernière utilisation de l\'application:</string>
+    <string name="new_game">Nouvelle Partie</string>
+    <string name="continue_game">Continuer</string>
 </resources>
