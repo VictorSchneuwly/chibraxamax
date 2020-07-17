@@ -51,8 +51,10 @@ public class Game {
 
         String savedEntry = (String) save.get(HISTORIC_KEY);
 
-        for (String line : savedEntry.split(Historic.SEPARATOR)) {
-            savedHistoric.add(GameHistoricEntry.restore(line));
+        if (savedEntry.length() > 0) {
+            for (String line : savedEntry.split(Historic.SEPARATOR)) {
+                savedHistoric.add(GameHistoricEntry.restore(line));
+            }
         }
 
         String savedNamedDuo0 = (String) save.get(DUO_0_NAME_KEY);

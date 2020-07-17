@@ -15,7 +15,7 @@
         android:layout_marginEnd="25dp"
         android:text="@string/restart_message"
         android:textColor="@android:color/white"
-        android:textSize="25sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,17 @@
         app:layout_constraintVertical_bias="0.25" />
 
     <View
-        android:id="@+id/line"
+        android:id="@+id/horizontal_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/restart_message"
+        app:layout_constraintStart_toStartOf="@+id/restart_message"
+        app:layout_constraintTop_toBottomOf="@+id/restart_message" />
+
+    <View
+        android:id="@+id/vertical_line"
         android:layout_width="1dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
@@ -31,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="@id/saved_team1_score"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/restart_message" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_line" />
 
     <TextView
         android:id="@+id/saved_team0_name"
@@ -45,9 +55,9 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/line"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_line"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/line" />
+        app:layout_constraintTop_toTopOf="@+id/vertical_line" />
 
     <TextView
         android:id="@+id/saved_team0_score"
@@ -76,8 +86,8 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/line"
-        app:layout_constraintTop_toTopOf="@+id/line" />
+        app:layout_constraintStart_toEndOf="@+id/vertical_line"
+        app:layout_constraintTop_toTopOf="@+id/vertical_line" />
 
     <TextView
         android:id="@+id/saved_team1_score"
@@ -94,36 +104,36 @@
         app:layout_constraintTop_toBottomOf="@+id/saved_team1_name" />
 
 
-    <Button
+    <TextView
         android:id="@+id/new_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_game"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:textAllCaps="false"
-        android:background="@drawable/button_primary_dark"
-        android:padding="8dp"
+        android:background="@drawable/ripple_white_on_primary_dark_with_border"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/line"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/saved_team0_score"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.40" />
 
-    <Button
+    <TextView
         android:id="@+id/continue_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/continue_game"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:textAllCaps="false"
-        android:padding="8dp"
-        android:background="@drawable/button_primary_dark"
+        android:padding="10dp"
+        android:background="@drawable/ripple_white_on_primary_dark_with_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/line"
+        app:layout_constraintStart_toEndOf="@+id/vertical_line"
         app:layout_constraintTop_toBottomOf="@+id/saved_team1_score"
-        app:layout_constraintVertical_bias="0.25"  />
+        app:layout_constraintVertical_bias="0.40"  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

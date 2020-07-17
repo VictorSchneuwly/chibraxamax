@@ -3,7 +3,6 @@ package com.schneuwly.victor.chibraxamax.controller;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.schneuwly.victor.chibraxamax.R;
@@ -12,8 +11,7 @@ import com.schneuwly.victor.chibraxamax.model.Game;
 public class RestartGameActivity extends AppCompatActivity {
     public static final String RESTART = "restart";
 
-    private TextView team0Name, team0Score, team1Name, team1Score;
-    private Button newGame, continueGame;
+    private TextView team0Name, team0Score, team1Name, team1Score, newGame, continueGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +33,8 @@ public class RestartGameActivity extends AppCompatActivity {
         team1Score.setText(String.valueOf(gameSave.getInt(Game.DUO_1_SCORE_KEY, 0)));
 
 
-
         newGame.setOnClickListener(l -> {
-            getPreferences(MODE_PRIVATE).edit()
+            getSharedPreferences(GameActivity.IN_PROGRESS, MODE_PRIVATE).edit()
                     .putBoolean(GameActivity.IN_PROGRESS, false)
                     .apply();
 
@@ -47,7 +44,7 @@ public class RestartGameActivity extends AppCompatActivity {
         continueGame.setOnClickListener(l -> startGame(true));
     }
 
-    private void startGame(boolean restart){
+    private void startGame(boolean restart) {
         Intent startIntent = new Intent(RestartGameActivity.this, GameActivity.class);
         startIntent.putExtra(RESTART, restart);
         startActivity(startIntent);

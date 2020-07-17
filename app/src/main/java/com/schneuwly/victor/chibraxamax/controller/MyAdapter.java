@@ -1,7 +1,6 @@
 package com.schneuwly.victor.chibraxamax.controller;
 
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.schneuwly.victor.chibraxamax.R;
 import com.schneuwly.victor.chibraxamax.model.Game;
 import com.schneuwly.victor.chibraxamax.model.Historic;
-
-import java.util.List;
 
 /**
  * RecyclerView adapter
@@ -46,7 +43,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         if (!(historic.isEmpty())) {
-            int displayId = (getItemCount() - 1) - position;
+            int maxPosition = getItemCount() - 1;
+            int displayId = maxPosition - position;
 
             holder.team0_score.setText(String.valueOf(historic.get(displayId).first()));
             holder.team1_score.setText(String.valueOf(historic.get(displayId).second()));
@@ -58,8 +56,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 holder.delete.setVisibility(View.INVISIBLE);
             }
 
+            holder.topLine.setVisibility(
+                    (position != 0) ? View.VISIBLE : View.INVISIBLE
+            );
+
             holder.endLine.setVisibility(
-                    (position == getItemCount() - 1) ? View.VISIBLE : View.INVISIBLE
+                    (position == maxPosition) ? View.VISIBLE : View.INVISIBLE
             );
         }
 
@@ -73,7 +75,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView delete, team0_score, team1_score;
-        View endLine;
+        View topLine, endLine;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,6 +83,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             delete = itemView.findViewById(R.id.row_delete);
             team0_score = itemView.findViewById(R.id.row_team0_score);
             team1_score = itemView.findViewById(R.id.row_team1_score);
+            topLine = itemView.findViewById(R.id.row_top_line);
             endLine = itemView.findViewById(R.id.row_end_line);
         }
     }

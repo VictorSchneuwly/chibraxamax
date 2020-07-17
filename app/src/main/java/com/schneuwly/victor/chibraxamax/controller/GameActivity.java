@@ -76,8 +76,7 @@ public class GameActivity extends AppCompatActivity {
 
         gameUI();
 
-        updateGame();
-
+        updateGame(true);
 
     }
 
@@ -605,8 +604,10 @@ public class GameActivity extends AppCompatActivity {
         statisticPopup.show();
     }
 
-    private void updateGame() {
-        save();
+    private void updateGame(boolean init) {
+        if (!init) {
+            save();
+        }
         updateInfosDisplay();
         updateUI();
 
@@ -622,12 +623,16 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    private void updateGame() {
+        updateGame(false);
+    }
+
     private void showVictoryPopup(PlayingEntity winner) {
         alertPopup.setTitle(String.format("Félicitation %s !", winner.getName()))
                 .setMessage(String.format("Bravo à %s pour cette belle victoire !", winner.getName()))
                 .setButton("Recommencer", l -> {
                     game.restart();
-                    updateGame();
+                    updateGame(true);
                     alertPopup.dismiss();
                 })
                 .show();
