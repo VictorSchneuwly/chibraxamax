@@ -23,7 +23,7 @@ import com.schneuwly.victor.chibraxamax.view.MyAlertPopup;
 import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity {
-    public static final String GAME_SAVED_KEY = "gameSaved";
+    public static final String IN_PROGRESS = "IN_PROGRESS";
 
     private final String firstTimeKey = "firstTime";
     private final String touchPointsKey = "touchPoints";
@@ -46,7 +46,7 @@ public class GameActivity extends AppCompatActivity {
     private Duo[] duos;
     private Game game;
 
-    private SharedPreferences preferences, gameSave;
+    private SharedPreferences preferences, gameSave, inProgress;
 
 
     @Override
@@ -55,6 +55,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         preferences = getPreferences(MODE_PRIVATE);
         gameSave = getSharedPreferences("gameSave", MODE_PRIVATE);
+        inProgress = getSharedPreferences(IN_PROGRESS, MODE_PRIVATE);
 
 
         if (preferences.getBoolean(firstTimeKey, true)) {
@@ -75,6 +76,9 @@ public class GameActivity extends AppCompatActivity {
 
         gameUI();
 
+        updateGame();
+
+
     }
 
     private void gameInit() {
@@ -90,13 +94,12 @@ public class GameActivity extends AppCompatActivity {
             };
 
             game = new Game(duos[0], duos[1], Integer.parseInt(getResources().getString(R.string.default_score)));
-
         }
     }
 
     private void save() {
-        preferences.edit()
-                .putBoolean(GAME_SAVED_KEY, true)
+        inProgress.edit()
+                .putBoolean(IN_PROGRESS, true)
                 .apply();
 
 
@@ -610,8 +613,8 @@ public class GameActivity extends AppCompatActivity {
         if (game.areBothOver()) {
             showDrawPopup();
         } else if (game.isOver()) {
-            preferences.edit()
-                    .putBoolean(GAME_SAVED_KEY, false)
+            inProgress.edit()
+                    .putBoolean(IN_PROGRESS, false)
                     .apply();
 
             showVictoryPopup(game.getWinner());

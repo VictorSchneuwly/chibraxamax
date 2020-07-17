@@ -19,7 +19,7 @@ public class Historic<T> {
     }
 
     protected Historic(List<T> historic) {
-        this.historic = Collections.unmodifiableList(historic);
+        this.historic = new ArrayList<>(historic);
     }
 
 

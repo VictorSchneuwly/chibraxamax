@@ -38,7 +38,7 @@ public class RestartGameActivity extends AppCompatActivity {
 
         newGame.setOnClickListener(l -> {
             getPreferences(MODE_PRIVATE).edit()
-                    .putBoolean(GameActivity.GAME_SAVED_KEY, false)
+                    .putBoolean(GameActivity.IN_PROGRESS, false)
                     .apply();
 
             startGame(false);

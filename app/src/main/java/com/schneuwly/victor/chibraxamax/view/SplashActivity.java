@@ -17,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        boolean gameInProgress = getSharedPreferences("gameSave", MODE_PRIVATE).getBoolean(GameActivity.GAME_SAVED_KEY, false);
+        boolean gameInProgress = getSharedPreferences(GameActivity.IN_PROGRESS, MODE_PRIVATE).getBoolean(GameActivity.IN_PROGRESS, false);
 
         new Handler().postDelayed(() -> {
             //TODO: A changer quand menu plus fourni
