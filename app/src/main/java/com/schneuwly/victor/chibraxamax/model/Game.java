@@ -217,12 +217,10 @@ public class Game {
     }
 
     public void undoLastMove() {
-        HistoricEntry lastEntry = historic.getLastEntry();
+        HistoricEntry lastEntry = historic.removeLastEntry();
 
         addPoints(duos[0], -lastEntry.first(), 1, lastEntry.isAnnounce(), false);
         addPoints(duos[1], -lastEntry.second(), 1, lastEntry.isAnnounce(), false);
-
-        historic.remove(historic.size() - 1);
     }
 
     private void checkWinner(Duo duo) {

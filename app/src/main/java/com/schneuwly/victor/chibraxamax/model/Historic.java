@@ -76,8 +76,8 @@ public class Historic<E> implements List<E> {
         historic.add(index, element);
     }
 
-    public E getLastEntry() {
-        return get(-1);
+    public E removeLastEntry(){
+        return historic.remove(size() - 1);
     }
 
     @Override
