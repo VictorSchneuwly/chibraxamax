@@ -21,15 +21,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
     private final Context context;
-    private final Historic<Game.GameHistoricEntry> historic;
+    private final Historic<Game.HistoricEntry> historic;
 
-    public MyAdapter(Context context, Historic<Game.GameHistoricEntry> historic, View.OnClickListener listener) {
+    public MyAdapter(Context context, Historic<Game.HistoricEntry> historic, View.OnClickListener listener) {
         this.context = context;
         this.historic = historic;
         MyAdapter.listener = listener;
     }
 
-    public MyAdapter(Context context, Historic<Game.GameHistoricEntry> historic) {
+    public MyAdapter(Context context, Historic<Game.HistoricEntry> historic) {
         this(context, historic, listener);
     }
 

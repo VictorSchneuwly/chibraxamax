@@ -22,13 +22,13 @@ public class Game {
     public final static String DUO_1_DISPLAY_KEY = "duo1Display";
 
     private final Duo[] duos;
-    private final Historic<GameHistoricEntry> historic;
+    private final Historic<HistoricEntry> historic;
 
     private Duo winner;
     private boolean over, bothOver;
     private int endScore;
 
-    private Game(Duo duo1, Duo duo2, int endScore, Historic<GameHistoricEntry> historic) {
+    private Game(Duo duo1, Duo duo2, int endScore, Historic<HistoricEntry> historic) {
         this.endScore = endScore;
         duos = new Duo[2];
         duos[0] = duo1;
@@ -47,13 +47,13 @@ public class Game {
 
         int savedEndScore = (int) save.get(END_SCORE_KEY);
 
-        List<GameHistoricEntry> savedHistoric = new ArrayList<>();
+        List<HistoricEntry> savedHistoric = new ArrayList<>();
 
         String savedEntry = (String) save.get(HISTORIC_KEY);
 
         if (savedEntry.length() > 0) {
             for (String line : savedEntry.split(Historic.SEPARATOR)) {
-                savedHistoric.add(GameHistoricEntry.restore(line));
+                savedHistoric.add(HistoricEntry.restore(line));
             }
         }
 
@@ -116,7 +116,7 @@ public class Game {
             int otherPoints = (points >= MAX_POINTS) ? 0 : MAX_POINTS - points;
             duos[1].addPoints(otherPoints, multiplier, false);
 
-            historic.add(new GameHistoricEntry(points * multiplier, otherPoints * multiplier, false));
+            historic.add(new HistoricEntry(points * multiplier, otherPoints * multiplier, false));
 
         } else if (inputDuo.equals(duos[1])) {
             duos[1].addPoints(points, multiplier, false);
@@ -124,7 +124,7 @@ public class Game {
             int otherPoints = (points >= MAX_POINTS) ? 0 : MAX_POINTS - points;
             duos[0].addPoints(otherPoints, multiplier, false);
 
-            historic.add(new GameHistoricEntry(otherPoints * multiplier, points * multiplier, false));
+            historic.add(new HistoricEntry(otherPoints * multiplier, points * multiplier, false));
         }
 
         checkForWinner();
@@ -142,7 +142,7 @@ public class Game {
             duos[0].addPoints(points, multiplier, announce);
 
             if (addToHistoric) {
-                historic.add(new GameHistoricEntry(points * multiplier, 0, announce));
+                historic.add(new HistoricEntry(points * multiplier, 0, announce));
             }
 
             checkWinner(duos[0]);
@@ -151,7 +151,7 @@ public class Game {
             duos[1].addPoints(points, multiplier, announce);
 
             if (addToHistoric) {
-                historic.add(new GameHistoricEntry(0, points * multiplier, announce));
+                historic.add(new HistoricEntry(0, points * multiplier, announce));
             }
 
             checkWinner(duos[1]);
@@ -212,12 +212,12 @@ public class Game {
         addWin();
     }
 
-    public Historic<GameHistoricEntry> getHistoric() {
+    public Historic<HistoricEntry> getHistoric() {
         return historic.clone();
     }
 
     public void undoLastMove() {
-        GameHistoricEntry lastEntry = historic.getLastEntry();
+        HistoricEntry lastEntry = historic.getLastEntry();
 
         addPoints(duos[0], -lastEntry.first(), 1, lastEntry.isAnnounce(), false);
         addPoints(duos[1], -lastEntry.second(), 1, lastEntry.isAnnounce(), false);
@@ -257,20 +257,20 @@ public class Game {
         }
     }
 
-    public static class GameHistoricEntry {
+    public static class HistoricEntry {
         private int team0Pts, team1Pts;
         private boolean announce;
 
-        public GameHistoricEntry(int team0Pts, int team1Pts, boolean announce) {
+        public HistoricEntry(int team0Pts, int team1Pts, boolean announce) {
             this.team0Pts = team0Pts;
             this.team1Pts = team1Pts;
             this.announce = announce;
         }
 
-        public static GameHistoricEntry restore(String save) {
+        public static HistoricEntry restore(String save) {
             String[] savedArray = save.split(";");
 
-            return new GameHistoricEntry(
+            return new HistoricEntry(
                     Integer.parseInt(savedArray[0]),
                     Integer.parseInt(savedArray[1]),
                     Boolean.parseBoolean(savedArray[2])
@@ -299,7 +299,7 @@ public class Game {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            GameHistoricEntry that = (GameHistoricEntry) o;
+            HistoricEntry that = (HistoricEntry) o;
             return team0Pts == that.team0Pts &&
                     team1Pts == that.team1Pts &&
                     announce == that.announce;
