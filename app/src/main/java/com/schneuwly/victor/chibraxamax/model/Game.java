@@ -47,7 +47,7 @@ public class Game {
 
         int savedEndScore = (int) save.get(END_SCORE_KEY);
 
-        List<HistoricEntry> savedHistoric = new ArrayList<>();
+        Historic<HistoricEntry> savedHistoric = new Historic<>();
 
         String savedEntry = (String) save.get(HISTORIC_KEY);
 
@@ -70,7 +70,7 @@ public class Game {
                 Duo.restore(savedNamedDuo0, savedDisplayDuo0, savedScoreDuo0, savedAnnounceDuo0),
                 Duo.restore(savedNamedDuo1, savedDisplayDuo1, savedScoreDuo1, savedAnnounceDuo1),
                 savedEndScore,
-                new Historic<>(savedHistoric)
+                savedHistoric
         );
     }
 
@@ -213,7 +213,7 @@ public class Game {
     }
 
     public Historic<HistoricEntry> getHistoric() {
-        return historic.clone();
+        return historic.copy();
     }
 
     public void undoLastMove() {
